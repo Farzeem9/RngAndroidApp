@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".AdActivity">
+
+        <item android:id="@+id/action_share" android:title="share"
+            android:orderInCategory="100" app:showAsAction="always" android:icon="@android:drawable/ic_menu_share"/>
+        <item android:id="@+id/action_wishlist" android:title="Add to Wishlist"
+            app:showAsAction="always" android:icon="@android:drawable/btn_star_big_off"
+            android:orderInCategory="99"/>
+
+</menu>

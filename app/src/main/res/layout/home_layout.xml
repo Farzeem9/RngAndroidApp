@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:id="@+id/rl_main">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Products"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/tv_product"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            />
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/hv_category"
+            android:scrollbars="none"
+            android:layout_below="@id/tv_product"
+            android:layout_marginTop="10dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:id="@+id/rr"
+                />
+    </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Services"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/tv_services"
+            android:textStyle="bold"
+            android:layout_below="@+id/hv_category"
+            android:textColor="#000000"
+            />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/hv_service"
+            android:scrollbars="none"
+            android:layout_below="@id/tv_services"
+            android:layout_marginTop="10dp">
+        </HorizontalScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@android:drawable/ic_input_add" />
+    </RelativeLayout>
+</RelativeLayout>

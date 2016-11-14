@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">RnG</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_tp">Tp</string>
+    <string name="facebook_app_id">309598592757408</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_ad">EditAdActivity</string>
+    <string name="err_msg_name">Please enter a Product Name</string>
+    <string name="err_msg_required">Valid Input Required</string>
+    <string name="err_msg_desc">Please enter a Description</string>
+    <string name="err_msg_age">Enter a Product Age</string>
+    <string name="err_msg_rent">Enter a Product Rent</string>
+    <string name="err_msg_deposit">Enter a Product Deposit</string>
+    <string-array name="type">
+        <item>Select Type</item>
+        <item>Ad</item>
+        <item>Service</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="description_zoom_touch_close">Expanded image (touch to close)</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
