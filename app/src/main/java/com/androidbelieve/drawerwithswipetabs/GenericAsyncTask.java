@@ -109,6 +109,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
                 sb.append(line);
             }
 
+            Log.v("link:sb",link+"\t"+sb.toString());
 
             return sb.toString();
 
