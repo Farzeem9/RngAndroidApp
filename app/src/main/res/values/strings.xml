@@ -5,8 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_tp">Tp</string>
     <string name="facebook_app_id">309598592757408</string>
-
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_ad">EditAdActivity</string>
