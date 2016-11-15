@@ -9,6 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.AccessToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +25,7 @@ public class WishlistFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private List<Ads> list_ad;
-
+    private WishlistAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,55 +36,44 @@ public class WishlistFragment extends Fragment {
 
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        setupListItems();
-
-        if (list_ad.size() > 0 & recyclerView != null) {
-            recyclerView.setAdapter(new WishlistAdapter(getContext(),list_ad));
-        }
+        adapter=new WishlistAdapter(getContext(),list_ad);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(llm);
+        GenericAsyncTask g=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlist.php?pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                try {
+                    setupListItems(new JSONObject((String)output).getJSONArray("result"),(String)output);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        g.execute();
         return rootView;
     }
-    public void setupListItems(){
+    public void setupListItems(JSONArray jarray,String result){
         list_ad.clear();
-        Ads ad1= new Ads();
-        ad1.setDate("1 Oct");
-        ad1.setPrice("5000");
-        ad1.setSpecs("Hello");
-        ad1.setStatus("Hello");
-        ad1.setImage_ads(R.drawable.broly);
-        list_ad.add(ad1);
+        if (!result.equals("{\"result\":[]}")) {
+            for (int i = 0; i < jarray.length(); i++) {
+                try {
+                    JSONObject ad = jarray.getJSONObject(i);
+                    String name = ad.getString("PROD_NAME");
+                    String aid = ad.getString("AID");
+                    String timestamp=ad.getString("DURATION");
+                    String amount = ad.getString("RENT");
+                    Ads a = new Ads("Active",name, amount, timestamp,aid);
+                    list_ad.add(a);
 
-        Ads ad2= new Ads();
-        ad2.setDate("1 Oct");
-        ad2.setPrice("5000");
-        ad2.setStatus("22222");
-        ad2.setSpecs("2222");
-        ad2.setImage_ads(R.drawable.broly);
-        list_ad.add(ad2);
+                } catch (Exception e) {
+                       e.printStackTrace();
+                }
+            }
 
-        Ads ad3= new Ads();
-        ad3.setDate("1 Oct");
-        ad3.setPrice("5000");
-        ad3.setStatus("333");
-        ad3.setSpecs("333");
-        ad3.setImage_ads(R.drawable.broly);
-        list_ad.add(ad3);
-
-        Ads ad4= new Ads();
-        ad4.setDate("1 Oct");
-        ad4.setStatus("444");
-        ad4.setPrice("5000");
-        ad4.setSpecs("4444");
-        ad4.setImage_ads(R.drawable.broly);
-        list_ad.add(ad4);
-
-        Ads ad5= new Ads();
-        ad5.setDate("1 Oct");
-        ad5.setStatus("444");
-        ad5.setPrice("5000");
-        ad5.setSpecs("4444");
-        ad5.setImage_ads(R.drawable.broly);
-        list_ad.add(ad5);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public WishlistFragment() {

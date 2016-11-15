@@ -140,7 +140,7 @@
                             android:id="@+id/input_page"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:hint="Product Age"
                             android:paddingTop="10dp"
                             android:paddingBottom="15dp"/>
@@ -161,7 +161,7 @@
                             android:id="@+id/input_prent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:hint="Product Rent"
                             android:paddingTop="10dp"
                             android:paddingBottom="15dp"/>
@@ -183,7 +183,7 @@
                             android:id="@+id/input_pdeposit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:hint="Product Deposit"
                             android:paddingTop="10dp"
                             />

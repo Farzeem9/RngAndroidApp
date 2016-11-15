@@ -62,7 +62,7 @@ public class NewAdActivity extends AppCompatActivity {
                 }
                 if(position==2){
                     FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fl_category,new ServiceFrgment()).commit();
+                    fragmentTransaction.replace(R.id.fl_category,new ServiceFragment()).commit();
                 }
             }
 

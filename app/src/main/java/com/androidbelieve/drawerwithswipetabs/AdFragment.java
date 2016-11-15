@@ -46,6 +46,8 @@ import android.widget.Toast;
 
 //import com.esafirm.imagepicker.features.ImagePicker;
 //import com.esafirm.imagepicker.model.Image;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
@@ -79,7 +81,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     //    private ImageView imageview;
     private ArrayList<Bitmap> images = new ArrayList<>();
     View view;
-    private int CAMERA_PIC_REQUEST = 10;
+    private final int CAMERA_PIC_REQUEST = 10;
+    private final int CITY_SEARCH_REQUEST = 123;
     private int mShortAnimationDuration;
     private View thumbView;
     private ImageView neversee;
@@ -124,7 +127,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //ImagePicker.create(fragment).folderMode(true).folderTitle("All pictures").multi().limit(5-num).start(1);
+                ImagePicker.create(fragment).folderMode(true).folderTitle("All pictures").multi().limit(5-num).start(1);
 
             }
         });
@@ -465,54 +468,38 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         //
         //super.onActivityResult(requestCode,resultCode,data);
         Log.v("Check", "Checking");
-        if(!(num<5)&&(!(images.size()<5)))
+        if (!(num < 5) && (!(images.size() < 5)))
             return;
-        if(data==null||resultCode!= Activity.RESULT_OK)
+        if (data == null || resultCode != Activity.RESULT_OK)
             return;
         if (requestCode == CAMERA_PIC_REQUEST) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             Log.v("Bitmap", image.toString());
-            image=Bitmap.createScaledBitmap(image,300,300,false);
+            //image=Bitmap.createScaledBitmap(image,300,300,false);
             images.add(image);
-            num=images.size();
+            num = images.size();
             horizontalAdapter.notifyDataSetChanged();
         }
-        /*if(requestCode== 1)
-        {
-            /*Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            int count=cursor.getCount();
-            if(count+num>=5)
-                count=5-num;
-            for(int i=0;i<count;i++) {
-                cursor.moveToPosition(i);
-                String picturePath = cursor.getString(columnIndex);
-                Bitmap b=BitmapFactory.decodeFile(picturePath);
-                addImageView(pics,b);
-                images.add(b);
-
-            }
-            num+=count;
-            cursor.close();
-
+        if (requestCode == 1) {
+            Log.v("Trying", "trying");
             ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
-            for(Image x:imagesfrompicker)
-            {
+            for (Image x : imagesfrompicker) {
                 String picturePath = x.getPath();
-                Bitmap b=BitmapFactory.decodeFile(picturePath);
-                addImageView(pics,b);
+                Bitmap b = BitmapFactory.decodeFile(picturePath);
+
                 images.add(b);
-                num++;
+                num = images.size();
             }
-        }*/
-        if(requestCode== 123){
-            String value =(String)data.getStringExtra("data");
-            city.setText(value);
+            horizontalAdapter.notifyDataSetChanged();
         }
-    }
+           else if (requestCode==CITY_SEARCH_REQUEST) {
+                Log.v("Trying","trying");
+                Log.v("data",data.getStringExtra("data"));
+                String value = data.getStringExtra("data");
+                city.setText(value);
+            }
+        }
+
 
 
     static class UploadAd extends AsyncTask<String, String, String> {
@@ -560,10 +547,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         }
     }
 
-    class ImageHolder {
 
-        ImageView ab;
-    }
 
 //onclick me ye daal -->zoomImageFromThumb(thumb1View, R.drawable.image1);
 

@@ -4,12 +4,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,6 +38,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import org.json.JSONArray;
@@ -37,23 +49,33 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,rent,deposit,duration;
     private TextView city;
-    private Spinner spinner_rent,spinner_subrent;
+    private Spinner spinner_rent,spinner_subrent,spinner;
     private String aid;
+    private CheckBox r1,r2,r3;
     private RecyclerView rr;
     private HorizontalAdapter HorizontalAdapter;
     private Animator mCurrentAnimator;
-    private Button setasthumb;
+    private Button setasthumb,location;
     private int mShortAnimationDuration;
     private RelativeLayout rl;
     private View thumbView;
-    ArrayList<Bitmap> images;
+    private String item,number,f1="",f2="";
+    private ImageButton btnPhoto,btnGal;
+    private ArrayList<Bitmap> images;
+    static int num;
     int work=0;
     int currentpos=0;
     ProgressDialog progress;
+
+    private int CAMERA_PIC_REQUEST = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +92,42 @@ public class EditAdActivity extends AppCompatActivity {
         rl=(RelativeLayout)findViewById(R.id.Relativel);
         rr=(RecyclerView)findViewById(R.id.rr);
         thumbView=findViewById(R.id.scrolv);
+        btnGal=(ImageButton)findViewById(R.id.btn_select);
+        btnPhoto = (ImageButton)findViewById(R.id.btn_capture);
+
+        btnGal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                startActivityForResult(Intent.createChooser(i,"Select Picture"), 1);*/
+                if(num==5) {
+                    Toast.makeText(getApplicationContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ImagePicker.create(EditAdActivity.this).folderMode(true).folderTitle("All pictures").multi().limit(5-num).start(1);
+
+            }
+        });
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //addImageView(pics);
+               /* Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(data, CAMERA_PIC_REQUEST);*/
+                if(num==5) {
+                    Toast.makeText(getApplicationContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(data, CAMERA_PIC_REQUEST);
+
+            }
+        });
+        num=0;
+
+
 
         setasthumb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,12 +153,148 @@ public class EditAdActivity extends AppCompatActivity {
 //        images.add(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.broly));
         HorizontalAdapter.notifyDataSetChanged();
 
+        /**
+         * Adding here
+         */
+        r1= (CheckBox) findViewById(R.id.days);
+        r2= (CheckBox) findViewById(R.id.weeks);
+        r3= (CheckBox) findViewById(R.id.month);
+
+        location=(Button)findViewById(R.id.btn_location);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent data= new Intent(getApplicationContext(),SearchActivity.class);
+                startActivityForResult(data,123);
+            }
+        });
+        city=(TextView)findViewById(R.id.tv_city);
+        //In onActivityResult method
+
+
+        spinner = (Spinner) findViewById(R.id.sp_types);
+        spinner_rent = (Spinner) findViewById(R.id.sp_rent_types);
+        spinner_subrent = (Spinner) findViewById(R.id.sp_rent_subtypes);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Mobiles");
+        categories.add("Cars");
+        categories.add("Books");
+        categories.add("Pots");
+        categories.add("Bikes");
+        categories.add("Select a Category");
+
+        final List<String> rent_types = new ArrayList<String>();
+        rent_types.add("Select a Category");
+        rent_types.add("Days");
+        rent_types.add("Weeks");
+        rent_types.add("Months");
+
+        final List<String> rent_subtypes= new ArrayList<String>();
+        rent_subtypes.add("Select a sub-category");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rent_types);
+        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rent_subtypes);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+        spinner_rent.setAdapter(dataAdapter2);
+        spinner_subrent.setAdapter(dataAdapter3);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                  String item = parent.getItemAtPosition(position).toString();
+                                                  //Toast.makeText(NewAdActivity.this, item, Toast.LENGTH_SHORT).show();
+                                                  if (item == "Mobiles") {
+                                                      Toast.makeText(EditAdActivity.this, "Mobiles", Toast.LENGTH_SHORT).show();
+                                                  }
+                                                  if (item == "Cars") {
+                                                      Toast.makeText(EditAdActivity.this, "Cars", Toast.LENGTH_SHORT).show();
+                                                  }
+                                              }
+
+                                              @Override
+                                              public void onNothingSelected(AdapterView<?> parent) {
+
+                                              }
+                                          }
+        );
+        spinner_rent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                item = parent.getItemAtPosition(position).toString();
+                //f1=f1+item;
+                if (item == "Days") {
+                    rent_subtypes.clear();
+                    rent_subtypes.add("1");
+                    rent_subtypes.add("2");
+                    rent_subtypes.add("3");
+                    rent_subtypes.add("4");
+                    rent_subtypes.add("5");
+                    rent_subtypes.add("6");
+                    rent_types.remove("Select a Category");
+                    rent_subtypes.remove("Select a sub-category");
+                } else if (item == "Weeks") {
+                    rent_subtypes.clear();
+                    rent_subtypes.add("1");
+                    rent_subtypes.add("2");
+                    rent_subtypes.add("3");
+                    rent_types.remove("Select a Category");
+                    rent_subtypes.remove("Select a sub-category");
+                } else if (item == "Months")
+                {
+                    rent_subtypes.clear();
+                    rent_subtypes.add("1");
+                    rent_subtypes.add("2");
+                    rent_subtypes.add("3");
+                    rent_subtypes.add("4");
+                    rent_subtypes.add("5");
+                    rent_subtypes.add("6");
+                    rent_subtypes.add("7");
+                    rent_subtypes.add("8");
+                    rent_subtypes.add("9");
+                    rent_subtypes.add("10");
+                    rent_subtypes.add("11");
+                    rent_subtypes.add("12");
+                    rent_types.remove("Select a Category");
+                    rent_subtypes.remove("Select a sub-category");
+                }
+                spinner_subrent.setSelection(0, true);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_subrent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                number = parent.getItemAtPosition(position).toString();
+                f1=item+number;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
 
         progress = new ProgressDialog(this);
         progress.setMessage("Communicating with server..");
         progress.setIndeterminate(true);
         progress.setProgress(0);
-        // progress.setCancelable(false);
+        //progress.setCancelable(false);
         findViewById(R.id.btn_signup).post(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +326,48 @@ public class EditAdActivity extends AppCompatActivity {
         });
         genericAsyncTask.execute();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //
+        //super.onActivityResult(requestCode,resultCode,data);
+        Log.v("Check", "Checking");
+        if(!(num<5)&&(!(images.size()<5)))
+            return;
+        if(data==null||resultCode!= Activity.RESULT_OK)
+            return;
+        if (requestCode == CAMERA_PIC_REQUEST) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            Log.v("Bitmap", image.toString());
+            //image=Bitmap.createScaledBitmap(image,300,300,false);
+            images.add(image);
+            num=images.size();
+            HorizontalAdapter.notifyDataSetChanged();
+            work=2;
+        }
+        if(requestCode== 1)
+        {
+            ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
+            for(Image x:imagesfrompicker)
+            {
+                String picturePath = x.getPath();
+                Bitmap b=BitmapFactory.decodeFile(picturePath);
+                images.add(b);
+                HorizontalAdapter.notifyDataSetChanged();
+                num=images.size();
+                work=2;
+            }
+        }
+        if(requestCode== 123){
+            String value =(String)data.getStringExtra("data");
+            city.setText(value);
+        }
+    }
+
+
+
+
+
     boolean clickedonce=false;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -152,7 +388,7 @@ public class EditAdActivity extends AppCompatActivity {
             }
         });
         //g.setPostParams("aid="+aid,"work="+Integer.toString(work),"prod_name="+name.getText(),"description="+desc.getText(),"prod_age="+age.getText(),"category="+"Mobiles","rent="+rent.getText(),"prod_deposit="+deposit.getText());
-        g.setPostParams("aid",aid,"work",Integer.toString(work),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         g.execute();
     }
     void changethumbnail()

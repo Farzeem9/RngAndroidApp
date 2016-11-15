@@ -89,14 +89,17 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         date=(TextView)findViewById(R.id.tv_date);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
+        ratingBar.setFocusable(false);
+        ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
-
+        rating_comments.setClickable(false);
         new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
         new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
                 ratingBar.setProgress(i);
+                rating_comments.setClickable(true);
             }
         }).execute();
     }

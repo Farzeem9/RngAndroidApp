@@ -1,10 +1,21 @@
 package com.androidbelieve.drawerwithswipetabs;
+
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.androidbelieve.drawerwithswipetabs.MyAds.Month;
+
 public class Ads {
     private String status;
     private String specs;
     private String price;
     private String date;
-    private int image_ads;
+    private String aid;
+    private int image_ads=R.drawable.image_placeholder;
+    String link;
 
     public Ads() {
     }
@@ -16,11 +27,37 @@ public class Ads {
         this.date = date;
         this.image_ads=image_ads;
     }
+    public Ads(String status,String specs,String price,String timestamp,String aid) throws ParseException {
+        this.status = status;
+        this.specs = specs;
+        this.price = price;
+        this.aid=aid;
+        this.link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        Date today=new Date();
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+        Log.v("timeStamp",timestamp);
+        Log.v("date",date.toString());
+        if(today.getDay()==date.getDay())
+            this.date="Today ";
+        else if(today.getDay()==date.getDay()+1)
+            this.date="Yesterday ";
+        else
+        {
 
+            this.date=date.getDay()+" "+Month(date)+" ";
+            if(!(today.getYear()==date.getYear()))
+                this.date+=date.getYear()+" ";
+        }
+
+    }
     public String getStatus() {
         return status;
     }
 
+    public String getAid()
+    {
+        return this.aid;
+    }
     public void setStatus(String status) {
         this.status = status;
     }
@@ -57,4 +94,5 @@ public class Ads {
         this.image_ads = image_ads;
     }
 
+    public String getlink(){return this.link;}
 }

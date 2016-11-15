@@ -19,7 +19,6 @@ public class ActiveAdsFragment extends Fragment {
     private LinearLayoutManager llm;
     private ArrayList<MyAds> list_ad;
     MyActiveAdsAdapter adsAdapter;
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.pendingads_layout,null);

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Dialog;
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
 
     private Context mContext;
     private List<Ads> adList;
-
+    private static Ads Ads;
+    private static int pos;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
         public TextView status, specs, price, date;
@@ -67,19 +69,28 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Ads ads = adList.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final Ads ads = adList.get(position);
         holder.status.setText(ads.getStatus());
         holder.specs.setText(ads.getSpecs());
         holder.date.setText(ads.getDate());
         holder.price.setText("Rs " + ads.getPrice());
-
+        holder.ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(mContext,AdActivity.class);
+                i.putExtra("AID",ads.getAid());
+                mContext.startActivity(i);
+            }
+        });
         // loading album cover using Glide library
-        Glide.with(mContext).load(ads.getImage_ads()).into(holder.ads);
+        new DisplayImage(ads.getlink(),holder.ads).execute();
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Ads=ads;
+                pos=position;
                 showPopupMenu(holder.overflow);
             }
         });
@@ -109,7 +120,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_remove:
-                    Toast.makeText(mContext, "Remove from Wishlist", Toast.LENGTH_SHORT).show();
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/wishlist.php?aid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                        @Override
+                        public void processFinish(Object output) {
+                            if(output!=null) {
+                                adList.remove(pos);
+                                notifyDataSetChanged();
+                            }
+                        }
+                    });
+                    g.execute();
                     return true;
                 case R.id.action_share:
                     Toast.makeText(mContext, "Share Add", Toast.LENGTH_SHORT).show();
