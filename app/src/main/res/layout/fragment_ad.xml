@@ -211,7 +211,7 @@
                         <Button
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:background="@color/orange"
+                            android:background="@color/red"
                             android:text="Location"
                             android:textColor="#ffffff"
                             android:textSize="13sp"
@@ -315,7 +315,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Submit My Ad"
-                    android:background="@color/orange"
+                    android:background="@color/red"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="20dp"
                     android:textColor="@android:color/white"/>
@@ -342,7 +342,7 @@
             android:id="@+id/thumb_button_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/orange"
+            android:background="@color/red"
             android:text="Set as Thumbnail"
             android:contentDescription="avc"
             android:visibility="gone"
