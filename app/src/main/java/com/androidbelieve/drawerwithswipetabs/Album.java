@@ -12,7 +12,7 @@ public class Album {
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.aid=aid;
-        link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        link="http://rng.000webhostapp.com/imgthumbnail.php?id="+aid;
     }
 
     public Album(String name, int numOfSongs, int thumbnail) {

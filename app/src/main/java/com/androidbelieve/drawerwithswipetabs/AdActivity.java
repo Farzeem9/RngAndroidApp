@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -69,6 +70,10 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     private boolean selected=false;
     private String rentperiod;
 
+
+    private GetAd getAd;
+    private GenericAsyncTask genericAsyncTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,16 +109,26 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
+
         rating_comments.setClickable(false);
-        new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
-        new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
+        final ProgressDialog progressDialog=new ProgressDialog(getApplicationContext());
+        progressDialog.setMessage("Fetching ad Please wait");
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
+        getAd=new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId());
+        getAd.execute();
+        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
                 ratingBar.setProgress(i);
                 rating_comments.setClickable(true);
+                progressDialog.dismiss();
             }
-        }).execute();
+        });
+        getAd.execute();
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -132,6 +147,10 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
         mDemoSlider.stopAutoCycle();
         super.onStop();
+        if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
+            getAd.cancel(true);
+        if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+            genericAsyncTask.cancel(true);
     }
 
 /*

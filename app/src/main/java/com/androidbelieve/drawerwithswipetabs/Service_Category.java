@@ -59,7 +59,7 @@ public class Service_Category extends AppCompatActivity {
             }
         }).execute();
 
-        recyclerView.setOnScrollListener(new InfScrollviewListener(adapter,albumList));
+        recyclerView.setOnScrollListener(new InfScrollviewListener(adapter,albumList,cat));
 
     }
     void prepareAlbum(JSONArray jarray)

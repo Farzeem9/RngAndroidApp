@@ -212,10 +212,10 @@ public class EditAdActivity extends AppCompatActivity {
                                                   String item = parent.getItemAtPosition(position).toString();
                                                   //Toast.makeText(NewAdActivity.this, item, Toast.LENGTH_SHORT).show();
                                                   if (item == "Mobiles") {
-                                                      Toast.makeText(EditAdActivity.this, "Mobiles", Toast.LENGTH_SHORT).show();
+                   //                                   Toast.makeText(EditAdActivity.this, "Mobiles", Toast.LENGTH_SHORT).show();
                                                   }
                                                   if (item == "Cars") {
-                                                      Toast.makeText(EditAdActivity.this, "Cars", Toast.LENGTH_SHORT).show();
+                     //                                 Toast.makeText(EditAdActivity.this, "Cars", Toast.LENGTH_SHORT).show();
                                                   }
                                               }
 

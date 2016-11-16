@@ -112,10 +112,6 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
             Log.v("link:sb",link+"\t"+sb.toString());
 
             return sb.toString();
-
-
-
-
         }
         catch (Exception e)
         {
@@ -127,14 +123,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String s) {
         removeProgress();
-        if(s!=null)
-        {
-//            new AlertDialog.Builder(context).setTitle("Alert").setMessage("Complete").setIcon(android.R.drawable.ic_dialog_alert).show();
-        }
-        else if(s==null)
-        {
-  //          new AlertDialog.Builder(context).setTitle("Alert").setMessage("There seems to have been an error").setIcon(android.R.drawable.ic_dialog_alert).show();
-        }
+
         if(s!=null)
             delegate.processFinish(s);
     }

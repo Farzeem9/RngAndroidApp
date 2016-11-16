@@ -31,6 +31,7 @@ public class NotificationActivity extends AppCompatActivity {
     NotificationAdapter c;
     NotificationUpdater n;
     Toolbar toolbar;
+    boolean io=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +86,7 @@ public class NotificationActivity extends AppCompatActivity {
         n.run=false;
         n.cancel(true);
         String strJson = sharedPref.getString("jsondata","0");
+        io=true;
         JSONObject js;
         JSONArray jarray=new JSONArray();
         try {
@@ -110,7 +112,8 @@ public class NotificationActivity extends AppCompatActivity {
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("result", finaljarray);
-                sharedPref.edit().putString("jsondata", jsonObject.toString()).commit();
+                sharedPref.edit().putString("jsondata", jsonObject.toString()).apply();
+                io=false;
                 n.run = true;
                 n.execute();
             }
@@ -118,6 +121,7 @@ public class NotificationActivity extends AppCompatActivity {
         catch(Exception e)
         {
             e.printStackTrace();
+            io=false;
         }
 
     }
@@ -172,10 +176,10 @@ public class NotificationActivity extends AppCompatActivity {
                         Log.v("New notis found!!","Lol");
                         this.publishProgress(sb.toString());
                     }
-                    Thread.sleep(time);
-                    time+=time;
-                    if(time==5000*6)
-                        return null;
+                    else
+                    {
+                     return null;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -220,6 +224,14 @@ public class NotificationActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
 
         }
+    }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if(n!=null)
+        if(n.getStatus()==AsyncTask.Status.RUNNING)
+            n.cancel(false);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -60,7 +62,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         holder.title.setText(album.getName());
         holder.count.setText("₹ " + album.getNumOfSongs() );
 
-        new DisplayImage(album.getLink(),holder.thumbnail).execute();
+        //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
+        Picasso.with(mContext).load(album.getLink()).fit().into(holder.thumbnail);
         final String aid=album.getAid();
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override

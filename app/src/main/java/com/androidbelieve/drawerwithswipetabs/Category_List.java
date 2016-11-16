@@ -31,7 +31,8 @@ public class Category_List extends AppCompatActivity {
     private AlbumsAdapter adapter;
     private ArrayList<Album> albumList;
     private Toolbar toolbar;
-
+    private GetJSON getJSON;
+    private InfScrollviewListener infScrollviewListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +62,15 @@ public class Category_List extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        infScrollviewListener=new InfScrollviewListener(adapter,albumList,cat);
+        recyclerView.setOnScrollListener(infScrollviewListener);
 
-        new GetJSON("http://rng.000webhostapp.com/viewads.php?category="+cat,adapter,albumList).execute();
 
-        recyclerView.setOnScrollListener(new InfScrollviewListener(adapter,albumList));
+        getJSON=new GetJSON("http://rng.000webhostapp.com/viewads.php?category="+cat,adapter,albumList);
+        getJSON.execute();
+
+
+
 
     }
 
@@ -109,4 +115,11 @@ public class Category_List extends AppCompatActivity {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
+    @Override
+    protected void onStop() {
+        if(!(getJSON.getStatus()== AsyncTask.Status.FINISHED))
+            getJSON.cancel(true);
+        infScrollviewListener.stopAsyncTask();
+        super.onStop();
+    }
 }

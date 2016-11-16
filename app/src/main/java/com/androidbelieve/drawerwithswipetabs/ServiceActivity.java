@@ -62,6 +62,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private View thumbView;
     private Button rating_comments,urgentrent;
     private Toolbar toolbar;
+    //private GetAd getAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +113,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
 */
-        new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
+      //  GetAd= new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
     }
 
     @Override
@@ -121,16 +122,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         mDemoSlider.stopAutoCycle();
         super.onStop();
     }
-
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -339,7 +330,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         }
 
         @Override
-        public void onBindViewHolder(final ServiceActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
+        public void onBindViewHolder(final HorizontalAdapter.MyViewHolder holder, final int position) {
             holder.i.setImageBitmap(images.get(position));
             Log.v("inside","holder setting bitmap");
             /**

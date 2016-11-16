@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
     HomeAdapter ha;
     private ArrayList<String> cats;
     private RecyclerView recyclerView;
+    private GenericAsyncTask genericAsyncTask;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(),NewAdActivity.class));
             }
         });
-        GenericAsyncTask genericAsyncTask=new GenericAsyncTask(getContext(),"http://rng.000webhostapp.com/category.php?","message",new AsyncResponse()
+        genericAsyncTask=new GenericAsyncTask(getContext(),"http://rng.000webhostapp.com/category.php","message",new AsyncResponse()
         {
             @Override
             public void processFinish(Object output)
@@ -80,9 +81,14 @@ public class HomeFragment extends Fragment {
 
                 for(int i=0;i<adap.length;i++ )
                 {
-                    Toast.makeText(getContext(), adap[i], Toast.LENGTH_SHORT).show();
-                    //Log.v("HELLo",adap[i]);
-                    cats.add(adap[i]);
+                    try {
+                        //Log.v("HELLo",adap[i]);
+                        cats.add(adap[i]);
+                    }
+                        catch(NullPointerException e)
+                        {
+                            Log.v("Null pointer caught","Maybe activity was closed?");
+                        }
                 }
                 ha.notifyDataSetChanged();
             }
@@ -90,6 +96,12 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(ha);
         genericAsyncTask.execute();
         return rootView;
+    }
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        genericAsyncTask.cancel(true);
     }
 
    /* @Override
