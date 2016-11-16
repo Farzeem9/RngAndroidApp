@@ -111,7 +111,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         ratingBar.setClickable(false);
 
         rating_comments.setClickable(false);
-        final ProgressDialog progressDialog=new ProgressDialog(getApplicationContext());
+        final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
@@ -127,7 +127,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 progressDialog.dismiss();
             }
         });
-        getAd.execute();
+        genericAsyncTask.execute();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -147,8 +147,10 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
         mDemoSlider.stopAutoCycle();
         super.onStop();
+        if(getAd!=null)
         if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
             getAd.cancel(true);
+        if(genericAsyncTask!=null)
         if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
             genericAsyncTask.cancel(true);
     }

@@ -36,7 +36,7 @@
             custom:indicator_visibility="visible"
             custom:pager_animation_span="1100"
             android:background="#f7f7f7"
-            android:layout_height="200dp"/>
+            android:layout_height="400dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

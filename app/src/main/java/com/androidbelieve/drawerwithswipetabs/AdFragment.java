@@ -365,7 +365,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
 
-    
+
 
 
     private boolean validatePname() {
