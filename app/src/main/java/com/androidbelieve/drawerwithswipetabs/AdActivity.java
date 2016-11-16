@@ -1,8 +1,10 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,6 +32,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,12 +64,20 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     private String canrent;
     private boolean set=false;
     private Toolbar toolbar;
+    private RadioGroup radioGroup;
+    private RadioButton less,more,equal;
+    private boolean selected=false;
+    private String rentperiod;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
-
+        radioGroup= (RadioGroup) findViewById(R.id.rg_period);
+        less= (RadioButton) findViewById(R.id.less);
+        equal= (RadioButton) findViewById(R.id.equal);
+        more= (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
 
@@ -102,6 +114,17 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 rating_comments.setClickable(true);
             }
         }).execute();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String abc= checkedId+"";
+                Toast.makeText(AdActivity.this,abc, Toast.LENGTH_SHORT).show();
+                RadioButton rb=(RadioButton)findViewById(checkedId);
+                rentperiod=rb.getText().toString();
+                selected=true;
+            }
+        });
+
     }
 
     @Override
@@ -110,7 +133,6 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         mDemoSlider.stopAutoCycle();
         super.onStop();
     }
-
 
 /*
     @Override
@@ -126,44 +148,41 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
     }
 
-    public void onRent(View view)
+    public void onRent(final String message)
     {
+            AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
+                String link="http://rng.000webhostapp.com/reqNoti.php?pid=&message="+message+" for "+rentperiod;
+                @Override
+                protected String doInBackground(String... params) {
+                    try {
+                        URL url = new URL(link+params[0]+"&aid="+params[1]);
+                        URLConnection connection=url.openConnection();
 
-        AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link="http://rng.000webhostapp.com/reqNoti.php?pid=";
-            @Override
-            protected String doInBackground(String... params) {
-                try {
-                    URL url = new URL(link+params[0]+"&aid="+params[1]);
-                    URLConnection connection=url.openConnection();
+                        BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line=null;
+                        StringBuffer sb=new StringBuffer();
+                        while((line=br.readLine())!=null)
+                            sb.append(line);
 
-                    BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String line=null;
-                    StringBuffer sb=new StringBuffer();
-                    while((line=br.readLine())!=null)
-                        sb.append(line);
+                        Log.v("Result",sb.toString());
+                        return sb.toString();
 
-                    Log.v("Result",sb.toString());
-                    return sb.toString();
-
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
-                catch (Exception e)
+                @Override
+                protected void onPostExecute(String result)
                 {
-                    e.printStackTrace();
+
                 }
-                return null;
-            }
-         @Override
-            protected void onPostExecute(String result)
-         {
+            };
+            s.execute(AccessToken.getCurrentAccessToken().getUserId(),aid);
+        }
 
-         }
-
-        };
-        s.execute(AccessToken.getCurrentAccessToken().getUserId(),aid);
-    }
-
-    @Override
     public void onPageSelected(int position) {
         Log.d("Slider Demo", "Page Changed: " + position);
     }
@@ -208,7 +227,6 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             return result;
         }
 
-
         @Override
         protected void onPostExecute(String result) {
             try {
@@ -219,7 +237,6 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 e.printStackTrace();
             }
         }
-
 
     }
     static String Month(Date d)
@@ -276,8 +293,8 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             }
             this.date.setText(ddate);
             this.city.setText(city);
-            this.age.setText(age);
-            this.deposit.setText(deposit);
+            this.age.setText(age + " Years");
+            this.deposit.setText("₹ "+ deposit);
             JSONArray links=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
             for(int i=0;i<links.length();i++)
@@ -285,7 +302,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
             name.setText(prod_name);
             desc.setText(desc_str);
-            rent.setText("Rs "+ rent_name);
+            rent.setText("₹ "+ rent_name);
             for(String name : alllinks){
                 //Log.v("");
                 TextSliderView textSliderView = new TextSliderView(this);
@@ -371,5 +388,33 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 return super.onOptionsItemSelected(item);
         }
     }
+    public void onUrgentRent(View view){
+        if(!selected) {
+            //radioGroup.requestFocusInWindow();
+            radioGroup.requestFocus(View.LAYOUT_DIRECTION_LOCALE);
+            return;
+        }
 
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+
+        alertbox.setTitle("Urgent Rent");
+        alertbox.setMessage("Do you want to urgently rent this time ?");
+
+        alertbox.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        onRent("");
+                    }
+                });
+
+        alertbox.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        onRent("urgently rent");
+                    }
+                });
+        alertbox.show();
+    }
 }

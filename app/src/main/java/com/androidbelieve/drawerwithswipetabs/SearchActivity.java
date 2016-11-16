@@ -66,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT);
         toast.show();
             Intent intent=new Intent();
+           // intent.putStringArrayListExtra("im")
             intent.putExtra("data",selected);
             setResult(Activity.RESULT_OK,intent);
             finish();

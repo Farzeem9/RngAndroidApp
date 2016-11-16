@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity{
              toolbar.setTitle("RnG");
              mFragmentManager = getSupportFragmentManager();
              mFragmentTransaction = mFragmentManager.beginTransaction();
-             mFragmentTransaction.replace(R.id.containerView,new HomeFragment()).commit();
-
-             mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+             mFragmentTransaction.replace(R.id.containerView,new HomeFragment());
+             mFragmentTransaction.addToBackStack(null);
+             mFragmentTransaction.commit();
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
              @Override
              public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
@@ -95,5 +96,11 @@ public class MainActivity extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.containerView, new HomeFragment()).commit();
+        toolbar.setTitle("Home");
     }
 }

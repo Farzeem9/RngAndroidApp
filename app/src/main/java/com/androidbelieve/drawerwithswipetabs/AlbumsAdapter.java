@@ -58,7 +58,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Album album = albumList.get(position);
         holder.title.setText(album.getName());
-        holder.count.setText("Rs " + album.getNumOfSongs() );
+        holder.count.setText("₹ " + album.getNumOfSongs() );
 
         new DisplayImage(album.getLink(),holder.thumbnail).execute();
         final String aid=album.getAid();

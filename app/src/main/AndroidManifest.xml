@@ -18,11 +18,10 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity android:name=".NewAdActivity" />
         <activity android:name=".ServiceActivity" />
-        <activity android:name=".MainActivity" >
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".EditAdActivity" />
         <activity android:name=".AdActivity" />
         <activity android:name=".Category_List" />
@@ -33,9 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RateActivity"></activity>
-        <activity android:name=".NotificationActivity"></activity>
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".RateActivity" />
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".MyAdActivity"></activity>
     </application>
 
 </manifest>

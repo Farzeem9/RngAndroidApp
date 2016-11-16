@@ -2,6 +2,7 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +25,25 @@ public class RateActivity extends AppCompatActivity {
     private Spinner sp_comments;
     private String aid;
     private int n=2;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate);
+        toolbar= (Toolbar) findViewById(R.id.toolbar1);
+        //setSupportActionBar(toolbar);
+        //toolbar.setTitle("MANNNNNYNYYYYYY");
+        toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent intent= new Intent(AdActivity.this,Category_List.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //startActivity(intent);
+                finish();
+            }
+        });
+
         String canrent=getIntent().getStringExtra("CANRATE");
         aid=getIntent().getStringExtra("aid");
         ratingBar= (RatingBar) findViewById(R.id.ratingBar2);

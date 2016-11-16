@@ -20,6 +20,7 @@ public class Album {
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
     }
+    public void setLink(String link) { this.link = link; }
     public String getName() {
         return name;
     }

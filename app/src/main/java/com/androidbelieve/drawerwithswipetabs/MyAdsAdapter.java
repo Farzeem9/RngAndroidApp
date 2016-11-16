@@ -122,13 +122,13 @@ public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.MyViewHolder
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_edit:
-                    Toast.makeText(mContext, "Edit Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_delete:
-                    Toast.makeText(mContext, "Delete Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_deactivate:
-                    Toast.makeText(mContext, "Deactivate Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

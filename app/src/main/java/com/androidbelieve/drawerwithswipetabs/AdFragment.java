@@ -40,6 +40,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +61,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.R.attr.data;
@@ -73,11 +76,16 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
     private TextView city;
     private Fragment fragment;
+
     private Button btnSignUp,location;
     static int num=0;
     private Animator mCurrentAnimator;
     private LinearLayout pics;
     private ImageButton btnPhoto,btnGal;
+    private Button setasthumb;
+    private RelativeLayout rl;
+    private ScrollView scrollView;
+    private int currentpos=0;
     //    private ImageView imageview;
     private ArrayList<Bitmap> images = new ArrayList<>();
     View view;
@@ -106,7 +114,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         images = new ArrayList<Bitmap>();
         //imageview = (ImageView)view.findViewById(R.id.iv1);
 //        pics = (LinearLayout) view.findViewById(R.id.ll_pics);
-        thumbView=(View)view.findViewById(R.id.thumb_button_1);
         recyclerView=(RecyclerView)view.findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -116,6 +123,10 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         r1= (CheckBox) view.findViewById(R.id.days);
         r2= (CheckBox) view.findViewById(R.id.weeks);
         r3= (CheckBox) view.findViewById(R.id.month);
+        rl=(RelativeLayout)view.findViewById(R.id.rel1);
+        scrollView=(ScrollView)view.findViewById(R.id.sc_ad);
+        setasthumb=(Button)view.findViewById(R.id.thumb_button_1);
+
         btnGal=(ImageButton)view.findViewById(R.id.btn_select);
         btnGal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +322,19 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     new Newaddupload(AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
                 else
                     Toast.makeText(getContext(), "Please select proper number of Images!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        setasthumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("Exchanged values!","Great");
+
+                    Collections.swap(images,0,currentpos);
+                    horizontalAdapter.setPosition(0);
+                Toast.makeText(getContext(), "Changed Thumbnail", Toast.LENGTH_SHORT).show();
+                horizontalAdapter.notifyDataSetChanged();
             }
         });
 
@@ -574,7 +598,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         // view. Also set the container view's offset as the origin for the
         // bounds, since that's the origin for the positioning animation
         // properties (X, Y).
-        thumbView.getGlobalVisibleRect(startBounds);
+//        thumbView.getGlobalVisibleRect(startBounds);
         view.findViewById(R.id.container)
                 .getGlobalVisibleRect(finalBounds, globalOffset);
         startBounds.offset(-globalOffset.x, -globalOffset.y);
@@ -605,9 +629,9 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         // Hide the thumbnail and show the zoomed-in view. When the animation
         // begins, it will position the zoomed-in view in the place of the
         // thumbnail.
-        thumbView.setAlpha(0f);
+        scrollView.setAlpha(0f);
         expandedImageView.setVisibility(View.VISIBLE);
-
+        setasthumb.setVisibility(View.VISIBLE);
         // Set the pivot point for SCALE_X and SCALE_Y transformations
         // to the top-left corner of the zoomed-in view (the default
         // is the center of the view).
@@ -671,14 +695,16 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 set.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        thumbView.setAlpha(1f);
+                        scrollView.setAlpha(1f);
                         expandedImageView.setVisibility(View.GONE);
+                        setasthumb.setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }
 
                     @Override
                     public void onAnimationCancel(Animator animation) {
-                        thumbView.setAlpha(1f);
+                        scrollView.setAlpha(1f);
+                        setasthumb.setVisibility(View.GONE);
                         expandedImageView.setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }
@@ -691,12 +717,16 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     class HorizontalAdapter  extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;
-
+        private int thumbnail=0;
         public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
             this.mContext = mContext;
             this.images=images;
             Log.v("Adapter created","Created");
 
+        }
+        void setPosition(int i)
+        {
+            thumbnail=i;
         }
 
         @Override
@@ -719,6 +749,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             holder.i.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentpos=position;
                     zoomImageFromThumb(thumbView,images.get(position));
                 }
             });
@@ -729,6 +760,12 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     notifyDataSetChanged();
                 }
             });
+            if(position==thumbnail)
+            {
+                holder.relativeLayout.setBackgroundResource(R.drawable.background_border);
+            }
+            else
+                holder.relativeLayout.setBackgroundResource(R.drawable.empty);
         }
 
         @Override
@@ -740,9 +777,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             Button set;
             ImageView i;
             ImageButton del;
+            RelativeLayout relativeLayout;
 
             public MyViewHolder(View view) {
                 super(view);
+                relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
                 del=(ImageButton)view.findViewById(R.id.yes_bt);
                 i=(ImageView)view.findViewById(R.id.act_image);
                 //set=(Button)view.findViewById(R.id.button);

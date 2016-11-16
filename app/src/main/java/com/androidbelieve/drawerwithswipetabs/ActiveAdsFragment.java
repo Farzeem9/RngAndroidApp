@@ -32,9 +32,6 @@ public class ActiveAdsFragment extends Fragment {
         recyclerView.setAdapter(adsAdapter);
         //setupListItems();
 
-        //if (list_ad.size() > 0 & recyclerView != null) {
-          //  recyclerView.setAdapter(new MyActiveAdsAdapter(getContext(),list_ad));
-        //}
         recyclerView.setOnScrollListener(new onListenerScroll(adsAdapter,list_ad));
         recyclerView.setLayoutManager(llm);
         return rootView;

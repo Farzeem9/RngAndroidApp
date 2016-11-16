@@ -71,7 +71,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         holder.status.setTextColor(Color.parseColor("#79ff4d"));
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
-        holder.price.setText("Rs " + ad.getPrice() );
+        holder.price.setText("₹ " + ad.getPrice() );
 
         new DisplayImage(ad.getLink(),holder.ads).execute();
         final String aid=ad.getAid();
