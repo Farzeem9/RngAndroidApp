@@ -30,7 +30,7 @@ public class RateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate);
-        toolbar= (Toolbar) findViewById(R.id.toolbar1);
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
         toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
