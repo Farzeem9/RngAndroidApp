@@ -20,12 +20,14 @@ import android.provider.MediaStore;
 import android.support.design.widget.*;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,10 +78,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
     private TextView city;
     private Fragment fragment;
-
+    private ImageView expandedImageView;
     private Button btnSignUp,location;
     static int num=0;
     private Animator mCurrentAnimator;
+    private float startScale;
     private LinearLayout pics;
     private ImageButton btnPhoto,btnGal;
     private Button setasthumb;
@@ -110,10 +113,24 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         // Inflate the layout for this fragment
         FacebookSdk.sdkInitialize(getContext());
         view = inflater.inflate(R.layout.fragment_ad, container, false);
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+
+
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
         btnPhoto = (ImageButton) view.findViewById(R.id.btn_capture);
         images = new ArrayList<Bitmap>();
         //imageview = (ImageView)view.findViewById(R.id.iv1);
 //        pics = (LinearLayout) view.findViewById(R.id.ll_pics);
+        expandedImageView=(ImageView)view.findViewById(R.id.expanded_image);
         recyclerView=(RecyclerView)view.findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -364,6 +381,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
 
         Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
+
 
 
 
@@ -670,6 +688,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         // to the original bounds and show the thumbnail instead of
         // the expanded image.
         final float startScaleFinal = startScale;
+        this.startScale=startScaleFinal;
         expandedImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -715,6 +734,52 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             }
         });
     }
+
+    /*void unzoom()
+    {
+        if (mCurrentAnimator != null) {
+            mCurrentAnimator.cancel();
+        }
+
+        // Animate the four positioning/sizing properties in parallel,
+        // back to their original values.
+        AnimatorSet set = new AnimatorSet();
+        set.play(ObjectAnimator
+                .ofFloat(expandedImageView, View.X, startBounds.left))
+                .with(ObjectAnimator
+                        .ofFloat(expandedImageView,
+                                View.Y,startBounds.top))
+                .with(ObjectAnimator
+                        .ofFloat(expandedImageView,
+                                View.SCALE_X, startScaleFinal))
+                .with(ObjectAnimator
+                        .ofFloat(expandedImageView,
+                                View.SCALE_Y, startScaleFinal));
+        set.setDuration(mShortAnimationDuration);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                scrollView.setAlpha(1f);
+                expandedImageView.setVisibility(View.GONE);
+                setasthumb.setVisibility(View.GONE);
+                mCurrentAnimator = null;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                scrollView.setAlpha(1f);
+                setasthumb.setVisibility(View.GONE);
+                expandedImageView.setVisibility(View.GONE);
+                mCurrentAnimator = null;
+            }
+        });
+        set.start();
+        mCurrentAnimator = set;
+    }
+});
+    }
+    */
     class HorizontalAdapter  extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;

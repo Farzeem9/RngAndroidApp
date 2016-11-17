@@ -23,10 +23,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private Context context;
     private ArrayList<String> categories;
-
-    public HomeAdapter(Context context, final ArrayList<String> categories) {
+    private Class c;
+    public HomeAdapter(Context context, final ArrayList<String> categories,Class c) {
         this.context = context;
         this.categories=categories;
+        this.c=c;
         Log.v("Adapter created","Created");
     }
     @Override
@@ -43,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,Category_List.class);
+                Intent intent=new Intent(context,c);
                 Log.v("text",holder.category.getText().toString());
                 intent.putExtra("Category",holder.category.getText());
                 context.startActivity(intent);

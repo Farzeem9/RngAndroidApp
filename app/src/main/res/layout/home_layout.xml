@@ -58,15 +58,53 @@
             android:scrollbars="none"
             android:layout_below="@id/tv_services"
             android:layout_marginTop="10dp">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:id="@+id/serv_rel_lay"
+            />
         </HorizontalScrollView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/emptyview"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            app:backgroundTint="@color/darkred"
             android:src="@android:drawable/ic_input_add" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabnewad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fab"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:visibility="invisible"
+            app:backgroundTint="@color/darkred"
+            android:src="@drawable/ic_add_ad" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabnewservice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fabnewad"
+            android:visibility="invisible"
+            app:backgroundTint="@color/darkred"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:src="@drawable/ic_add_service" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emptyview"
+        android:layout_alignParentBottom="true">
+
+    </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -2,8 +2,10 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.view.View.OnClickListener;
@@ -27,50 +31,79 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private ViewGroup rootView;
-    String adap[];
+    String adap[],service[];
     HomeAdapter ha;
+    HomeAdapter homeAdapter;
     private ArrayList<String> cats;
+    private ArrayList<String> servicecats;
     private RecyclerView recyclerView;
+    private RecyclerView recyclerViewservice;
     private GenericAsyncTask genericAsyncTask;
+    private GenericAsyncTask genericAsyncTaskService;
+    private FloatingActionButton fabservice;
+    private FloatingActionButton fabad;
+    private boolean shown=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.home_layout, container, false);
         //Button button=(Button)rootView.findViewById(R.id.bt_service);
-        adap=new String[100];
+        //adap=new String[100];             //Seriously guys? What were you thinking?
         cats=new ArrayList<String>();
+        servicecats=new ArrayList<String>();
         recyclerView= (RecyclerView) rootView.findViewById(R.id.rr);
-        ha= new HomeAdapter(getContext(),cats);
-        /*int n;
-        int[][] ids={{R.id.tv_mobiles,R.id.tv_cars,R.id.tv_books,R.id.tv_pots,R.id.tv_bikes},{R.id.btn_mobile,R.id.btn_cars,R.id.btn_books,R.id.btn_pots,R.id.btn_bikes}};
-        n=ids[0].length;
-        ImageButton[] imageButtons =new ImageButton[n];
-        final TextView[] textViews=new TextView[n];
+        recyclerViewservice=(RecyclerView)rootView.findViewById(R.id.serv_rel_lay);
 
-        for(int i=0;i<n;i++)
-        {
-            imageButtons[i]=(ImageButton)rootView.findViewById(ids[1][i]);
-            textViews[i]=(TextView)rootView.findViewById(ids[0][i]);
-            final int j=i;
-            imageButtons[i].setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  Intent intent=new Intent(getActivity(),Category_List.class);
-                    Log.v("text",textViews[j].getText().toString());
-                    intent.putExtra("Category",textViews[j].getText());
-                    startActivity(intent);
-                }
-            });
-        }
-*/
+        ha= new HomeAdapter(getContext(),cats,Category_List.class);
+        homeAdapter=new HomeAdapter(getContext(),servicecats,Service_Category.class);
+
+        recyclerViewservice.setAdapter(homeAdapter);
+        fabservice=(FloatingActionButton)rootView.findViewById(R.id.fabnewservice);
+        fabad=(FloatingActionButton)rootView.findViewById(R.id.fabnewad);
         FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               
-                startActivity(new Intent(getActivity(),NewAdActivity.class));
+
+        if(!shown) {
+            Animation fabad_show = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_show);
+            fabad.startAnimation(fabad_show);
+            fabad.setVisibility(View.VISIBLE);
+            fabservice.startAnimation(fabad_show);
+            fabservice.setVisibility(View.VISIBLE);
+            shown=true;
+            fabad.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getActivity(), NewAdActivity.class);
+                    i.putExtra("fragment", "newad");
+                    startActivity(i);
+                }
+            });
+            fabservice.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getActivity(), NewAdActivity.class);
+                    i.putExtra("fragment", "service");
+                    startActivity(i);
+                }
+            });
+
+        }
+        else
+        {
+            Animation fabad_hide = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_hide);
+            fabad.startAnimation(fabad_hide);
+            fabad.setVisibility(View.INVISIBLE);
+            fabservice.startAnimation(fabad_hide);
+            fabservice.setVisibility(View.INVISIBLE);
+            shown=false;
+
+        }
+               // startActivity(new Intent(getActivity(),NewAdActivity.class));
             }
         });
+
         genericAsyncTask=new GenericAsyncTask(getContext(),"http://rng.000webhostapp.com/category.php","message",new AsyncResponse()
         {
             @Override
@@ -84,6 +117,7 @@ public class HomeFragment extends Fragment {
                     try {
                         //Log.v("HELLo",adap[i]);
                         cats.add(adap[i]);
+                        ha.notifyDataSetChanged();
                     }
                         catch(NullPointerException e)
                         {
@@ -93,15 +127,39 @@ public class HomeFragment extends Fragment {
                 ha.notifyDataSetChanged();
             }
         });
-        recyclerView.setAdapter(ha);
+        genericAsyncTaskService=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/categoryservice.php", "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                String out=(String)output;
+                service=out.split(";;");
+
+                for(int i=0;i<service.length;i++ )
+                {
+                    try {
+                        //Log.v("HELLo",adap[i]);
+                        servicecats.add(service[i]);
+                        homeAdapter.notifyDataSetChanged();
+                    }
+                    catch(NullPointerException e)
+                    {
+                        Log.v("Null pointer caught","Maybe activity was closed?");
+                    }
+                }
+
+            }
+        });
         genericAsyncTask.execute();
+        genericAsyncTaskService.execute();
         return rootView;
     }
+
     @Override
     public void onStop()
     {
         super.onStop();
-        genericAsyncTask.cancel(true);
+        if(genericAsyncTask!=null)
+            if(genericAsyncTask.getStatus()!= AsyncTask.Status.FINISHED)
+                genericAsyncTask.cancel(true);
     }
 
    /* @Override

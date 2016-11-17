@@ -26,7 +26,7 @@ public class NewAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_new_ad);
-
+        String selection=getIntent().getStringExtra("fragment");
         category = getResources().getStringArray(R.array.type);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -35,7 +35,7 @@ public class NewAdActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);}
         //toolbar.setLogo(R.drawable.ic_dots);
-        toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.backarrow));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,13 +49,18 @@ public class NewAdActivity extends AppCompatActivity {
         Spinner navigationSpinner = new Spinner(getSupportActionBar().getThemedContext());
         navigationSpinner.setAdapter(spinnerAdapter);
         toolbar.addView(navigationSpinner, 0);
+        if(selection.equals("newad"))
+        {
+            navigationSpinner.setSelection(1);
+        }
+        else
+        {
+            navigationSpinner.setSelection(2);
+        }
 
         navigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "you selected: " + category[position],
-                        Toast.LENGTH_SHORT).show();
                 if(position==1){
                     FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fl_category,new AdFragment()).commit();

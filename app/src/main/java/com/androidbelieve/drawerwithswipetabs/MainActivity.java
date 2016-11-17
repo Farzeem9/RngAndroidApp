@@ -109,10 +109,9 @@ public class MainActivity extends AppCompatActivity{
         }
         else    {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        Log.v("Home","false");
-        fragmentTransaction.replace(R.id.containerView, new HomeFragment()).commit();
-        toolbar.setTitle("Home");
-        home=true;
+            fragmentTransaction.replace(R.id.containerView,new HomeFragment()).commit();
+            toolbar.setTitle("Home");
+            home=true;
         }
     }
 }

@@ -69,8 +69,6 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     private RadioButton less,more,equal;
     private boolean selected=false;
     private String rentperiod;
-
-
     private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
 
