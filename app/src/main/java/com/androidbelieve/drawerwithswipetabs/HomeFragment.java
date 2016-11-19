@@ -43,12 +43,14 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fabservice;
     private FloatingActionButton fabad;
     private boolean shown=false;
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.home_layout, container, false);
-        //Button button=(Button)rootView.findViewById(R.id.bt_service);
-        //adap=new String[100];             //Seriously guys? What were you thinking?
         cats=new ArrayList<String>();
         servicecats=new ArrayList<String>();
         recyclerView= (RecyclerView) rootView.findViewById(R.id.rr);
@@ -56,7 +58,7 @@ public class HomeFragment extends Fragment {
 
         ha= new HomeAdapter(getContext(),cats,Category_List.class);
         homeAdapter=new HomeAdapter(getContext(),servicecats,Service_Category.class);
-
+        recyclerView.setAdapter(ha);
         recyclerViewservice.setAdapter(homeAdapter);
         fabservice=(FloatingActionButton)rootView.findViewById(R.id.fabnewservice);
         fabad=(FloatingActionButton)rootView.findViewById(R.id.fabnewad);
@@ -110,12 +112,13 @@ public class HomeFragment extends Fragment {
             public void processFinish(Object output)
             {
                 String out=(String)output;
+                if(!out.contains(";;"))
+                    return;
                 adap=out.split(";;");
 
                 for(int i=0;i<adap.length;i++ )
                 {
                     try {
-                        //Log.v("HELLo",adap[i]);
                         cats.add(adap[i]);
                         ha.notifyDataSetChanged();
                     }
@@ -124,15 +127,17 @@ public class HomeFragment extends Fragment {
                             Log.v("Null pointer caught","Maybe activity was closed?");
                         }
                 }
-                ha.notifyDataSetChanged();
+                Log.v("Cats",cats.toString());
+
             }
         });
         genericAsyncTaskService=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/categoryservice.php", "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
+                if(!out.contains(";;"))
+                    return;
                 service=out.split(";;");
-
                 for(int i=0;i<service.length;i++ )
                 {
                     try {
@@ -162,11 +167,5 @@ public class HomeFragment extends Fragment {
                 genericAsyncTask.cancel(true);
     }
 
-   /* @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_main,menu);
-        MenuItem menuItem=menu.findItem(R.id.action_notification);
-        super.onCreateOptionsMenu(menu,inflater);
-    }*/
 }
 

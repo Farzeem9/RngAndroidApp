@@ -49,7 +49,7 @@ public class ServiceWishlistFragment extends Fragment {
         recyclerView.addItemDecoration(new ServiceWishlistFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        genericAsyncTask=new GenericAsyncTask(getContext(), "", "", new AsyncResponse() {       //insert link later
+        genericAsyncTask=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlistservice.php"+"?pid="+AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {       //insert link later
             @Override
             public void processFinish(Object output) {
                 try {
@@ -63,11 +63,11 @@ public class ServiceWishlistFragment extends Fragment {
                 }
             }
         });
-        //genericAsyncTask.execute();
+        genericAsyncTask.execute();
 
         return rootView;
     }
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+    public static class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
         private int spacing;

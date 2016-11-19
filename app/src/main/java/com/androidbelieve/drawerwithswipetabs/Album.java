@@ -1,5 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.util.Log;
+
 public class Album {
     private String name;
     private int numOfSongs;
@@ -12,7 +14,8 @@ public class Album {
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.aid=aid;
-        link="http://rng.000webhostapp.com/img2.php?id="+aid;
+        link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        Log.v("link in album",link);
     }
 
     public Album(String name, int numOfSongs, int thumbnail) {

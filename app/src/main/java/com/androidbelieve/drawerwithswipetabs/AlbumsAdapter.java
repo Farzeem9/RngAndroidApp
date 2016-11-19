@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,7 +62,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         Album album = albumList.get(position);
         holder.title.setText(album.getName());
         holder.count.setText("₹ " + album.getNumOfSongs() );
-
+        Log.v("link of album",album.getLink());
+        Log.v("aid",album.getAid());
         //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
         Picasso.with(mContext).load(album.getLink()).fit().into(holder.thumbnail);
         final String aid=album.getAid();

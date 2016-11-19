@@ -42,15 +42,11 @@ public class Category_List extends AppCompatActivity {
         textView.setText(cat);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         toolbar= (Toolbar) findViewById(R.id.toolbar1);
-        //setSupportActionBar(toolbar);
-        //toolbar.setTitle("MANNNNNYNYYYYYY");
         toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent intent= new Intent(AdActivity.this,Category_List.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //startActivity(intent);
+
                 finish();
             }
         });

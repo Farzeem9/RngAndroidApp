@@ -1,6 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +20,27 @@ import android.widget.SpinnerAdapter;
 public class NewAdActivity extends AppCompatActivity {
 
     private Toolbar toolbar=null;
-    private String[] category=null;
+    private Fragment fragment;
+    @Override
+    public void onBackPressed() {
+        if(fragment.isVisible()) {
+         if(fragment instanceof AdFragment)
+         {
+             AdFragment a=(AdFragment)fragment;
+             if(a.imageshown)
+             {
+                a.hidePager();
+             }
+         }
+         if(fragment instanceof ServiceFragment)
+         {
+             ServiceFragment sf=(ServiceFragment)fragment;
+
+         }
+            return;
+        }
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +48,7 @@ public class NewAdActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_new_ad);
         String selection=getIntent().getStringExtra("fragment");
-        category = getResources().getStringArray(R.array.type);
+        String[] category = getResources().getStringArray(R.array.type);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,11 +84,13 @@ public class NewAdActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==1){
                     FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fl_category,new AdFragment()).commit();
+                    fragment=new AdFragment();
+                    fragmentTransaction.replace(R.id.fl_category,fragment).commit();
                 }
                 if(position==2){
                     FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fl_category,new ServiceFragment()).commit();
+                    fragment=new ServiceFragment();
+                    fragmentTransaction.replace(R.id.fl_category,fragment).commit();
                 }
             }
 
@@ -75,7 +98,6 @@ public class NewAdActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_our,menu);
