@@ -110,6 +110,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             }
         });
         viewPager.setAdapter(imageFragmentPagerAdapter);
+        Log.v("Offscreen",Integer.toString(viewPager.getOffscreenPageLimit()));
         recyclerView=(RecyclerView)view.findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -355,6 +356,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 hidePager();
             }
         }));
+
     }
 
     private static Uri getOutputMediaFileUri(){
@@ -602,13 +604,12 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 @Override
                 public void onClick(View v) {
                     reInstantiatePager();
+                    reInstantiatePager();
                     currentpos=position;
                     imageshown=true;
                     viewPager.setVisibility(View.VISIBLE);
                     setasthumb.setVisibility(View.VISIBLE);
                     viewPager.setCurrentItem(position);
-
-
                 }
             });
             holder.del.setOnClickListener(new View.OnClickListener() {
