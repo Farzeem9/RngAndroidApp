@@ -72,9 +72,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private final int CAMERA_PIC_REQUEST = 10;
     private final int CITY_SEARCH_REQUEST = 123;
-    private int mShortAnimationDuration;
-    private View thumbView;
-    private ImageView neversee;
     private RecyclerView recyclerView;
     private HorizontalAdapter horizontalAdapter;
     private String item,number,f1="",f2="";
@@ -83,7 +80,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
      * Adding unzoom methods vars here
      * change later to some better code
      */
-    private float startScale;
     boolean imageshown=false;
 
 
@@ -164,7 +160,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             @Override
             public void onClick(View v) {
                 Intent data= new Intent(getActivity(),SearchActivity.class);
-                startActivityForResult(data,123);
+                startActivityForResult(data,CITY_SEARCH_REQUEST);
             }
         });
         city=(TextView)view.findViewById(R.id.tv_city);
@@ -209,13 +205,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
-                                                  //Toast.makeText(NewAdActivity.this, item, Toast.LENGTH_SHORT).show();
-                                                  if (item == "Mobiles") {
-                                                      Toast.makeText(getContext(), "Mobiles", Toast.LENGTH_SHORT).show();
-                                                  }
-                                                  if (item == "Cars") {
-                                                      Toast.makeText(getContext(), "Cars", Toast.LENGTH_SHORT).show();
-                                                  }
+
                                               }
 
                                               @Override
@@ -616,12 +606,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 @Override
                 public void onClick(View view) {
                     images.remove(position);
-                    if(currentpos==position) {
+                    if(currentpos==position||thumbnail==position) {
                         currentpos = 0;
                         thumbnail = 0;
                     }
                     notifyDataSetChanged();
-
                     reInstantiatePager();                }
             });
             if(position==thumbnail)
@@ -648,7 +637,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
                 del=(ImageButton)view.findViewById(R.id.yes_bt);
                 i=(ImageView)view.findViewById(R.id.act_image);
-                //set=(Button)view.findViewById(R.id.button);
             }
         }
     }
