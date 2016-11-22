@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RateActivity" />
+        <activity android:name=".Service_Category" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".MyAdActivity" />

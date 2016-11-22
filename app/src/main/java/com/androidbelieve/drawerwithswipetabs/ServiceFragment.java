@@ -401,16 +401,8 @@ public class ServiceFragment extends Fragment {
                     }
                 });
                 g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
+                g.setImagePost(images,0);
                 int i=0;
-                for(Bitmap b:images)
-                {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
-                    Log.v("EncodedString", encodedString);
-                    Log.v("image", "image" + Integer.toString(i));
-                    g.setExtraPost("image"+Integer.toString(i++),encodedString);
-                }
-                i=0;
                 for(String x:links)
                 {
                     g.setExtraPost("link"+Integer.toString(i++),x);

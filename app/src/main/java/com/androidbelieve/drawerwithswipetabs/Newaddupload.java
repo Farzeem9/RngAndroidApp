@@ -114,7 +114,10 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
         progress.dismiss();
         if(result!=null)
         {
+            if(result.contains("success"))
+            {
 
+            }
             /*try {
             Integer.parseInt(result);
             new AdFragment.UploadAd(images,result).execute();
