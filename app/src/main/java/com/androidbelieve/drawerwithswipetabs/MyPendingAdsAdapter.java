@@ -84,15 +84,15 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
                 showPopupMenu(holder.overflow);
             }
         });
-        //holder.ads.setOnClickListener(new View.OnClickListener() {
-        // @Override
-        //  public void onClick(View view) {
-        //  Intent i=new Intent(mContext,AdActivity.class);
-        // i.putExtra("AID",aid);
-        // mContext.startActivity(i);
+        holder.ads.setOnClickListener(new View.OnClickListener() {
+         @Override
+          public void onClick(View view) {
+          Intent i=new Intent(mContext,AdActivity.class);
+         i.putExtra("AID",aid);
+         mContext.startActivity(i);
 
-        //}
-        //});
+        }
+        });
         holder.setIsRecyclable(false);
 
         Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);

@@ -4,13 +4,26 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,41 +34,8 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
-
-import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.androidbelieve.drawerwithswipetabs.DescriptionAnimation;
-import com.androidbelieve.drawerwithswipetabs.SliderLayout;
-import com.androidbelieve.drawerwithswipetabs.BaseSliderView;
-import com.androidbelieve.drawerwithswipetabs.TextSliderView;
-import com.androidbelieve.drawerwithswipetabs.ViewPagerEx;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.concurrent.Exchanger;
-
-
-public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
-
+public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
     private TextView name,desc,rent,date,subcat,age,projlinks;
     private String sid;
@@ -76,7 +56,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_service);
+        setContentView(R.layout.activity_my_service);
         radioGroup= (RadioGroup) findViewById(R.id.rg_period);
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);
@@ -114,7 +94,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         progressDialog.setIndeterminate(true);
         progressDialog.show();
 
-        getAd=new GetAd(sid,AccessToken.getCurrentAccessToken().getUserId());
+        getAd=new GetAd(sid, AccessToken.getCurrentAccessToken().getUserId());
         getAd.execute();
         genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
             @Override
@@ -131,15 +111,13 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String abc= checkedId+"";
-                Toast.makeText(ServiceActivity.this,abc, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyServiceActivity.this,abc, Toast.LENGTH_SHORT).show();
                 RadioButton rb=(RadioButton)findViewById(checkedId);
                 rentperiod=rb.getText().toString();
                 selected=true;
             }
         });
-
     }
-
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
