@@ -592,12 +592,13 @@ public class ServiceFragment extends Fragment {
             holder.i.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    images.remove(position);
-                    if(thumbnail==position) {
-                        thumbnail = 0;
-                    }
-                    notifyDataSetChanged();
                     reInstantiatePager();
+                    reInstantiatePager();
+                    imageshown=true;
+                    viewPager.setVisibility(View.VISIBLE);
+                    setasthumb.setVisibility(View.VISIBLE);
+                    viewPager.setCurrentItem(position);
+
                 }
             });
             if(position==thumbnail)
