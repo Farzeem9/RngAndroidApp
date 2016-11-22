@@ -67,7 +67,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         setContentView(R.layout.activity_my_ad);
 
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        rating_comments= (Button) findViewById(R.id.btn_rate_comment);
+        //rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
@@ -91,14 +91,14 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
-        rating_comments.setClickable(false);
+        //rating_comments.setClickable(false);
         new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
         new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
                 ratingBar.setProgress(i);
-                rating_comments.setClickable(true);
+              //  rating_comments.setClickable(true);
             }
         }).execute();
     }

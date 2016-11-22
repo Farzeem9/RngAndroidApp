@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -29,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,13 +39,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ServiceFragment extends Fragment {
-    View view;
+    private View view;
+    private ArrayList<String>links;
+    private TextView tel;
     private Spinner spinner;
     private Spinner spinner2;
     private Animator mCurrentAnimator;
@@ -55,7 +55,9 @@ public class ServiceFragment extends Fragment {
     private Fragment fragment;
     private int num;
     private ArrayList<Bitmap>images;
+    protected ListView lvlinks;
     private ImageButton btnGal,btnPhoto;
+    LinksAdapter linksAdapter;
     // private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
     private Button btnSignUp;
     public ServiceFragment() {
@@ -66,7 +68,7 @@ public class ServiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_service_frgment, container, false);
+        view = inflater.inflate(R.layout.fragment_service, container, false);
         spinner = (Spinner) (view).findViewById(R.id.sp_types);
         final List<String> categories = new ArrayList<String>();
         spinner2 = (Spinner) (view).findViewById(R.id.sp_subtypes);
@@ -96,6 +98,14 @@ public class ServiceFragment extends Fragment {
         spinner.setAdapter(dataAdapter);
         spinner2.setAdapter(dataAdapter2);
 
+        tel=(TextView)view.findViewById(R.id.tv_lll);
+        tel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getContext(),AdLinksActivity.class),22);
+            }
+        });
+
         thumbView=(View)view.findViewById(R.id.thumb_button_1);
         recyclerView=(RecyclerView)view.findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
@@ -104,6 +114,9 @@ public class ServiceFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(horizontalAdapter);
         btnGal=(ImageButton)view.findViewById(R.id.btn_select);
+        lvlinks=(ListView)view.findViewById(R.id.lv_links);
+        setListViewHeightBasedOnChildren(lvlinks);
+        linksAdapter=new LinksAdapter();
         btnGal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -488,6 +501,28 @@ public class ServiceFragment extends Fragment {
             num=images.size();
             horizontalAdapter.notifyDataSetChanged();
         }
+        if(requestCode == 22)
+        {
+            links=data.getStringArrayListExtra("links");
+            Log.v("ARRAYLISST",links.get(1).toString());
+
+            int l = links.size();
+            lvlinks.setVisibility(View.VISIBLE);
+            setListViewHeightBasedOnChildren(lvlinks);
+
+            lvlinks.setOnTouchListener(new View.OnTouchListener() {
+                // Setting on Touch Listener for handling the touch inside ScrollView
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // Disallow the touch request for parent scroll on touch of child view
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+            lvlinks.setAdapter(linksAdapter);
+            int h =  50*l;
+            lvlinks.setMinimumHeight(h);
+        }
         /*if(requestCode== 1)
         {
             /*Uri selectedImage = data.getData();
@@ -576,10 +611,89 @@ public class ServiceFragment extends Fragment {
 
             public MyViewHolder(View view) {
                 super(view);
-                del=(ImageButton)view.findViewById(R.id.yes_bt);
-                i=(ImageView)view.findViewById(R.id.act_image);
+                del = (ImageButton) view.findViewById(R.id.yes_bt);
+                i = (ImageView) view.findViewById(R.id.act_image);
                 //set=(Button)view.findViewById(R.id.button);
             }
         }
+    }
+    class LinksAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return links.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return links.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View convertView, ViewGroup viewGroup) {
+            LinksHolder holder = null;
+            if (convertView == null) {
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                convertView = inflater.inflate(R.layout.card_link, null);//Null for whole xml document
+                holder = new LinksHolder();
+                holder.ltv = (TextView) convertView.findViewById(R.id.tv_link_display);
+                holder.itv = (ImageView)convertView.findViewById(R.id.bt_link_remove);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (LinksHolder) convertView.getTag();
+            }
+            String cur_link=links.get(i).toString();
+            Toast.makeText(getContext(), "1" + cur_link, Toast.LENGTH_SHORT).show();
+            Log.v("Current",cur_link);
+            holder.ltv.setText(cur_link);
+            holder.ltv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String a="http://"+links.get(i).toString();
+                    Intent intent=new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(a));
+                    startActivity(intent);
+                }
+            });
+            holder.itv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    links.remove(i);
+                    lvlinks.setAdapter(linksAdapter);
+                }
+            });
+            return convertView;
+        }
+    }
+    class LinksHolder {
+        TextView ltv;
+        ImageView itv;
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, RecyclerView.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }
