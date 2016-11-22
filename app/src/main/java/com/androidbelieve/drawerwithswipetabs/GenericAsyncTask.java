@@ -50,7 +50,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
         int n=Params.length;
         StringBuffer sb=new StringBuffer(postdata);
         sb.append("&"+URLEncoder.encode(Params[0])+"="+URLEncoder.encode(Params[1]));
-        for(int i=1;i<n;i++)
+        for(int i=2;i<n;i++)
             sb.append("&"+URLEncoder.encode(Params[i])+"="+URLEncoder.encode(Params[i+1]));
         Log.v("sbtostring",sb.toString());
         postdata=sb.toString();

@@ -6,8 +6,36 @@
     tools:context="com.androidbelieve.drawerwithswipetabs.ServiceFragment"
     android:id="@+id/container"
     >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:id="@+id/rel1">
 
-        <ScrollView
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+
+        <Button
+            android:id="@+id/thumb_button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:text="Set as Thumbnail"
+            android:contentDescription="avc"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:src="@android:mipmap/sym_def_app_icon"
+            android:hapticFeedbackEnabled="true"
+            />
+    </RelativeLayout>
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -146,6 +174,27 @@
                         android:minLines="3"
                         />
                 </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_prent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp">
+
+                        <EditText
+                            android:id="@+id/input_prent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Start Range"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="15dp"/>
+                    </android.support.design.widget.TextInputLayout>
+                </android.support.v7.widget.CardView>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -168,6 +217,30 @@
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City :"
+                    android:textSize="18sp"
+                    android:id="@+id/tv_city"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="7dp"
+                    android:paddingBottom="15dp"/>
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/red"
+                    android:text="Location"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    android:id="@+id/btn_location"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@+id/tv_city"
+                    android:layout_marginTop="15dp" />
+            </RelativeLayout>
 
             <ListView
                 android:layout_marginTop="10dp"
@@ -191,26 +264,11 @@
 
             <Button
                 android:layout_width="match_parent"
+                android:id="@+id/submit"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="SEND SERVICE"
                 android:layout_marginBottom="20dp"/>
         </LinearLayout>
         </ScrollView>
-    <ImageButton
-        android:id="@+id/thumb_button_1"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:visibility="gone"
-        android:layout_marginRight="1dp"
-        android:scaleType="centerCrop"
-        android:contentDescription="avc"
-        android:src="@android:mipmap/sym_def_app_icon"/>
-
-    <ImageView
-        android:id="@+id/expanded_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:contentDescription="@string/description_zoom_touch_close" />
 </FrameLayout>

@@ -72,6 +72,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

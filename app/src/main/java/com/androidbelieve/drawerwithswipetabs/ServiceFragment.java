@@ -13,10 +13,14 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,23 +37,39 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
+import com.facebook.AccessToken;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import static android.graphics.BitmapFactory.decodeFile;
+
 public class ServiceFragment extends Fragment {
     private View view;
     private ArrayList<String>links;
+    private boolean imageshown=false;
+    private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    private ViewPager viewPager;
+    private Uri fileUri;
     private TextView tel;
     private Spinner spinner;
+    private Button location;
+    private static final int CITY_SEARCH_REQUEST=123;
     private Spinner spinner2;
-    private Animator mCurrentAnimator;
     private int CAMERA_PIC_REQUEST = 10;
-    private int mShortAnimationDuration;
-    private View thumbView;
-    private ImageView neversee;
     private RecyclerView recyclerView;
     private HorizontalAdapter horizontalAdapter;
     private Fragment fragment;
@@ -57,9 +77,13 @@ public class ServiceFragment extends Fragment {
     private ArrayList<Bitmap>images;
     protected ListView lvlinks;
     private ImageButton btnGal,btnPhoto;
+    private String item;
     LinksAdapter linksAdapter;
-    // private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
+    private EditText inputPname,inputPdesc,inputPrent;
+    private TextView city;
     private Button btnSignUp;
+    private String subcat;
+    private Button setasthumb;
     public ServiceFragment() {
         // Required empty public constructor
     }
@@ -69,6 +93,12 @@ public class ServiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_service, container, false);
+        city=(TextView)view.findViewById(R.id.tv_city);
+        inputPname = (EditText) view.findViewById(R.id.input_pname);
+        inputPdesc = (EditText) view.findViewById(R.id.input_pdesc);
+        inputPrent = (EditText) view.findViewById(R.id.input_prent);
+        btnSignUp=(Button)view.findViewById(R.id.submit);
+        setasthumb=(Button)view.findViewById(R.id.thumb_button_1);
         spinner = (Spinner) (view).findViewById(R.id.sp_types);
         final List<String> categories = new ArrayList<String>();
         spinner2 = (Spinner) (view).findViewById(R.id.sp_subtypes);
@@ -105,8 +135,14 @@ public class ServiceFragment extends Fragment {
                 startActivityForResult(new Intent(getContext(),AdLinksActivity.class),22);
             }
         });
-
-        thumbView=(View)view.findViewById(R.id.thumb_button_1);
+        viewPager=(ViewPager)view.findViewById(R.id.pager);
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        });
+        viewPager.setAdapter(imageFragmentPagerAdapter);
         recyclerView=(RecyclerView)view.findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -120,14 +156,12 @@ public class ServiceFragment extends Fragment {
         btnGal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(Intent.createChooser(i,"Select Picture"), 1);*/
-                if(num==5) {
+                if(images.size()==5) {
                     Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //ImagePicker.create(fragment).folderMode(true).folderTitle("All pictures").multi().limit(5-num).start(1);
+                ImagePicker.create(fragment).folderMode(true).folderTitle("All pictures").multi().limit(5-images.size()).start(1);
+
 
             }
         });
@@ -138,29 +172,26 @@ public class ServiceFragment extends Fragment {
                 //addImageView(pics);
                /* Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(data, CAMERA_PIC_REQUEST);*/
-                if(num==5) {
+                if(images.size()==5) {
                     Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                fileUri = getOutputMediaFileUri();
+                data.putExtra( MediaStore.EXTRA_OUTPUT, fileUri );
+
                 startActivityForResult(data, CAMERA_PIC_REQUEST);
 
             }
         });
 
         fragment=this;
-        num=0;
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                        /*if (item == "Select Category"){
-                            categories2.clear();
-                            categories2.add("Select Sub-Category");
-                        }*/
-                //Toast.makeText(NewAdActivity.this, item, Toast.LENGTH_SHORT).show();
+               item = parent.getItemAtPosition(position).toString();
                 if (item == "Graphics and Design") {
                     Toast.makeText(getContext(), "Graphics and Design", Toast.LENGTH_SHORT).show();
                     categories2.clear();
@@ -345,167 +376,176 @@ public class ServiceFragment extends Fragment {
             }
         });
 
-        return view;
-    }
-    private void zoomImageFromThumb(final View thumbView, Bitmap imageResId) {
-        // If there's an animation in progress, cancel it
-        // immediately and proceed with this one.
-        if (mCurrentAnimator != null) {
-            mCurrentAnimator.cancel();
-        }
-
-        // Load the high-resolution "zoomed-in" image.
-        final ImageView expandedImageView = (ImageView) view.findViewById(
-                R.id.expanded_image);
-        expandedImageView.setImageBitmap(imageResId);
-
-        // Calculate the starting and ending bounds for the zoomed-in image.
-        // This step involves lots of math. Yay, math.
-        final Rect startBounds = new Rect();
-        final Rect finalBounds = new Rect();
-        final Point globalOffset = new Point();
-
-        // The start bounds are the global visible rectangle of the thumbnail,
-        // and the final bounds are the global visible rectangle of the container
-        // view. Also set the container view's offset as the origin for the
-        // bounds, since that's the origin for the positioning animation
-        // properties (X, Y).
-        thumbView.getGlobalVisibleRect(startBounds);
-        view.findViewById(R.id.container)
-                .getGlobalVisibleRect(finalBounds, globalOffset);
-        startBounds.offset(-globalOffset.x, -globalOffset.y);
-        finalBounds.offset(-globalOffset.x, -globalOffset.y);
-
-        // Adjust t;he start bounds to be the same aspect ratio as the final
-        // bounds using the "center crop" technique. This prevents undesirable
-        // stretching during the animation. Also calculate the start scaling
-        // factor (the end scaling factor is always 1.0).
-        float startScale;
-        if ((float) finalBounds.width() / finalBounds.height()
-                > (float) startBounds.width() / startBounds.height()) {
-            // Extend start bounds horizontally
-            startScale = (float) startBounds.height() / finalBounds.height();
-            float startWidth = startScale * finalBounds.width();
-            float deltaWidth = (startWidth - startBounds.width()) / 2;
-            startBounds.left -= deltaWidth;
-            startBounds.right += deltaWidth;
-        } else {
-            // Extend start bounds vertically
-            startScale = (float) startBounds.width() / finalBounds.width();
-            float startHeight = startScale * finalBounds.height();
-            float deltaHeight = (startHeight - startBounds.height()) / 2;
-            startBounds.top -= deltaHeight;
-            startBounds.bottom += deltaHeight;
-        }
-
-        // Hide the thumbnail and show the zoomed-in view. When the animation
-        // begins, it will position the zoomed-in view in the place of the
-        // thumbnail.
-        thumbView.setAlpha(0f);
-        expandedImageView.setVisibility(View.VISIBLE);
-
-        // Set the pivot point for SCALE_X and SCALE_Y transformations
-        // to the top-left corner of the zoomed-in view (the default
-        // is the center of the view).
-        expandedImageView.setPivotX(0f);
-        expandedImageView.setPivotY(0f);
-
-        // Construct and run the parallel animation of the four translation and
-        // scale properties (X, Y, SCALE_X, and SCALE_Y).
-        AnimatorSet set = new AnimatorSet();
-        set
-                .play(ObjectAnimator.ofFloat(expandedImageView, View.X,
-                        startBounds.left, finalBounds.left))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.Y,
-                        startBounds.top, finalBounds.top))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X,
-                        startScale, 1f)).with(ObjectAnimator.ofFloat(expandedImageView,
-                View.SCALE_Y, startScale, 1f));
-        set.setDuration(mShortAnimationDuration);
-        set.setInterpolator(new DecelerateInterpolator());
-        set.addListener(new AnimatorListenerAdapter() {
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                mCurrentAnimator = null;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+                subcat=parent.getItemAtPosition(position).toString();
             }
 
             @Override
-            public void onAnimationCancel(Animator animation) {
-                mCurrentAnimator = null;
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
-        set.start();
-        mCurrentAnimator = set;
-
-        // Upon clicking the zoomed-in image, it should zoom back down
-        // to the original bounds and show the thumbnail instead of
-        // the expanded image.
-        final float startScaleFinal = startScale;
-        expandedImageView.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCurrentAnimator != null) {
-                    mCurrentAnimator.cancel();
-                }
-
-                // Animate the four positioning/sizing properties in parallel,
-                // back to their original values.
-                AnimatorSet set = new AnimatorSet();
-                set.play(ObjectAnimator
-                        .ofFloat(expandedImageView, View.X, startBounds.left))
-                        .with(ObjectAnimator
-                                .ofFloat(expandedImageView,
-                                        View.Y,startBounds.top))
-                        .with(ObjectAnimator
-                                .ofFloat(expandedImageView,
-                                        View.SCALE_X, startScaleFinal))
-                        .with(ObjectAnimator
-                                .ofFloat(expandedImageView,
-                                        View.SCALE_Y, startScaleFinal));
-                set.setDuration(mShortAnimationDuration);
-                set.setInterpolator(new DecelerateInterpolator());
-                set.addListener(new AnimatorListenerAdapter() {
+                //add validation here
+                GenericAsyncTask g=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/new service.php", "", new AsyncResponse() {
                     @Override
-                    public void onAnimationEnd(Animator animation) {
-                        thumbView.setAlpha(1f);
-                        expandedImageView.setVisibility(View.GONE);
-                        mCurrentAnimator = null;
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                        thumbView.setAlpha(1f);
-                        expandedImageView.setVisibility(View.GONE);
-                        mCurrentAnimator = null;
+                    public void processFinish(Object output) {
+                        if(output!=null) {
+                            getActivity().finish();
+                        Log.v("result",(String)output);
+                        }
                     }
                 });
-                set.start();
-                mCurrentAnimator = set;
+                g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
+                int i=0;
+                for(Bitmap b:images)
+                {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
+                    Log.v("EncodedString", encodedString);
+                    Log.v("image", "image" + Integer.toString(i));
+                    g.setExtraPost("image"+Integer.toString(i++),encodedString);
+                }
+                i=0;
+                for(String x:links)
+                {
+                    g.setExtraPost("link"+Integer.toString(i++),x);
+                }
+
+                g.execute();
             }
         });
+        location=(Button)view.findViewById(R.id.btn_location);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent data= new Intent(getActivity(),SearchActivity.class);
+                startActivityForResult(data,CITY_SEARCH_REQUEST);
+            }
+        });
+
+
+        setasthumb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageshown=false;
+                Collections.swap(images,0,viewPager.getCurrentItem());
+                horizontalAdapter.setPosition(0);
+                Toast.makeText(getContext(), "Changed Thumbnail", Toast.LENGTH_SHORT).show();
+                hidePager();
+                horizontalAdapter.notifyDataSetChanged();
+                reInstantiatePager();
+            }
+        });
+
+        return view;
     }
+
+    void hidePager()
+    {
+        imageshown=false;
+        Log.v("Clicked","Hidden?");
+        viewPager.setVisibility(View.GONE);
+        setasthumb.setVisibility(View.GONE);
+
+    }
+
+    void reInstantiatePager()
+    {
+        viewPager.setAdapter(null);
+        viewPager.setAdapter(new ImageFragmentPagerAdapter(getFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        }));
+
+    }
+
+;
+
+    private static Uri getOutputMediaFileUri(){
+        return Uri.fromFile(getOutputMediaFile());
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "RnG");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
+
+        return mediaFile;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //
         //super.onActivityResult(requestCode,resultCode,data);
         Log.v("Check", "Checking");
-        if(!(num<5)&&(!(images.size()<5)))
-            return;
-        if(data==null||resultCode!= Activity.RESULT_OK)
+        Log.v("Check", "Checking");
+
+        if (data == null || resultCode != Activity.RESULT_OK)
             return;
         if (requestCode == CAMERA_PIC_REQUEST) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
+            if (images.size() == 5)
+                return;
+            Bitmap image = null;
+            getActivity().getContentResolver().notifyChange(fileUri, null);
+            try {
+                image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fileUri);
+                int nh = (int) ( image.getHeight() * (1080.0 / image.getWidth()) );
+                image=Bitmap.createScaledBitmap(image, 1080, nh, true);
+                images.add(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Log.v("Bitmap", image.toString());
-            image=Bitmap.createScaledBitmap(image,300,300,false);
-            images.add(image);
-            num=images.size();
+
             horizontalAdapter.notifyDataSetChanged();
+            reInstantiatePager();        }
+        if (requestCode == 1) {
+            if (images.size() == 5)
+                return;
+            Log.v("Trying", "trying");
+            ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
+            for (Image x : imagesfrompicker) {
+                String picturePath = x.getPath();
+                Bitmap b = decodeFile(picturePath);
+
+                images.add(b);
+            }
+            horizontalAdapter.notifyDataSetChanged();
+            reInstantiatePager();        }
+        else if (requestCode==CITY_SEARCH_REQUEST) {
+            Log.v("Trying","trying");
+            Log.v("data",data.getStringExtra("data"));
+            String value = data.getStringExtra("data");
+            city.setText(value);
         }
         if(requestCode == 22)
         {
             links=data.getStringArrayListExtra("links");
-            Log.v("ARRAYLISST",links.get(1).toString());
-
             int l = links.size();
             lvlinks.setVisibility(View.VISIBLE);
             setListViewHeightBasedOnChildren(lvlinks);
@@ -523,48 +563,20 @@ public class ServiceFragment extends Fragment {
             int h =  50*l;
             lvlinks.setMinimumHeight(h);
         }
-        /*if(requestCode== 1)
-        {
-            /*Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            int count=cursor.getCount();
-            if(count+num>=5)
-                count=5-num;
-            for(int i=0;i<count;i++) {
-                cursor.moveToPosition(i);
-                String picturePath = cursor.getString(columnIndex);
-                Bitmap b=BitmapFactory.decodeFile(picturePath);
-                addImageView(pics,b);
-                images.add(b);
-
-            }
-            num+=count;
-            cursor.close();
-
-            ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
-            for(Image x:imagesfrompicker)
-            {
-                String picturePath = x.getPath();
-                Bitmap b=BitmapFactory.decodeFile(picturePath);
-                addImageView(pics,b);
-                images.add(b);
-                num++;
-            }
-        }*/
-
     }
     class HorizontalAdapter  extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;
-
+        private int thumbnail=0;
         public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
             this.mContext = mContext;
             this.images=images;
             Log.v("Adapter created","Created");
 
+        }
+        void setPosition(int i)
+        {
+            thumbnail=i;
         }
 
         @Override
@@ -587,18 +599,32 @@ public class ServiceFragment extends Fragment {
             holder.i.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    zoomImageFromThumb(thumbView,images.get(position));
+                    images.remove(position);
+                    if(thumbnail==position) {
+                        thumbnail = 0;
+                    }
+                    notifyDataSetChanged();
+                    reInstantiatePager();
                 }
             });
+            if(position==thumbnail)
+            {
+                holder.relativeLayout.setBackgroundResource(R.drawable.background_border);
+            }
+            else
+                holder.relativeLayout.setBackgroundResource(R.drawable.empty);
+
             holder.del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     images.remove(position);
+                    if(thumbnail==position) {
+                        thumbnail = 0;
+                    }
                     notifyDataSetChanged();
-                }
+                    reInstantiatePager();                }
             });
-        }
-
+    }
         @Override
         public int getItemCount() {
             return images.size();
@@ -608,11 +634,12 @@ public class ServiceFragment extends Fragment {
             Button set;
             ImageView i;
             ImageButton del;
-
+            RelativeLayout relativeLayout;
             public MyViewHolder(View view) {
                 super(view);
                 del = (ImageButton) view.findViewById(R.id.yes_bt);
                 i = (ImageView) view.findViewById(R.id.act_image);
+                relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
                 //set=(Button)view.findViewById(R.id.button);
             }
         }
