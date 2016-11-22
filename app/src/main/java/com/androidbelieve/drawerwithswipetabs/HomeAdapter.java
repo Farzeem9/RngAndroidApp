@@ -41,6 +41,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         holder.category.setText(categories.get(position));
         holder.imageButton.setImageResource(R.drawable.ic_arrow_back);
+
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

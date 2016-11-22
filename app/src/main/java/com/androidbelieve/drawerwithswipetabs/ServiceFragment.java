@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
