@@ -56,7 +56,7 @@ public class NewAdActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);}
         //toolbar.setLogo(R.drawable.ic_dots);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.backarrow));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,38 +66,20 @@ public class NewAdActivity extends AppCompatActivity {
             }
         });
 
-        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.type, R.layout.spinner_dropdown_item);
-        Spinner navigationSpinner = new Spinner(getSupportActionBar().getThemedContext());
-        navigationSpinner.setAdapter(spinnerAdapter);
-        toolbar.addView(navigationSpinner, 0);
+
         if(selection.equals("newad"))
         {
-            navigationSpinner.setSelection(1);
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragment=new AdFragment();
+            fragmentTransaction.replace(R.id.fl_category,fragment).commit();
         }
         else
         {
-            navigationSpinner.setSelection(2);
+            FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragment=new ServiceFragment();
+            fragmentTransaction.replace(R.id.fl_category,fragment).commit();
         }
 
-        navigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==1){
-                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragment=new AdFragment();
-                    fragmentTransaction.replace(R.id.fl_category,fragment).commit();
-                }
-                if(position==2){
-                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragment=new ServiceFragment();
-                    fragmentTransaction.replace(R.id.fl_category,fragment).commit();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_our,menu);

@@ -6,7 +6,7 @@
         <item android:id="@+id/action_share" android:title="share"
             android:orderInCategory="100" app:showAsAction="always" android:icon="@android:drawable/ic_menu_share"/>
         <item android:id="@+id/action_wishlist" android:title="Add to Wishlist"
-            app:showAsAction="always" android:icon="@android:drawable/btn_star_big_off"
+            app:showAsAction="always" android:icon="@drawable/add_to_whishlist"
             android:orderInCategory="99"/>
 
 </menu>

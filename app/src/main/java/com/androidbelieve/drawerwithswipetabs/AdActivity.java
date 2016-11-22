@@ -364,13 +364,13 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 String out=(String)output;
                 if(out.equals("1"))
                 {
-                    star.setIcon(android.R.drawable.btn_star_big_on);
+                    star.setIcon(R.drawable.added_to_wishlist);
                     set=!set;
                     Log.v("output of async",out);
                 }
                 else
                 {
-                    star.setIcon(android.R.drawable.btn_star_big_off);
+                    star.setIcon(R.drawable.add_to_whishlist);
                     set=false;
                     Log.v("output of async",out);
                 }
@@ -394,9 +394,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                     @Override
                     public void processFinish(Object output) {
                     if(set)
-                        star.setIcon(android.R.drawable.btn_star_big_off);
+                        star.setIcon(R.drawable.add_to_whishlist);
                     else
-                        star.setIcon(android.R.drawable.btn_star_big_on);
+                        star.setIcon(R.drawable.added_to_wishlist);
 
                     set=!set;
                     }
