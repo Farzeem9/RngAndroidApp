@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity{
     DrawerLayout mDrawerLayout;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity{
     FragmentTransaction mFragmentTransaction;
     android.support.v7.widget.Toolbar toolbar;
     private boolean home=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

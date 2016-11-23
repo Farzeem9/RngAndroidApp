@@ -88,7 +88,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         holder.ads.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
-          Intent i=new Intent(mContext,AdActivity.class);
+          Intent i=new Intent(mContext,MyServiceActivity.class);
          i.putExtra("SID",aid);
          mContext.startActivity(i);
 
@@ -130,8 +130,8 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
             switch (menuItem.getItemId()) {
                 case R.id.action_edit: {
                     Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(mContext,EditAdActivity.class);
-                    intent.putExtra("AID",MyServices.getAid());
+                    Intent intent=new Intent(mContext,EditServiceActivity.class);
+                    intent.putExtra("sid",MyServices.getAid());
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {

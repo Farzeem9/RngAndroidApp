@@ -44,13 +44,6 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fabad;
     private boolean shown=false;
 
-public void onDone(View v)
-{
-    Intent i=new Intent(getActivity(),EditServiceActivity.class);
-    i.putExtra("sid","2");
-    startActivity(i);
-}
-
 
     @Nullable
     @Override

@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -59,12 +61,13 @@ import static com.androidbelieve.drawerwithswipetabs.ServiceFragment.setListView
  */
 
 public class EditServiceActivity extends AppCompatActivity {
-    private ArrayList<String> links;
+    private ArrayList<String> links=new ArrayList<>();
     private boolean imageshown=false;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
     private Uri fileUri;
     private TextView tel;
+    final Activity a=this;
     private Spinner spinner;
     private String sid;
     private Button location;
@@ -96,6 +99,30 @@ public class EditServiceActivity extends AppCompatActivity {
         inputPdesc = (EditText) findViewById(R.id.input_pdesc);
         inputPrent = (EditText) findViewById(R.id.input_prent);
         btnSignUp=(Button)findViewById(R.id.submit);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GenericAsyncTask g=new GenericAsyncTask(a, "http://rng.000webhostapp.com/editservice.php", "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        if(output!=null) {
+                            finish();
+                            Log.v("result",(String)output);
+                        }
+                    }
+                });
+                g.setProgressView(true);
+                g.setPostParams("sid",sid,"sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
+                g.setImagePost(images,0);
+                int i=0;
+                for(String x:links)
+                {
+                    g.setExtraPost("link"+Integer.toString(i++),x);
+                }
+
+                g.execute();
+            }
+        });
         setasthumb=(Button)findViewById(R.id.thumb_button_1);
         spinner = (Spinner) findViewById(R.id.sp_types);
         final List<String> categories = new ArrayList<String>();
@@ -152,6 +179,7 @@ public class EditServiceActivity extends AppCompatActivity {
         lvlinks=(ListView)findViewById(R.id.lv_links);
         setListViewHeightBasedOnChildren(lvlinks);
         linksAdapter=new EditServiceActivity.LinksAdapter();
+        final Activity a=this;
         btnGal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +187,7 @@ public class EditServiceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ImagePicker.create(fragment).folderMode(true).folderTitle("All pictures").multi().limit(5-images.size()).start(1);
+                ImagePicker.create(a).folderMode(true).folderTitle("All pictures").multi().limit(5-images.size()).start(1);
 
 
             }
@@ -395,6 +423,8 @@ public class EditServiceActivity extends AppCompatActivity {
 
             }
         });
+        genericAsyncTask.setProgressView(true);
+        genericAsyncTask.execute();
         location=(Button)findViewById(R.id.btn_location);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -420,7 +450,102 @@ public class EditServiceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     *
+     * @param jarray
 
+    private void submitForm()
+    {
+        if (!validatePname())
+        {
+            return;
+        }
+
+        if (!validatePdesc()) {
+            return;
+        }
+
+        if (!validatePage()) {
+            return;
+        }
+        if (!validatePrent()) {
+            return;
+        }
+        if (!validatePdeposit()) {
+            return;
+        }
+
+        Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+    private boolean validatePname() {
+        if (inputPname.getText().toString().trim().isEmpty()) {
+            inputLayoutPname.setError(getString(R.string.err_msg_name));
+            requestFocus(inputPname);
+            return false;
+        } else {
+            inputLayoutPname.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validatePdesc() {
+        if (inputPdesc.getText().toString().trim().isEmpty()) {
+            inputLayoutPdesc.setError(getString(R.string.err_msg_desc));
+            requestFocus(inputPdesc);
+            return false;
+        } else {
+            inputLayoutPdesc.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatePage() {
+        if (inputPage.getText().toString().trim().isEmpty()) {
+            inputLayoutPage.setError(getString(R.string.err_msg_age));
+            requestFocus(inputPage);
+            return false;
+        } else {
+            inputLayoutPage.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatePrent() {
+        if (inputPrent.getText().toString().trim().isEmpty()) {
+            inputLayoutPrent.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrent);
+            return false;
+        } else {
+            inputLayoutPrent.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validatePdeposit() {
+        if (inputPdeposit.getText().toString().trim().isEmpty()) {
+            inputLayoutPdeposit.setError(getString(R.string.err_msg_deposit));
+            requestFocus(inputPdeposit);
+            return false;
+        } else {
+            inputLayoutPdeposit.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+*/
 
     void fillAdd(JSONArray jarray)
     { try {
@@ -433,16 +558,35 @@ public class EditServiceActivity extends AppCompatActivity {
 
         String timestamp=c.getString("TIMESTAMP");
         String city=c.getString("CITY");
+        this.city.setText(city);
         String subcat=c.getString("SUBCAT");
-
+        spinner.setSelection(0);
+        spinner2.setSelection(0);
         JSONArray links=c.getJSONArray("SLINKS");
 
         String allprojlinks="";
         for(int i=0;i<links.length();i++) {
             this.links.add(links.getJSONObject(i).getString("link"));
+            Log.v("links",links.getJSONObject(i).getString("link"));
             allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
         }
-        linksAdapter.notifyDataSetChanged();
+        int l = this.links.size();
+        lvlinks.setVisibility(View.VISIBLE);
+        setListViewHeightBasedOnChildren(lvlinks);
+
+        lvlinks.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        lvlinks.setAdapter(linksAdapter);
+        int h =  50*l;
+        lvlinks.setMinimumHeight(h);
+
 
 
         JSONArray ilinks=c.getJSONArray("LINKS");
@@ -464,6 +608,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
 
         final int length[]={alllinks.size()};
+        Log.v("length",Integer.toString(length[0]));
         for(String x:alllinks) {
 
             Picasso.with(this).load(x).into(new Target() {
