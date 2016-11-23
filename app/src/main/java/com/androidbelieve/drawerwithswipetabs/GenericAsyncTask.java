@@ -3,15 +3,20 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by 20000136 on 11/11/2016.
@@ -44,13 +49,34 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
         Log.v("sbtostring",sb.toString());
         postdata=sb.toString();
     }
+    void setImagePost(ArrayList<Bitmap> images,int x)
+    {
+        int i=x;
+        for(Bitmap b:images)
+        {
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            images.get(i).compress(Bitmap.CompressFormat.PNG, 90, stream);
+            String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
+            //StringBuffer sb=new StringBuffer(postdata);
+            //sb.append("&"+URLEncoder.encode("image"+Integer.toString(i++))+"="+URLEncoder.encode(encodedString));
+            try {
+                postdata+="&"+ URLEncoder.encode("image" + Integer.toString(i++), "UTF-8") + "=" + URLEncoder.encode(encodedString, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
     void setExtraPost(String...Params)
     {   if(!hasPost)
         return;
         int n=Params.length;
+        Log.v("post param",Params[1]);
         StringBuffer sb=new StringBuffer(postdata);
         sb.append("&"+URLEncoder.encode(Params[0])+"="+URLEncoder.encode(Params[1]));
-        for(int i=1;i<n;i++)
+        for(int i=2;i<n;i++)
             sb.append("&"+URLEncoder.encode(Params[i])+"="+URLEncoder.encode(Params[i+1]));
         Log.v("sbtostring",sb.toString());
         postdata=sb.toString();
@@ -94,7 +120,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
             URLConnection con= url.openConnection();
             if(hasPost)
             {
-                Log.v("Postdata",postdata);
+                //Log.v("Postdata",postdata);
                 con.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
                 wr.write(postdata);

@@ -43,6 +43,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         holder.category.setText(categories.get(position));
+
         if(holder.category.getText().toString().equals("Cars")){
             Drawable dr = context.getResources().getDrawable(R.drawable.car);
             Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();

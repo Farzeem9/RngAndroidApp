@@ -478,14 +478,7 @@ public class EditAdActivity extends AppCompatActivity {
         });
         g.setPostParams("aid",aid,"work",Integer.toString(work),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         int i=1;
-        for(Bitmap b:images)
-        {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
-            Log.v("EncodedString", encodedString);
-            Log.v("image", "image" + Integer.toString(i));
-            g.setExtraPost("image"+Integer.toString(i++),encodedString);
-        }
+        g.setImagePost(images,1);
         g.execute();
     }
 
