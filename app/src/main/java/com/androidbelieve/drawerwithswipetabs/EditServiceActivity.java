@@ -563,7 +563,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
     }
 
-
+    ;
 
     private static Uri getOutputMediaFileUri(){
         return Uri.fromFile(getOutputMediaFile());

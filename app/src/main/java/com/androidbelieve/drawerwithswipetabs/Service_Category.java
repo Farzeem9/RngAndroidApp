@@ -37,7 +37,7 @@ public class Service_Category extends AppCompatActivity {
         textView.setText(cat);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         toolbar= (Toolbar) findViewById(R.id.toolbar1);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+        toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +130,7 @@ public class Service_Category extends AppCompatActivity {
                 String sid = ad.getString("SID");
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
                 String timestamp=ad.getString("TIMESTAMP");
-                String subcat=ad.getString("SUBCATEGORY");
+                String subcat=ad.getString("SUBCAT");
 
                 albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
             }
