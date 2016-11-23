@@ -20,7 +20,7 @@ public class ServicePendingFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private ArrayList<MyAds> list_service;
-    MyActiveServiceAdapter serviceAdapter;
+    MyPendingServiceAdapter serviceAdapter;
     public ServicePendingFragment() {
         // Required empty public constructor
     }
@@ -35,7 +35,7 @@ public class ServicePendingFragment extends Fragment {
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_pending_ads);
         recyclerView.setHasFixedSize(true);
         list_service = new ArrayList<>();
-        serviceAdapter=new MyActiveServiceAdapter(getContext(),list_service);
+        serviceAdapter=new MyPendingServiceAdapter(getContext(),list_service);
         new fService("http://rng.000webhostapp.com/myservices.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=PENDING",serviceAdapter,list_service).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);

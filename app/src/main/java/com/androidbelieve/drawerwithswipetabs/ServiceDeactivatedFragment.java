@@ -23,7 +23,7 @@ public class ServiceDeactivatedFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private ArrayList<MyAds> list_service;
-    MyActiveServiceAdapter serviceAdapter;
+    MyDeactiveServiceAdapter serviceAdapter;
 
 
     public ServiceDeactivatedFragment() {
@@ -39,7 +39,7 @@ public class ServiceDeactivatedFragment extends Fragment {
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_pending_ads);
         recyclerView.setHasFixedSize(true);
         list_service = new ArrayList<>();
-        serviceAdapter=new MyActiveServiceAdapter(getContext(),list_service);
+        serviceAdapter=new MyDeactiveServiceAdapter(getContext(),list_service);
         new fService("http://rng.000webhostapp.com/myservices.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=DEACTIVATED",serviceAdapter,list_service).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);

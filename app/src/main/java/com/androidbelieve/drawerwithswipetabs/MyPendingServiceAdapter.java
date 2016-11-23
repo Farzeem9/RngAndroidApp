@@ -32,15 +32,14 @@ public class MyPendingServiceAdapter extends RecyclerView.Adapter<MyPendingServi
 
         public MyViewHolder(View view) {
             super(view);
-            subcat= (TextView) view.findViewById(R.id.tv_subcat);
-            cardView = (CardView) view.findViewById(R.id.card_view_ads);
-            status = (TextView) view.findViewById(R.id.tv_status1);
-            price = (TextView) view.findViewById(R.id.tv_price);
-            specs = (TextView) view.findViewById(R.id.tv_specs);
+            cardView = (CardView) view.findViewById(R.id.card_view_service);
+            status= (TextView) view.findViewById(R.id.tv_status1);
+            price = (TextView) view.findViewById(R.id.tv_rent);
+            specs = (TextView) view.findViewById(R.id.tv_name1);
             date = (TextView) view.findViewById(R.id.tv_date);
             ads = (ImageView) view.findViewById(R.id.iv_ads);
             overflow = (ImageView) view.findViewById(R.id.overflow);
-
+            subcat=(TextView)view.findViewById(R.id.tv_subcat);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

@@ -93,8 +93,10 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         }
         });
         holder.setIsRecyclable(false);
+//        holder.ads.setImageResource(R.drawable.broly);
+     //   Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
+        holder.ads.setImageResource(R.drawable.broly);
 
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override

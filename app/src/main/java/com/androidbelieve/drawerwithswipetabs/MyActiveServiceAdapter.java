@@ -33,7 +33,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         public MyViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_view_service);
-            status = (TextView) view.findViewById(R.id.tv_status1);
+            status= (TextView) view.findViewById(R.id.tv_status1);
             price = (TextView) view.findViewById(R.id.tv_rent);
             specs = (TextView) view.findViewById(R.id.tv_name1);
             date = (TextView) view.findViewById(R.id.tv_date);
