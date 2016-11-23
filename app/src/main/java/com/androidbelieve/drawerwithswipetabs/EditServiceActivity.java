@@ -51,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 
 import static android.graphics.BitmapFactory.decodeFile;
+import static com.androidbelieve.drawerwithswipetabs.ServiceActivity.Month;
 import static com.androidbelieve.drawerwithswipetabs.ServiceFragment.setListViewHeightBasedOnChildren;
 
 /**
@@ -71,7 +72,7 @@ public class EditServiceActivity extends AppCompatActivity {
     private Spinner spinner2;
     private int CAMERA_PIC_REQUEST = 10;
     private RecyclerView recyclerView;
-    private EditServiceActivity.HorizontalAdapter horizontalAdapter;
+    private EditServiceActivity.HorizontalAdapter HorizontalAdapter;
     private Fragment fragment;
     private int num;
     private ArrayList<Bitmap>images;
@@ -144,9 +145,9 @@ public class EditServiceActivity extends AppCompatActivity {
         recyclerView=(RecyclerView)findViewById(R.id.rr);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        horizontalAdapter=new EditServiceActivity.HorizontalAdapter(this,images);
+        HorizontalAdapter=new EditServiceActivity.HorizontalAdapter(this,images);
         recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setAdapter(horizontalAdapter);
+        recyclerView.setAdapter(HorizontalAdapter);
         btnGal=(ImageButton)findViewById(R.id.btn_select);
         lvlinks=(ListView)findViewById(R.id.lv_links);
         setListViewHeightBasedOnChildren(lvlinks);
@@ -409,10 +410,10 @@ public class EditServiceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 imageshown=false;
                 Collections.swap(images,0,viewPager.getCurrentItem());
-                horizontalAdapter.setPosition(0);
+                HorizontalAdapter.setPosition(0);
                 Toast.makeText(getApplicationContext(), "Changed Thumbnail", Toast.LENGTH_SHORT).show();
                 hidePager();
-                horizontalAdapter.notifyDataSetChanged();
+                HorizontalAdapter.notifyDataSetChanged();
                 reInstantiatePager();
             }
         });
@@ -422,62 +423,75 @@ public class EditServiceActivity extends AppCompatActivity {
 
 
     void fillAdd(JSONArray jarray)
-    {/*
-        try {
-            JSONObject c = jarray.getJSONObject(0);
-            String prod_name=c.getString("PROD_NAME");
-            String rent_name=c.getString("RENT");
-            String desc_str=c.getString("DESC");
-            String prod_age=c.getString("PROD_AGE");
-            String sdeposit=c.getString("PROD_DEPOSIT");
-            String duration=c.getString("DURATION");
+    { try {
+        JSONObject c = jarray.getJSONObject(0);
 
-//            String maxrent=c.getString("maxrent");
-//            String crent=c.getString("crent");
-//            String city=c.getString("CITY");
-            JSONArray links=c.getJSONArray("LINKS");
+        String prod_name=c.getString("SNAME");
+        String rent_name=c.getString("RENT");
+        String desc_str=c.getString("DESC");
+        String cat=c.getString("CAT");
 
-            ArrayList<String> alllinks=new ArrayList<>();
-            for(int i=0;i<links.length();i++)
-                alllinks.add(links.getJSONObject(i).getString("link"));
-            final int[] length = {links.length()};
-            name.setText(prod_name);
-            desc.setText(desc_str);
-            rent.setText(rent_name);
-            age.setText(prod_age);
-            deposit.setText(sdeposit);
-//            this.duration.setText(duration);
+        String timestamp=c.getString("TIMESTAMP");
+        String city=c.getString("CITY");
+        String subcat=c.getString("SUBCAT");
 
-            for(String x:alllinks) {
+        JSONArray links=c.getJSONArray("SLINKS");
 
-                Picasso.with(this).load(x).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        length[0]--;
-                        if(length[0]==0)
-                            progress.dismiss();
-                        images.add(bitmap);
-                        HorizontalAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
-                Log.v("link in picasso",x);
-            }
-
+        String allprojlinks="";
+        for(int i=0;i<links.length();i++) {
+            this.links.add(links.getJSONObject(i).getString("link"));
+            allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
         }
-        catch(Exception e) {
-            e.printStackTrace();
+        linksAdapter.notifyDataSetChanged();
+
+
+        JSONArray ilinks=c.getJSONArray("LINKS");
+        ArrayList<String> alllinks=new ArrayList<>();
+        for(int i=0;i<ilinks.length();i++)
+            alllinks.add(ilinks.getJSONObject(i).getString("link"));
+
+        //canrent=c.getString("CANRATE");
+
+
+        /*this.subcat.setText(subcat);
+        name.setText(prod_name);
+        desc.setText(desc_str);
+        rent.setText("₹ "+ rent_name);
+        */
+        inputPname.setText(prod_name);
+        inputPdesc.setText(desc_str);
+        inputPrent.setText(rent_name);
+
+
+        final int length[]={alllinks.size()};
+        for(String x:alllinks) {
+
+            Picasso.with(this).load(x).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    images.add(bitmap);
+                    HorizontalAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+            Log.v("link in picasso",x);
         }
-*/
+
+
+    }
+    catch(Exception e) {
+        e.printStackTrace();
+    }
+
     }
 
 
@@ -620,7 +634,7 @@ public class EditServiceActivity extends AppCompatActivity {
             }
             Log.v("Bitmap", image.toString());
 
-            horizontalAdapter.notifyDataSetChanged();
+            HorizontalAdapter.notifyDataSetChanged();
             reInstantiatePager();        }
         if (requestCode == 1) {
             if (images.size() == 5)
@@ -633,7 +647,7 @@ public class EditServiceActivity extends AppCompatActivity {
 
                 images.add(b);
             }
-            horizontalAdapter.notifyDataSetChanged();
+            HorizontalAdapter.notifyDataSetChanged();
             reInstantiatePager();        }
         else if (requestCode==CITY_SEARCH_REQUEST) {
             Log.v("Trying","trying");

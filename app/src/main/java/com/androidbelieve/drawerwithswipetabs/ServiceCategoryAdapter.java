@@ -57,7 +57,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.service_album, parent, false);
+                .inflate(R.layout.ad_card, parent, false);
 
         return new MyViewHolder(itemView);
     }
