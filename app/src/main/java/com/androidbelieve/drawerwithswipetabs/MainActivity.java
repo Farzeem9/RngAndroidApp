@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
                 else if (menuItem.getItemId() == R.id.nav_myads) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     toolbar.setTitle("MyAds");
-                    xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+                    xfragmentTransaction.replace(R.id.containerView,new ServiceTabFragment()).commit();
                      home=false;
                 }
                 else if (menuItem.getItemId() == R.id.nav_profile) {

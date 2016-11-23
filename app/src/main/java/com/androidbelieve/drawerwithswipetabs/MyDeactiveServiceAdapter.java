@@ -24,19 +24,19 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
     static int pos=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView status,specs,price,date;
+        public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
 
         public MyViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_view_ads);
-            status = (TextView) view.findViewById(R.id.tv_status);
+            status = (TextView) view.findViewById(R.id.tv_status1);
             price = (TextView) view.findViewById(R.id.tv_price);
             specs = (TextView) view.findViewById(R.id.tv_specs);
             date = (TextView) view.findViewById(R.id.tv_date);
             ads = (ImageView) view.findViewById(R.id.iv_ads);
             overflow = (ImageView) view.findViewById(R.id.overflow);
-
+            subcat=(TextView)view.findViewById(R.id.tv_subcat);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -97,7 +97,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ad_card, parent, false);
+                .inflate(R.layout.service_album, parent, false);
 
         return new MyViewHolder(itemView);
     }

@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class MyAds
 {
+        public String subcat;
         private String status;
         private String specs;
         private String price;
@@ -18,7 +19,7 @@ public class MyAds
         private String aid;
         private String link;
         private int image_ads;
-
+        private String slink;
         public MyAds() {
         }
 
@@ -52,6 +53,15 @@ public class MyAds
             this.image_ads=image_ads;
         }
 
+
+    public MyAds(String status, String specs, String price, String date, int image_ads,String subcat) {
+        this.status = status;
+        this.specs = specs;
+        this.price = price;
+        this.date = date;
+        this.image_ads=image_ads;
+        this.subcat=subcat;
+    }
         public MyAds(String status, String specs, String price, String timestamp, String aid)throws ParseException {
             this.status = status;
             this.specs = specs;
@@ -77,7 +87,32 @@ public class MyAds
 
 
         }
+    public MyAds(String status, String specs, String price, String timestamp, String aid,String subcat)throws ParseException {
+        this.status = status;
+        this.specs = specs;
+        this.price = price;
+        this.subcat=subcat;
+        this.aid=aid;
+        link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        slink="http://rng.000webhostapp.com/imgthumbnail.php?id="+aid;
+        Date today=new Date();
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+        Log.v("timeStamp",timestamp);
+        Log.v("date",date.toString());
+        if(today.getDay()==date.getDay())
+            this.date="Today ";
+        else if(today.getDay()==date.getDay()+1)
+            this.date="Yesterday ";
+        else
+        {
 
+            this.date=date.getDay()+" "+Month(date)+" ";
+            if(!(today.getYear()==date.getYear()))
+                this.date+=date.getYear()+" ";
+        }
+
+
+    }
 
         public String getStatus() {
             return status;
@@ -121,8 +156,15 @@ public class MyAds
 
         public String getAid(){return this.aid;}
 
-        public String getLink(){
-            return this.link;
+        public String getsLink(){
+            return this.slink;
         }
+
+    public String getLink(){
+        return this.link;
+    }
+    public String getSubcat(){
+        return this.subcat;
+    }
 
 }

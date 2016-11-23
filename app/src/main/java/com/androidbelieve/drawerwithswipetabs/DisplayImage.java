@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Base64InputStream;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -34,8 +35,9 @@ public class DisplayImage extends AsyncTask<String, Void, String> {
                 InputStream input = connection.getInputStream();
                 Base64InputStream bis=new Base64InputStream(input, Base64.DEFAULT);
                 b = BitmapFactory.decodeStream(bis);
-
+                Log.v("GELLO","HELO");
             } catch (Exception e) {
+                Log.v("GELLO","TRUE");
                 e.printStackTrace();
                 return "n";
             }
@@ -45,6 +47,7 @@ public class DisplayImage extends AsyncTask<String, Void, String> {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("y")) {
+                Log.v("GELLO","FALSE");
                 i.setImageBitmap(b);
             }
 

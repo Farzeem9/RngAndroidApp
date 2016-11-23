@@ -27,13 +27,14 @@ public class MyPendingServiceAdapter extends RecyclerView.Adapter<MyPendingServi
     static int pos=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView status,specs,price,date;
+        public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
 
         public MyViewHolder(View view) {
             super(view);
+            subcat= (TextView) view.findViewById(R.id.tv_subcat);
             cardView = (CardView) view.findViewById(R.id.card_view_ads);
-            status = (TextView) view.findViewById(R.id.tv_status);
+            status = (TextView) view.findViewById(R.id.tv_status1);
             price = (TextView) view.findViewById(R.id.tv_price);
             specs = (TextView) view.findViewById(R.id.tv_specs);
             date = (TextView) view.findViewById(R.id.tv_date);
@@ -73,7 +74,7 @@ public class MyPendingServiceAdapter extends RecyclerView.Adapter<MyPendingServi
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
-
+        holder.subcat.setText(ad.getSubcat());
         new DisplayImage(ad.getLink(),holder.ads).execute();
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +102,7 @@ public class MyPendingServiceAdapter extends RecyclerView.Adapter<MyPendingServi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ad_card, parent, false);
+                .inflate(R.layout.service_album, parent, false);
 
         return new MyViewHolder(itemView);
     }

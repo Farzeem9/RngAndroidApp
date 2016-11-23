@@ -27,18 +27,19 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
     static int pos=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView status,specs,price,date;
+        public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
 
         public MyViewHolder(View view) {
             super(view);
-            cardView = (CardView) view.findViewById(R.id.card_view_ads);
-            status = (TextView) view.findViewById(R.id.tv_status);
-            price = (TextView) view.findViewById(R.id.tv_price);
-            specs = (TextView) view.findViewById(R.id.tv_specs);
+            cardView = (CardView) view.findViewById(R.id.card_view_service);
+            status = (TextView) view.findViewById(R.id.tv_status1);
+            price = (TextView) view.findViewById(R.id.tv_rent);
+            specs = (TextView) view.findViewById(R.id.tv_name1);
             date = (TextView) view.findViewById(R.id.tv_date);
             ads = (ImageView) view.findViewById(R.id.iv_ads);
             overflow = (ImageView) view.findViewById(R.id.overflow);
+            subcat=(TextView)view.findViewById(R.id.tv_subcat);
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -69,11 +70,12 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         final MyAds ad = serviceList.get(position);
         holder.status.setText("Active");
         holder.status.setTextColor(Color.parseColor("#79ff4d"));
+        holder.subcat.setText(ad.getSubcat());
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
-
-        new DisplayImage(ad.getLink(),holder.ads).execute();
+        holder.subcat.setText(ad.getSubcat());
+        new DisplayImage(ad.getsLink(),holder.ads).execute();
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +95,13 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         }
         });
         holder.setIsRecyclable(false);
-
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
+        //Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ad_card, parent, false);
+                .inflate(R.layout.service_album, parent, false);
 
         return new MyViewHolder(itemView);
     }
