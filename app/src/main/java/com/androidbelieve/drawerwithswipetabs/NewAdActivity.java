@@ -69,12 +69,14 @@ public class NewAdActivity extends AppCompatActivity {
 
         if(selection.equals("newad"))
         {
+            toolbar.setTitle("Post a Ad");
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragment=new AdFragment();
             fragmentTransaction.replace(R.id.fl_category,fragment).commit();
         }
         else
         {
+            toolbar.setTitle("Post a Service");
             FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragment=new ServiceFragment();
             fragmentTransaction.replace(R.id.fl_category,fragment).commit();

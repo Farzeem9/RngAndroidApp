@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -62,6 +63,7 @@ import static java.security.AccessController.getContext;
 
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,rent,deposit,duration;
+    private Toolbar toolbar=null;
     private TextView city;
     private Spinner spinner_rent,spinner_subrent,spinner;
     private String aid;
@@ -105,6 +107,8 @@ public class EditAdActivity extends AppCompatActivity {
                 hidePager();
             }
         });
+
+
         viewPager.setAdapter(imageFragmentPagerAdapter);
         setasthumb=(Button)findViewById(R.id.thumb_button_1);
         rl=(RelativeLayout)findViewById(R.id.Relativel);
