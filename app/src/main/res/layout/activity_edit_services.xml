@@ -6,13 +6,7 @@
     tools:context="com.androidbelieve.drawerwithswipetabs.EditServiceActivity"
     android:id="@+id/container"
     >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/red"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/white"/>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"

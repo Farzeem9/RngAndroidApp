@@ -6,13 +6,7 @@
     android:background="#f7f7f7"
     android:id="@+id/container"
     tools:context=".EditAdActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/red"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@color/white"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
