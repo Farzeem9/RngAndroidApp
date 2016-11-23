@@ -95,7 +95,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         }
         });
         holder.setIsRecyclable(false);
-        //Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
+        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
                 case R.id.action_edit: {
                     Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mContext,EditServiceActivity.class);
-                    intent.putExtra("sid",MyServices.getAid());
+                    intent.putExtra("SID",MyServices.getAid());
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {

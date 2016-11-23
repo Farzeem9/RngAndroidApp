@@ -1,28 +1,41 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -37,6 +50,11 @@ import java.util.Date;
 
 public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
+    private ArrayList<Bitmap> images;
+    private boolean imageshown=false;
+    private ArrayList<String>links=new ArrayList<>();
+    private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    private ViewPager viewPager;
     private TextView name,desc,rent,date,subcat,age,projlinks;
     private String sid;
     private MenuItem star;
@@ -49,8 +67,9 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     private RadioButton less,more,equal;
     private boolean selected=false;
     private String rentperiod;
-    private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
+    private HorizontalAdapter HorizontalAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,16 +106,32 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
-
-        rating_comments.setClickable(false);
         final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, "http://rng.000webhostapp.com/getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                try {
+                    Log.v("AB","CD");
+                    fillAdd(new JSONObject((String)output).getJSONArray("result"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        genericAsyncTaskgetservice.execute();
 
-        getAd=new GetAd(sid, AccessToken.getCurrentAccessToken().getUserId());
-        getAd.execute();
-        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
+        //getAd=new GetAd(sid, AccessToken.getCurrentAccessToken().getUserId());
+        //getAd.execute();
+//        rating_comments.setClickable(false);
+        //final ProgressDialog progressDialog=new ProgressDialog(this);
+       // progressDialog.setMessage("Fetching ad Please wait");
+       // progressDialog.setIndeterminate(true);
+      //  progressDialog.show();
+
+/*        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
@@ -104,10 +139,10 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 rating_comments.setClickable(true);
                 progressDialog.dismiss();
             }
-        });
-        genericAsyncTask.execute();
+        });*/
+        //genericAsyncTask.execute();
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+/*        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String abc= checkedId+"";
@@ -116,19 +151,19 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 rentperiod=rb.getText().toString();
                 selected=true;
             }
-        });
+        });*/
     }
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
+        //mDemoSlider.stopAutoCycle();
         super.onStop();
-        if(getAd!=null)
-            if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
-                getAd.cancel(true);
-        if(genericAsyncTask!=null)
-            if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
-                genericAsyncTask.cancel(true);
+        //if(getAd!=null)
+          //  if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
+            //    getAd.cancel(true);
+        //if(genericAsyncTask!=null)
+          //  if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+            //    genericAsyncTask.cancel(true);
     }
 
 /*
@@ -210,7 +245,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 InputStream input = connection.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
-
+                Log.v("INSIDE","GETAD");
                 String line = null;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
@@ -261,16 +296,34 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
 
     void fillAdd(JSONArray jarray)
     {
+
         try {
             JSONObject c = jarray.getJSONObject(0);
-            String prod_name=c.getString("PROD_NAME");
+
+            String prod_name=c.getString("SNAME");
             String rent_name=c.getString("RENT");
             String desc_str=c.getString("DESC");
+            String cat=c.getString("CAT");
+
             String timestamp=c.getString("TIMESTAMP");
-            String subcat=c.getString("LOCATION");
-            String age=c.getString("AGE");
-            String projlinks=c.getString("projlinks");
-            canrent=c.getString("CANRATE");
+            String city=c.getString("CITY");
+            String subcat=c.getString("SUBCAT");
+
+            JSONArray links=c.getJSONArray("SLINKS");
+            String allprojlinks="";
+            for(int i=0;i<links.length();i++) {
+                this.links.add(links.getJSONObject(i).getString("link"));
+                allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
+            }
+
+            projlinks.setText(allprojlinks);
+
+            JSONArray ilinks=c.getJSONArray("LINKS");
+            ArrayList<String> alllinks=new ArrayList<>();
+            for(int i=0;i<ilinks.length();i++)
+                alllinks.add(ilinks.getJSONObject(i).getString("link"));
+
+            //canrent=c.getString("CANRATE");
 
             Date today=new Date();
             String ddate;
@@ -290,29 +343,32 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             }
             this.date.setText(ddate);
             this.subcat.setText(subcat);
-            this.age.setText(age + " Years");
-            this.projlinks.setText("₹ "+ projlinks);
-            JSONArray links=c.getJSONArray("LINKS");
-            ArrayList<String> alllinks=new ArrayList<>();
-            for(int i=0;i<links.length();i++)
-                alllinks.add(links.getJSONObject(i).getString("link"));
-
             name.setText(prod_name);
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name);
-            for(String name : alllinks){
-                //Log.v("");
-                TextSliderView textSliderView = new TextSliderView(this);
-                // initialize a SliderLayout
-                textSliderView.image(name).setScaleType(BaseSliderView.ScaleType.Fit);
+            final int length[]={alllinks.size()};
+            for(String x:alllinks) {
 
-                mDemoSlider.addSlider(textSliderView);
+                Picasso.with(this).load(x).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        images.add(bitmap);
+                        HorizontalAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+                Log.v("link in picasso",x);
             }
-            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-            mDemoSlider.setDuration(4000);
-            mDemoSlider.addOnPageChangeListener(this);
+
 
         }
         catch(Exception e) {
@@ -336,7 +392,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlist.php?aid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
@@ -368,7 +424,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             case R.id.action_share:
                 return true;
             case R.id.action_wishlist:
-                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?aid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         if(set)
@@ -414,4 +470,99 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 });
         alertbox.show();
     }
+    class HorizontalAdapter  extends RecyclerView.Adapter<MyServiceActivity.HorizontalAdapter.MyViewHolder> {
+        private Context mContext;
+        private ArrayList<Bitmap> images;
+        private int thumbnail=0;
+        public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
+            this.mContext = mContext;
+            this.images=images;
+            Log.v("Adapter created","Created");
+
+        }
+        void setPosition(int i)
+        {
+            thumbnail=i;
+        }
+
+        @Override
+        public MyServiceActivity.HorizontalAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.card_pic, parent, false);
+            Log.v("oncreateViewholder","currect");
+            return new MyServiceActivity.HorizontalAdapter.MyViewHolder(itemView);
+
+        }
+
+        @Override
+        public void onBindViewHolder(final MyServiceActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
+            holder.i.setImageBitmap(images.get(position));
+            Log.v("inside","holder setting bitmap");
+            /**
+             *Set all onclicks here
+             *
+             */
+            holder.i.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reInstantiatePager();
+                    reInstantiatePager();
+                    imageshown=true;
+                    viewPager.setVisibility(View.VISIBLE);
+                    viewPager.setCurrentItem(position);
+
+                }
+            });
+            holder.relativeLayout.setBackgroundResource(R.drawable.empty);
+
+            holder.del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    images.remove(position);
+                    if(thumbnail==position) {
+                        thumbnail = 0;
+                    }
+                    notifyDataSetChanged();
+                    reInstantiatePager();                }
+            });
+        }
+        @Override
+        public int getItemCount() {
+            return images.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            Button set;
+            ImageView i;
+            ImageButton del;
+            RelativeLayout relativeLayout;
+            public MyViewHolder(View view) {
+                super(view);
+                del = (ImageButton) view.findViewById(R.id.yes_bt);
+                del.setVisibility(View.GONE);
+                i = (ImageView) view.findViewById(R.id.act_image);
+                relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
+                //set=(Button)view.findViewById(R.id.button);
+            }
+        }
+    }
+    void reInstantiatePager()
+    {
+        viewPager.setAdapter(null);
+        viewPager.setAdapter(new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        }));
+
+    }
+    void hidePager()
+    {
+        imageshown=false;
+        Log.v("Clicked","Hidden?");
+        viewPager.setVisibility(View.GONE);
+
+    }
+
 }
