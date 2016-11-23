@@ -49,13 +49,16 @@ public class ServiceWishlistFragment extends Fragment {
         recyclerView.addItemDecoration(new ServiceWishlistFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        genericAsyncTask=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlistservice.php"+"?pid="+AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {       //insert link later
+        Log.v("Done","");
+        genericAsyncTask=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlistservice.php"+"?pid="+AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {
+                    Log.v("PREPARING ALBUM","okay");
                     prepareAlbum(new JSONObject((String)output).getJSONArray("result"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.v("here","");
                 }
                 catch (NullPointerException e)
                 {
@@ -108,23 +111,24 @@ public class ServiceWishlistFragment extends Fragment {
     }
     void prepareAlbum(JSONArray jarray)
     {
-        for(int i=0;i<jarray.length();i++)
-        {
-            try {
-                JSONObject ad = jarray.getJSONObject(i);
-                String name = ad.getString("SNAME");
-                String sid = ad.getString("SID");
-                int amount = Integer.parseInt(ad.getString("AMOUNT"));
-                String timestamp=ad.getString("TIMESTAMP");
-                String subcat=ad.getString("SUBCAT");
 
-                albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
-            }
-            catch(Exception e)
+            for(int i=0;i<jarray.length();i++)
             {
-                e.printStackTrace();
+                try {
+                    JSONObject ad = jarray.getJSONObject(i);
+                    String name = ad.getString("SNAME");
+                    String sid = ad.getString("SID");
+                    int amount = Integer.parseInt(ad.getString("STARTRENT"));
+                    String timestamp=ad.getString("TIMESTAMP");
+                    String subcat=ad.getString("CATEGORY");
+
+                    albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
-}
