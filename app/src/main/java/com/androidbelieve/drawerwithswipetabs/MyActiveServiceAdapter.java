@@ -88,7 +88,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         holder.ads.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
-          Intent i=new Intent(mContext,AdActivity.class);
+          Intent i=new Intent(mContext,MyServiceActivity.class);
          i.putExtra("SID",aid);
          mContext.startActivity(i);
 
