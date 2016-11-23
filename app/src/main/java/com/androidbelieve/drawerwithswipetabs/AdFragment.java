@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private Uri fileUri;
     private Button btnSignUp,location;
     private ViewPager viewPager;
+    private Toolbar toolbar;
     private LinearLayout pics;
     private ImageButton btnPhoto,btnGal;
     private Button setasthumb;
