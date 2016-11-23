@@ -25,6 +25,7 @@
         <activity android:name=".EditAdActivity" />
         <activity android:name=".AdActivity" />
         <activity android:name=".Category_List" />
+        <activity android:name=".EditServiceActivity" />
         <activity android:name=".FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

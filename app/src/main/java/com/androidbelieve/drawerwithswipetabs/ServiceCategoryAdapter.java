@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
 
         public MyViewHolder(View view) {
             super(view);
+            Log.v("Holder created" ,"here");
             title = (TextView) view.findViewById(R.id.tv_specs);
             count = (TextView) view.findViewById(R.id.tv_price);
             thumbnail = (ImageView) view.findViewById(R.id.iv_ads);
@@ -63,6 +65,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         ServiceAlbum album = albumList.get(position);
+        Log.v("Holder added" ,"here");
         holder.title.setText(album.getName());
         holder.count.setText("₹ " + album.getNumOfSongs() );
         holder.date.setText(album.getDate());
@@ -74,9 +77,9 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i=new Intent(mContext,AdActivity.class);
-                //i.putExtra("AID",aid);
-                //mContext.startActivity(i);
+                Intent i=new Intent(mContext,ServiceActivity.class);
+                i.putExtra("sid",aid);
+                mContext.startActivity(i);
             }
         });
         holder.setIsRecyclable(false);

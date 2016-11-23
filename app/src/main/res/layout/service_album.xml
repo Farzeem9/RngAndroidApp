@@ -23,12 +23,10 @@
             <ImageView
                 android:id="@+id/iv_ads"
                 android:layout_width="130dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="140dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:layout_margin="10dp"
                 android:src="@drawable/ic_dots"
                 android:scaleType="fitXY" />
             <LinearLayout
@@ -37,7 +35,8 @@
                 android:orientation="vertical"
                 android:layout_toRightOf="@+id/iv_ads"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp">
                 <TextView
                     android:id="@+id/tv_status1"
                     android:layout_width="wrap_content"

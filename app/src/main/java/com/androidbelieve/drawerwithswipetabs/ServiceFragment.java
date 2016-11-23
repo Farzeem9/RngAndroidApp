@@ -401,6 +401,7 @@ public class ServiceFragment extends Fragment {
                         }
                     }
                 });
+                g.setProgressView(true);
                 g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
                 g.setImagePost(images,0);
                 int i=0;

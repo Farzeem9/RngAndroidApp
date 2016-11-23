@@ -1,14 +1,21 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -32,10 +39,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +59,11 @@ import com.androidbelieve.drawerwithswipetabs.TextSliderView;
 import com.androidbelieve.drawerwithswipetabs.ViewPagerEx;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -57,6 +73,11 @@ import java.util.concurrent.Exchanger;
 public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
+    private ArrayList<Bitmap> images;
+    private boolean imageshown=false;
+    private ArrayList<String>links=new ArrayList<>();
+    private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    private ViewPager viewPager;
     private TextView name,desc,rent,date,subcat,age,projlinks;
     private String sid;
     private MenuItem star;
@@ -69,39 +90,58 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private RadioButton less,more,equal;
     private boolean selected=false;
     private String rentperiod;
-    private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
-
-
+    private HorizontalAdapter HorizontalAdapter;
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_service);
+        String sid=getIntent().getStringExtra("sid");
+        this.sid=sid;
         radioGroup= (RadioGroup) findViewById(R.id.rg_period);
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);
         more= (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
+        images=new ArrayList<>();
 
+        viewPager=(ViewPager)findViewById(R.id.pager);
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        });
+        recyclerView=(RecyclerView)findViewById(R.id.rr);
+        HorizontalAdapter=new ServiceActivity.HorizontalAdapter(getApplicationContext(),images);
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(HorizontalAdapter);
+
+        viewPager.setAdapter(imageFragmentPagerAdapter);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
-        toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        sid = getIntent().getStringExtra("SID");
+        sid = getIntent().getStringExtra("sid");
         name=(TextView)findViewById(R.id.tv_sname);
         desc=(TextView)findViewById(R.id.tv_desc);
         rent=(TextView)findViewById(R.id.tv_rent);
         subcat=(TextView)findViewById(R.id.tv_subcat);
         //age=(TextView)findViewById(R.id.tv_prod_age);
         projlinks=(TextView)findViewById(R.id.tv_link);
+        //lvlinks=(ListView)findViewById(R.id.lv_links);
+        //setListViewHeightBasedOnChildren(lvlinks);
+        //linksAdapter=new ServiceFragment.LinksAdapter();
+
         date=(TextView)findViewById(R.id.tv_date);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
@@ -115,8 +155,19 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         progressDialog.setIndeterminate(true);
         progressDialog.show();
 
-        getAd=new GetAd(sid,AccessToken.getCurrentAccessToken().getUserId());
-        getAd.execute();
+        //getAd=new GetAd(sid,AccessToken.getCurrentAccessToken().getUserId());
+        //getAd.execute();
+        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, "http://rng.000webhostapp.com/getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                try {
+                    fillAdd(new JSONObject((String)output).getJSONArray("result"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        genericAsyncTaskgetservice.execute();
         genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
@@ -126,7 +177,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 progressDialog.dismiss();
             }
         });
-        genericAsyncTask.execute();
+     //   genericAsyncTask.execute();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -144,14 +195,11 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
+       // mDemoSlider.stopAutoCycle();
         super.onStop();
-        if(getAd!=null)
-            if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
-                getAd.cancel(true);
-        if(genericAsyncTask!=null)
-            if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
-                genericAsyncTask.cancel(true);
+    //    if(genericAsyncTask!=null)
+  //          if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+   //             genericAsyncTask.cancel(true);
     }
 
 /*
@@ -212,53 +260,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     }
 
 
-    class GetAd extends AsyncTask<String, String, String> {
-        String sid,pid;
-        GetAd(String sid,String pid) {
-            this.sid = sid;
-            this.pid=pid;
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String result = null;
-            try {
-
-                String link = "http://rng.000webhostapp.com/fetchservice.php?sid=" + sid+"&pid="+pid;
-                Log.v("link",link);
-                URL url = new URL(link);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"), 8);
-                StringBuilder sb = new StringBuilder();
-
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                result = sb.toString();
-                Log.v("Result", result);
-            } catch (Exception e) {
-                // Oops
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject jobj = new JSONObject(result);
-                fillAdd(jobj.getJSONArray("result"));
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-    }
     static String Month(Date d)
     {
         int i=d.getMonth();
@@ -286,14 +287,31 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     {
         try {
             JSONObject c = jarray.getJSONObject(0);
-            String prod_name=c.getString("PROD_NAME");
+
+            String prod_name=c.getString("SNAME");
             String rent_name=c.getString("RENT");
             String desc_str=c.getString("DESC");
+            String cat=c.getString("CAT");
+
             String timestamp=c.getString("TIMESTAMP");
-            String subcat=c.getString("LOCATION");
-            String age=c.getString("AGE");
-            String projlinks=c.getString("projlinks");
-            canrent=c.getString("CANRATE");
+            String city=c.getString("CITY");
+            String subcat=c.getString("SUBCAT");
+
+            JSONArray links=c.getJSONArray("SLINKS");
+            String allprojlinks="";
+            for(int i=0;i<links.length();i++) {
+                this.links.add(links.getJSONObject(i).getString("link"));
+                allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
+            }
+
+            projlinks.setText(allprojlinks);
+
+            JSONArray ilinks=c.getJSONArray("LINKS");
+            ArrayList<String> alllinks=new ArrayList<>();
+            for(int i=0;i<ilinks.length();i++)
+                alllinks.add(ilinks.getJSONObject(i).getString("link"));
+
+            //canrent=c.getString("CANRATE");
 
             Date today=new Date();
             String ddate;
@@ -313,29 +331,32 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
             this.date.setText(ddate);
             this.subcat.setText(subcat);
-            this.age.setText(age + " Years");
-            this.projlinks.setText("₹ "+ projlinks);
-            JSONArray links=c.getJSONArray("LINKS");
-            ArrayList<String> alllinks=new ArrayList<>();
-            for(int i=0;i<links.length();i++)
-                alllinks.add(links.getJSONObject(i).getString("link"));
-
             name.setText(prod_name);
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name);
-            for(String name : alllinks){
-                //Log.v("");
-                TextSliderView textSliderView = new TextSliderView(this);
-                // initialize a SliderLayout
-                textSliderView.image(name).setScaleType(BaseSliderView.ScaleType.Fit);
+            final int length[]={alllinks.size()};
+            for(String x:alllinks) {
 
-                mDemoSlider.addSlider(textSliderView);
+                Picasso.with(this).load(x).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        images.add(bitmap);
+                        HorizontalAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+                Log.v("link in picasso",x);
             }
-            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-            mDemoSlider.setDuration(4000);
-            mDemoSlider.addOnPageChangeListener(this);
+
 
         }
         catch(Exception e) {
@@ -359,19 +380,19 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlistservice.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
                 if(out.equals("1"))
                 {
-                    star.setIcon(android.R.drawable.btn_star_big_on);
+                    star.setIcon(R.drawable.added_to_wishlist);
                     set=!set;
                     Log.v("output of async",out);
                 }
                 else
                 {
-                    star.setIcon(android.R.drawable.btn_star_big_off);
+                    star.setIcon(R.drawable.add_to_whishlist);
                     set=false;
                     Log.v("output of async",out);
                 }
@@ -391,14 +412,14 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             case R.id.action_share:
                 return true;
             case R.id.action_wishlist:
-                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/servicewishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         if(set)
-                            star.setIcon(android.R.drawable.btn_star_big_off);
+                            star.setIcon(R.drawable.added_to_wishlist);
                         else
-                            star.setIcon(android.R.drawable.btn_star_big_on);
-
+                            star.setIcon(R.drawable.add_to_whishlist);
+                    Log.v("Async out",(String)output);
                         set=!set;
                     }
                 });
@@ -407,6 +428,28 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+
+    void hidePager()
+    {
+        imageshown=false;
+        Log.v("Clicked","Hidden?");
+        viewPager.setVisibility(View.GONE);
+
+    }
+
+    void reInstantiatePager()
+    {
+        viewPager.setAdapter(null);
+        viewPager.setAdapter(new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        }));
+
     }
     public void onUrgentRent(View view){
         if(!selected) {
@@ -437,4 +480,141 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 });
         alertbox.show();
     }
+
+    /*class LinksAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return links.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return links.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View convertView, ViewGroup viewGroup) {
+            ServiceActivity.LinksHolder holder = null;
+            if (convertView == null) {
+                LayoutInflater inflater = getLayoutInflater();
+                convertView = inflater.inflate(R.layout.card_link, null);//Null for whole xml document
+                holder = new ServiceActivity.LinksHolder();
+                holder.ltv = (TextView) convertView.findViewById(R.id.tv_link_display);
+                holder.itv = (ImageView)convertView.findViewById(R.id.bt_link_remove);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (ServiceActivity.LinksHolder) convertView.getTag();
+            }
+            String cur_link=links.get(i).toString();
+            Log.v("Current",cur_link);
+            holder.ltv.setText(cur_link);
+            holder.ltv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String a="http://"+links.get(i).toString();
+                    Intent intent=new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(a));
+                    startActivity(intent);
+                }
+            });
+            holder.itv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    links.remove(i);
+                    lvlinks.setAdapter(linksAdapter);
+                }
+            });
+            return convertView;
+        }
+    }
+    class LinksHolder {
+        TextView ltv;
+        ImageView itv;
+    }
+    */
+    class HorizontalAdapter  extends RecyclerView.Adapter<ServiceActivity.HorizontalAdapter.MyViewHolder> {
+        private Context mContext;
+        private ArrayList<Bitmap> images;
+        private int thumbnail=0;
+        public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
+            this.mContext = mContext;
+            this.images=images;
+            Log.v("Adapter created","Created");
+
+        }
+        void setPosition(int i)
+        {
+            thumbnail=i;
+        }
+
+        @Override
+        public ServiceActivity.HorizontalAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.card_pic, parent, false);
+            Log.v("oncreateViewholder","currect");
+            return new ServiceActivity.HorizontalAdapter.MyViewHolder(itemView);
+
+        }
+
+        @Override
+        public void onBindViewHolder(final ServiceActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
+            holder.i.setImageBitmap(images.get(position));
+            Log.v("inside","holder setting bitmap");
+            /**
+             *Set all onclicks here
+             *
+             */
+            holder.i.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reInstantiatePager();
+                    reInstantiatePager();
+                    imageshown=true;
+                    viewPager.setVisibility(View.VISIBLE);
+                    viewPager.setCurrentItem(position);
+
+                }
+            });
+            holder.relativeLayout.setBackgroundResource(R.drawable.empty);
+
+            holder.del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    images.remove(position);
+                    if(thumbnail==position) {
+                        thumbnail = 0;
+                    }
+                    notifyDataSetChanged();
+                    reInstantiatePager();                }
+            });
+        }
+        @Override
+        public int getItemCount() {
+            return images.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            Button set;
+            ImageView i;
+            ImageButton del;
+            RelativeLayout relativeLayout;
+            public MyViewHolder(View view) {
+                super(view);
+                del = (ImageButton) view.findViewById(R.id.yes_bt);
+                del.setVisibility(View.GONE);
+                i = (ImageView) view.findViewById(R.id.act_image);
+                relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
+                //set=(Button)view.findViewById(R.id.button);
+            }
+        }
+    }
+
 }
