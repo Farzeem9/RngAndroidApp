@@ -3,6 +3,8 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,38 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         holder.category.setText(categories.get(position));
-        holder.imageButton.setImageResource(R.drawable.ic_arrow_back);
+        if(holder.category.getText().toString().equals("Cars")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.car);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+        holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Music and Audio")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.musicandaudio);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Gift")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.gift);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Lifestyle")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.lifestyle);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

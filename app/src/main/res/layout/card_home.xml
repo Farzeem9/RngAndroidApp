@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_cat"
             android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/ic_menu_camera"
             android:background="@drawable/round"
             android:onClick="onMobiles"
          />
