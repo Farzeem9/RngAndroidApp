@@ -48,12 +48,18 @@ public class MainActivity extends AppCompatActivity{
                      home=true;
                  }
 
-                else if (menuItem.getItemId() == R.id.nav_myads) {
+                else if (menuItem.getItemId() == R.id.nav_myservices) {
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
-                    toolbar.setTitle("MyAds");
+                    toolbar.setTitle("My Services");
                     xfragmentTransaction.replace(R.id.containerView,new ServiceTabFragment()).commit();
                      home=false;
                 }
+                 else if (menuItem.getItemId() == R.id.nav_myads) {
+                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                     toolbar.setTitle("My Ads");
+                     xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
+                     home=false;
+                 }
                 else if (menuItem.getItemId() == R.id.nav_profile) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      toolbar.setTitle("Profile");
