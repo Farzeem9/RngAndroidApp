@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -86,17 +87,22 @@ public class EditServiceActivity extends AppCompatActivity {
     private String item;
     EditServiceActivity.LinksAdapter linksAdapter;
     private EditText inputPname,inputPdesc,inputPrent;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent;
     private TextView city;
     private Button btnSignUp;
     private String subcat;
     private Button setasthumb;
-
+    View view;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit_services);
         city=(TextView)findViewById(R.id.tv_city);
+        inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
+        inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
+        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
         inputPname = (EditText) findViewById(R.id.input_pname);
         inputPdesc = (EditText) findViewById(R.id.input_pdesc);
         inputPrent = (EditText) findViewById(R.id.input_prent);
@@ -452,10 +458,6 @@ public class EditServiceActivity extends AppCompatActivity {
 
     }
 
-    /**
-     *
-     *
-     * @param jarray
 
     private void submitForm()
     {
@@ -468,17 +470,14 @@ public class EditServiceActivity extends AppCompatActivity {
             return;
         }
 
-        if (!validatePage()) {
-            return;
-        }
         if (!validatePrent()) {
             return;
         }
-        if (!validatePdeposit()) {
+        if(city.toString().trim().isEmpty())
+        {
             return;
         }
-
-        Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -508,16 +507,6 @@ public class EditServiceActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validatePage() {
-        if (inputPage.getText().toString().trim().isEmpty()) {
-            inputLayoutPage.setError(getString(R.string.err_msg_age));
-            requestFocus(inputPage);
-            return false;
-        } else {
-            inputLayoutPage.setErrorEnabled(false);
-        }
-        return true;
-    }
 
     private boolean validatePrent() {
         if (inputPrent.getText().toString().trim().isEmpty()) {
@@ -531,23 +520,13 @@ public class EditServiceActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validatePdeposit() {
-        if (inputPdeposit.getText().toString().trim().isEmpty()) {
-            inputLayoutPdeposit.setError(getString(R.string.err_msg_deposit));
-            requestFocus(inputPdeposit);
-            return false;
-        } else {
-            inputLayoutPdeposit.setErrorEnabled(false);
-        }
-        return true;
-    }
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
-*/
+
 
     void fillAdd(JSONArray jarray)
     { try {

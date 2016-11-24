@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -80,6 +81,7 @@ public class ServiceFragment extends Fragment {
     private ImageButton btnGal,btnPhoto;
     private String item;
     LinksAdapter linksAdapter;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent;
     private EditText inputPname,inputPdesc,inputPrent;
     private TextView city;
     private Button btnSignUp;
@@ -95,6 +97,9 @@ public class ServiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_service, container, false);
         city=(TextView)view.findViewById(R.id.tv_city);
+        inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
+        inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
+        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
         inputPname = (EditText) view.findViewById(R.id.input_pname);
         inputPdesc = (EditText) view.findViewById(R.id.input_pdesc);
         inputPrent = (EditText) view.findViewById(R.id.input_prent);
@@ -438,6 +443,75 @@ public class ServiceFragment extends Fragment {
 
         return view;
     }
+
+    private void submitForm()
+    {
+        if (!validatePname())
+        {
+            return;
+        }
+
+        if (!validatePdesc()) {
+            return;
+        }
+
+        if (!validatePrent()) {
+            return;
+        }
+        if(city.toString().trim().isEmpty())
+        {
+            return;
+        }
+        Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+    private boolean validatePname() {
+        if (inputPname.getText().toString().trim().isEmpty()) {
+            inputLayoutPname.setError(getString(R.string.err_msg_name));
+            requestFocus(inputPname);
+            return false;
+        } else {
+            inputLayoutPname.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validatePdesc() {
+        if (inputPdesc.getText().toString().trim().isEmpty()) {
+            inputLayoutPdesc.setError(getString(R.string.err_msg_desc));
+            requestFocus(inputPdesc);
+            return false;
+        } else {
+            inputLayoutPdesc.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+
+    private boolean validatePrent() {
+        if (inputPrent.getText().toString().trim().isEmpty()) {
+            inputLayoutPrent.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrent);
+            return false;
+        } else {
+            inputLayoutPrent.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
 
     void hidePager()
     {

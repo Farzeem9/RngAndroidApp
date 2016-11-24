@@ -237,6 +237,7 @@
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
+                android:id="@+id/input_layout_pdeposit"
                 android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
                 >

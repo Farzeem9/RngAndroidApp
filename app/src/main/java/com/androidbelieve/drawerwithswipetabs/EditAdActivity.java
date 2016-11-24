@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,6 +75,7 @@ public class EditAdActivity extends AppCompatActivity {
     private Uri fileUri;
     private Button setasthumb,location;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
     private RelativeLayout rl;
     private ViewPager viewPager;
     private String item,number,f1="",f2="";
@@ -82,7 +85,7 @@ public class EditAdActivity extends AppCompatActivity {
     private final int CITY_SEARCH_REQUEST = 123;
     int work=0;
     int currentpos=0;
-
+    View view;
 
     ProgressDialog progress;
 
@@ -94,6 +97,9 @@ public class EditAdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_ad);
         images=new ArrayList<>();
         aid=getIntent().getStringExtra("AID");
+        inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
+        inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
+        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
         name = (EditText)findViewById(R.id.input_pname);
         desc = (EditText)findViewById(R.id.input_pdesc);
         age = (EditText)findViewById(R.id.input_page);
@@ -165,6 +171,7 @@ public class EditAdActivity extends AppCompatActivity {
 
             }
         });
+
 
         HorizontalAdapter=new HorizontalAdapter(getApplicationContext(),images);
         rr.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
@@ -336,6 +343,100 @@ public class EditAdActivity extends AppCompatActivity {
         });
         genericAsyncTask.execute();
     }
+    private void submitForm()
+    {
+        if (!validatePname())
+        {
+            return;
+        }
+
+        if (!validatePdesc()) {
+            return;
+        }
+
+        if (!validatePage()) {
+            return;
+        }
+        if (!validatePrent()) {
+            return;
+        }
+        if (!validatePdeposit()) {
+            return;
+        }
+        if(city.toString().trim().isEmpty())
+        {
+            return;
+        }
+        Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+    private boolean validatePname() {
+        if (name.getText().toString().trim().isEmpty()) {
+            inputLayoutPname.setError(getString(R.string.err_msg_name));
+            requestFocus(name);
+            return false;
+        } else {
+            inputLayoutPname.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validatePdesc() {
+        if (desc.getText().toString().trim().isEmpty()) {
+            inputLayoutPdesc.setError(getString(R.string.err_msg_desc));
+            requestFocus(desc);
+            return false;
+        } else {
+            inputLayoutPdesc.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatePage() {
+        if (age.getText().toString().trim().isEmpty()) {
+            inputLayoutPage.setError(getString(R.string.err_msg_age));
+            requestFocus(age);
+            return false;
+        } else {
+            inputLayoutPage.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatePrent() {
+        if (rent.getText().toString().trim().isEmpty()) {
+            inputLayoutPrent.setError(getString(R.string.err_msg_rent));
+            requestFocus(rent);
+            return false;
+        } else {
+            inputLayoutPrent.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validatePdeposit() {
+        if (deposit.getText().toString().trim().isEmpty()) {
+            inputLayoutPdeposit.setError(getString(R.string.err_msg_deposit));
+            requestFocus(deposit);
+            return false;
+        } else {
+            inputLayoutPdeposit.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
     void hidePager()
     {
         imageshown=false;
