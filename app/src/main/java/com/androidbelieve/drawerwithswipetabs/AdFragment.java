@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import static android.graphics.BitmapFactory.decodeFile;
 
@@ -142,17 +147,25 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 //addImageView(pics);
                /* Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(data, CAMERA_PIC_REQUEST);*/
-                if(images.size()==5) {
-                    Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
-                    return;
+                if(!isCameraStorageAllowed())
+                {
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA))
+                    {
+                      //  Toast.makeText(getContext(), "Give Camera Permission", Toast.LENGTH_SHORT).show();
+                    }
+                    ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.CAMERA},1234);
                 }
+                if(isCameraStorageAllowed()) {
+                    if (images.size() == 5) {
+                        Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                fileUri = getOutputMediaFileUri();
-                data.putExtra( MediaStore.EXTRA_OUTPUT, fileUri );
-
-                startActivityForResult(data, CAMERA_PIC_REQUEST);
-
+                    Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileUri = getOutputMediaFileUri();
+                    data.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(data, CAMERA_PIC_REQUEST);
+                }
             }
         });
 
@@ -519,14 +532,19 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         //super.onActivityResult(requestCode,resultCode,data);
         Log.v("Check", "Checking");
 
-        if (data == null || resultCode != Activity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK) {
+         Log.v("SOME EROR","LOL");
             return;
-        if (requestCode == CAMERA_PIC_REQUEST) {
+        }
+            if (requestCode == CAMERA_PIC_REQUEST)
+        {
             if (images.size() == 5)
                 return;
             Bitmap image = null;
             getActivity().getContentResolver().notifyChange(fileUri, null);
             try {
+                Log.v("MN","Pq");
+
                 image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fileUri);
                 int nh = (int) ( image.getHeight() * (1080.0 / image.getWidth()) );
                 image=Bitmap.createScaledBitmap(image, 1080, nh, true);
@@ -641,5 +659,13 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 i=(ImageView)view.findViewById(R.id.act_image);
             }
         }
+    }
+    public boolean isCameraStorageAllowed()
+    {
+        int res= ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA);
+        if (res== PackageManager.PERMISSION_GRANTED)
+            return true;
+        else
+            return false;
     }
 }
