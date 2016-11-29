@@ -153,7 +153,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     {
                       //  Toast.makeText(getContext(), "Give Camera Permission", Toast.LENGTH_SHORT).show();
                     }
-                    ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.CAMERA},1234);
+                    ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE},1234);
                 }
                 if(isCameraStorageAllowed()) {
                     if (images.size() == 5) {
@@ -663,6 +663,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     public boolean isCameraStorageAllowed()
     {
         int res= ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA);
+        int res1=ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE);
         if (res== PackageManager.PERMISSION_GRANTED)
             return true;
         else
