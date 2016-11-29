@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,7 +17,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -175,20 +178,29 @@ public class ServiceFragment extends Fragment {
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!isCameraStorageAllowed())
+                {
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.CAMERA))
+                    {
+                        //  Toast.makeText(getContext(), "Give Camera Permission", Toast.LENGTH_SHORT).show();
+                    }
+                    ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE},1234);
+                }
                 //addImageView(pics);
                /* Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(data, CAMERA_PIC_REQUEST);*/
-                if(images.size()==5) {
-                    Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
-                    return;
+                if (isCameraStorageAllowed()) {
+                    if (images.size() == 5) {
+                        Toast.makeText(getContext(), "You cant give more images!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileUri = getOutputMediaFileUri();
+                    data.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+                    startActivityForResult(data, CAMERA_PIC_REQUEST);
                 }
-
-                Intent data = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                fileUri = getOutputMediaFileUri();
-                data.putExtra( MediaStore.EXTRA_OUTPUT, fileUri );
-
-                startActivityForResult(data, CAMERA_PIC_REQUEST);
-
             }
         });
 
@@ -791,5 +803,14 @@ public class ServiceFragment extends Fragment {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+    public boolean isCameraStorageAllowed()
+    {
+        int res= ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA);
+        int res1=ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (res== PackageManager.PERMISSION_GRANTED)
+            return true;
+        else
+            return false;
     }
 }
