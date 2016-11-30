@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.MyViewHolder> {
@@ -71,7 +73,8 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
 
-        new DisplayImage(ad.getLink(),holder.ads).execute();
+        //new DisplayImage(ad.getLink(),holder.ads).execute();
+        Picasso.with(mContext).load(ad.getLink()).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

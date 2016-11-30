@@ -10,11 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,7 +39,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
-        holder.category.setText(categories.get(position));
+        String cat=categories.get(position);
+        if(cat.contains("and")) {
+            Log.v("cat contains abd","okay");
+            cat=cat.replace("and", "and\n");
+        }
+
+        holder.category.setText(cat);
 
         if(holder.category.getText().toString().equals("Cars")){
             Drawable dr = context.getResources().getDrawable(R.drawable.car);

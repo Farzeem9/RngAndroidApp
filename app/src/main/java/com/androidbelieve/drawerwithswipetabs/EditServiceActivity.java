@@ -99,9 +99,9 @@ public class EditServiceActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_edit_services);
         city=(TextView)findViewById(R.id.tv_city);
-        inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
-        inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
-        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
+        inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
+        inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
+        inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
         inputPname = (EditText) findViewById(R.id.input_pname);
         inputPdesc = (EditText) findViewById(R.id.input_pdesc);
         inputPrent = (EditText) findViewById(R.id.input_prent);

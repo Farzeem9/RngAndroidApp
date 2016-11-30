@@ -744,14 +744,13 @@ public class ServiceFragment extends Fragment {
             } else {
                 holder = (LinksHolder) convertView.getTag();
             }
-            String cur_link=links.get(i).toString();
-            Toast.makeText(getContext(), "1" + cur_link, Toast.LENGTH_SHORT).show();
+            String cur_link=links.get(i);
             Log.v("Current",cur_link);
             holder.ltv.setText(cur_link);
             holder.ltv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String a="http://"+links.get(i).toString();
+                    String a="http://"+links.get(i);
                     Intent intent=new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(a));

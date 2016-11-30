@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         info = (TextView)findViewById(R.id.info);
         //info_id=(TextView)findViewById(R.id.info_name);
         info_mail=(TextView)findViewById(R.id.info_mail);
-        //info_phone=(EditText)findViewById(R.id.info_phone);
+        info_phone=(EditText)findViewById(R.id.info_contact);
         if(isLogin())
         {
             GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),

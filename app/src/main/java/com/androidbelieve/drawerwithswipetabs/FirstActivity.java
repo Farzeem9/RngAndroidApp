@@ -1,8 +1,12 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -12,6 +16,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class FirstActivity extends AppCompatActivity {
@@ -20,9 +26,9 @@ public class FirstActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /**
-        *Most easiest Fucking way to generate hashkey
-        * try {
+
+        //Most easiest Fucking way to generate hashkey
+         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
             for (android.content.pm.Signature signature : info.signatures) {
                 MessageDigest md;
@@ -45,7 +51,7 @@ public class FirstActivity extends AppCompatActivity {
         catch (Exception e){
             Log.e("exception", e.toString());
         }
-        */
+
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_first);

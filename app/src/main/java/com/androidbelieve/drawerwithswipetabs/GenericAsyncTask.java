@@ -1,6 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -56,7 +55,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
         {
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            images.get(i).compress(Bitmap.CompressFormat.PNG, 90, stream);
+            b.compress(Bitmap.CompressFormat.PNG,90,stream);
             String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
             //StringBuffer sb=new StringBuffer(postdata);
             //sb.append("&"+URLEncoder.encode("image"+Integer.toString(i++))+"="+URLEncoder.encode(encodedString));

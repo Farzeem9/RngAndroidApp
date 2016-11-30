@@ -87,9 +87,10 @@ public class EditAdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_ad);
         images=new ArrayList<>();
         aid=getIntent().getStringExtra("AID");
-        inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
-        inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
-        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
+        work=2;
+        inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
+        inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
+        inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
         name = (EditText)findViewById(R.id.input_pname);
         desc = (EditText)findViewById(R.id.input_pdesc);
         age = (EditText)findViewById(R.id.input_page);
@@ -565,9 +566,16 @@ public class EditAdActivity extends AppCompatActivity {
     }
     void uploadfullad()
     {
+        progress = new ProgressDialog(this);
+        progress.setMessage("Saving changes...");
+        progress.setIndeterminate(true);
+        progress.setProgress(0);
+
+        Log.v("Work is two","okay");
         GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"editadn.php", "Uploaded Edited Ad!", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
+                progress.dismiss();
                 finish();
             }
         });
@@ -603,13 +611,15 @@ public class EditAdActivity extends AppCompatActivity {
             age.setText(prod_age);
             deposit.setText(sdeposit);
 //            this.duration.setText(duration);
-
+            if(alllinks.size()==0)
+                progress.dismiss();
             for(String x:alllinks) {
 
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         length[0]--;
+                        Log.v("Length",Integer.toString(length[0]));
                         if(length[0]==0)
                             progress.dismiss();
                         images.add(bitmap);
