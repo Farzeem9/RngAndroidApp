@@ -134,7 +134,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/deletead.php?aid=" + myAds.getAid(), "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"deletead.php?aid=" + myAds.getAid(), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;
@@ -150,7 +150,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
                 }
                 return true;
                 case R.id.action_activate:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/changestatus.php?aid=" + myAds.getAid()+"&status=PENDING", "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"changestatus.php?aid=" + myAds.getAid()+"&status=PENDING", "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

@@ -55,7 +55,6 @@ import java.util.Date;
 import java.util.List;
 
 import static android.graphics.BitmapFactory.decodeFile;
-import static com.androidbelieve.drawerwithswipetabs.ServiceActivity.Month;
 import static com.androidbelieve.drawerwithswipetabs.ServiceFragment.setListViewHeightBasedOnChildren;
 
 /**
@@ -110,7 +109,7 @@ public class EditServiceActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GenericAsyncTask g=new GenericAsyncTask(a, "http://rng.000webhostapp.com/editservice.php", "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(a, Config.link+"editservice.php", "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         if(output!=null) {
@@ -417,7 +416,7 @@ public class EditServiceActivity extends AppCompatActivity {
         });
 
 
-        GenericAsyncTask genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
+        GenericAsyncTask genericAsyncTask=new GenericAsyncTask(this, Config.link+"getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 //Add json here

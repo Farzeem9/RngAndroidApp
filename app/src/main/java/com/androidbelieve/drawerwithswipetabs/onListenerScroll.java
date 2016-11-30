@@ -2,7 +2,6 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -43,10 +42,10 @@ public class onListenerScroll extends RecyclerView.OnScrollListener {
             lastVisibleItem = linearLayoutManager
                     .findLastVisibleItemPosition();
             if (!loading&& (totalItemCount <= (lastVisibleItem + visibleThreshold))&&(totalItemCount!=lastlast)) {
-                new FAd("http://rng.000webhostapp.com/viewads.php", lastVisibleItem+1, adapter, albumList).execute();
-                loading = true;
-                lastlast=totalItemCount;
-                Log.d("Loading","Loading more values!");
+//                new FAd(Config.link+"viewads.php", lastVisibleItem+1, adapter, albumList).execute();
+  //              loading = true;
+ //               lastlast=totalItemCount;
+//                Log.d("Loading","Loading more values!");
 
             }
         }

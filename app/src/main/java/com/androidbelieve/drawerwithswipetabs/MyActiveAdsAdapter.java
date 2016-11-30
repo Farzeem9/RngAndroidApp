@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.MyViewHolder> {
@@ -136,7 +134,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/deletead.php?aid=" + myAds.getAid(), "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"deletead.php?aid=" + myAds.getAid(), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;
@@ -152,7 +150,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
                 }
                 return true;
                 case R.id.action_deactivate:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/changestatus.php?aid=" + myAds.getAid()+"&status=DEACTIVE", "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"changestatus.php?aid=" + myAds.getAid()+"&status=DEACTIVE", "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

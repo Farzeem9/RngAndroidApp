@@ -1,37 +1,27 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,10 +38,11 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -61,7 +52,6 @@ import java.util.Date;
 import java.util.List;
 
 import static android.graphics.BitmapFactory.decodeFile;
-import static java.security.AccessController.getContext;
 
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,rent,deposit,duration;
@@ -329,7 +319,7 @@ public class EditAdActivity extends AppCompatActivity {
                     uploadfullad();
             }
         });
-        GenericAsyncTask genericAsyncTask=new GenericAsyncTask(getApplicationContext(), "http://rng.000webhostapp.com/getadforedit.php?aid=" + aid, "Fetched Ad data", new AsyncResponse() {
+        GenericAsyncTask genericAsyncTask=new GenericAsyncTask(getApplicationContext(), Config.link+"getadforedit.php?aid=" + aid, "Fetched Ad data", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
@@ -550,7 +540,7 @@ public class EditAdActivity extends AppCompatActivity {
 
     void nowork()
     {
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/editad.php", "Uploaded Edited Ad!", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"editadn.php", "Uploaded Edited Ad!", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 finish();
@@ -562,7 +552,7 @@ public class EditAdActivity extends AppCompatActivity {
     }
     void changethumbnail()
     {
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/editad.php", "Uploaded Edited Ad!", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"editadn.php", "Uploaded Edited Ad!", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 finish();
@@ -575,7 +565,7 @@ public class EditAdActivity extends AppCompatActivity {
     }
     void uploadfullad()
     {
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/editad.php", "Uploaded Edited Ad!", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"editadn.php", "Uploaded Edited Ad!", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 finish();

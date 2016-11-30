@@ -68,7 +68,7 @@ public class MyAds
             this.price = price;
 
             this.aid=aid;
-            link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+            link=Config.link+"viewthumb.php?aid="+aid;
             Date today=new Date();
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
             Log.v("timeStamp",timestamp);

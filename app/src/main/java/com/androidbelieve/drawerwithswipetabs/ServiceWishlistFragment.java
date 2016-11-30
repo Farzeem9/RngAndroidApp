@@ -50,7 +50,7 @@ public class ServiceWishlistFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         Log.v("Done","");
-        genericAsyncTask=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlistservice.php"+"?pid="+AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(getContext(), Config.link+"sendwishlistservice.php"+"?pid="+AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {

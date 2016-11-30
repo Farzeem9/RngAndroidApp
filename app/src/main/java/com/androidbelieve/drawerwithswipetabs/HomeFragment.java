@@ -1,31 +1,20 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -60,12 +49,16 @@ public class HomeFragment extends Fragment {
         recyclerViewservice.setAdapter(homeAdapter);
         fabservice=(FloatingActionButton)rootView.findViewById(R.id.fabnewservice);
         fabad=(FloatingActionButton)rootView.findViewById(R.id.fabnewad);
-        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
         if(!shown) {
+
+            Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
+            fab.startAnimation(cross);
+
             Animation fabad_show = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_show);
             fabad.startAnimation(fabad_show);
             fabad.setVisibility(View.VISIBLE);
@@ -92,6 +85,9 @@ public class HomeFragment extends Fragment {
         }
         else
         {
+            Animation anticross=AnimationUtils.loadAnimation(getContext(),R.anim.anticross);
+            fab.startAnimation(anticross);
+
             Animation fabad_hide = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_hide);
             fabad.startAnimation(fabad_hide);
             fabad.setVisibility(View.INVISIBLE);
@@ -104,7 +100,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        genericAsyncTask=new GenericAsyncTask(getContext(),"http://rng.000webhostapp.com/category.php","message",new AsyncResponse()
+        genericAsyncTask=new GenericAsyncTask(getContext(),Config.link+"category.php","message",new AsyncResponse()
         {
             @Override
             public void processFinish(Object output)
@@ -129,7 +125,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        genericAsyncTaskService=new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/categoryservice.php", "", new AsyncResponse() {
+        genericAsyncTaskService=new GenericAsyncTask(getContext(), Config.link+"categoryservice.php", "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;

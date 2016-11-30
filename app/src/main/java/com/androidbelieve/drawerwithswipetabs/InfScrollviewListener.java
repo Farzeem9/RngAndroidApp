@@ -3,7 +3,6 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.AbsListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,7 +49,7 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
                     .findLastVisibleItemPosition();
             if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
                 //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();
-                GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, "http://rng.000webhostapp.com/viewads.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
+                GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"viewads.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String out=(String)output;

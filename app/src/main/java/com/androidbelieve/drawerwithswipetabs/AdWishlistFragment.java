@@ -43,7 +43,7 @@ public class AdWishlistFragment extends Fragment {
         adapter = new WishlistAdapter(getContext(), list_ad);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(llm);
-        GenericAsyncTask g = new GenericAsyncTask(getContext(), "http://rng.000webhostapp.com/sendwishlist.php?pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g = new GenericAsyncTask(getContext(), Config.link+"sendwishlist.php?pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {

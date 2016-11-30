@@ -6,10 +6,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -74,6 +73,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         final String type=notification.type();
         Log.v("Type",type);
         holder.notification.setText(notification.getNotification());
+        Linkify.addLinks(holder.notification,Linkify.PHONE_NUMBERS);
         holder.yes.setText(notification.getYes());
         holder.no.setText(notification.getNo());
         holder.maybe.setText(notification.getMaybe());
@@ -83,11 +83,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View v) {
                 Log.v("Type inside",type);
-                if(type.equals("BUTTON"))
+                if(type.equals("AD")||type.equals("SERVICE")||type.equals("BUTTON"))
                 {
                     Log.v("Check this","Check");
-                    Log.v("Link","http://rng.000webhostapp.com/sendnoti.php?nid="+notification.getNid());
-                    SendNot s= new SendNot("http://rng.000webhostapp.com/sendnoti.php?nid="+notification.getNid());
+                    Log.v("Link",Config.link+"sendnoti.php?nid="+notification.getNid());
+                    SendNot s= new SendNot(Config.link+"sendnoti.php?nid="+notification.getNid());
                     s.nid=notification.getNid();
                     holder.cardView.setCardBackgroundColor(Color.parseColor("#f7f7f7"));
                     holder.yes.setVisibility(Button.INVISIBLE);

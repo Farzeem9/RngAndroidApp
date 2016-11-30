@@ -1,10 +1,8 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -163,7 +161,7 @@ public class NotificationActivity extends AppCompatActivity {
             while(run)
             {
 
-                String link = "http://rng.000webhostapp.com/getnoti.php?pid=" + pid;
+                String link = Config.link+"getnoti.php?pid=" + pid;
 
                 Log.v("link", link);
                 try {

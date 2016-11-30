@@ -9,8 +9,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -64,7 +62,7 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
     @Override
     protected String doInBackground(String... strings) {
         try {
-            String link = "http://rng.000webhostapp.com/newad.php?pid="+pid+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rent+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size())+"&crent="+f2+"&maxrent="+f1+"&city="+city;
+            String link = Config.link+"newad.php?pid="+pid+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rent+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size())+"&crent="+f2+"&maxrent="+f1+"&city="+city;
             // String link = "http://dharam.hostfree.pw/newad.php?pid="+pid+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rent+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size());
             Log.v("link",link);
             URL url = new URL(link);

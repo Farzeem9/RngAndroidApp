@@ -11,12 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Dialog;
-import com.bumptech.glide.Glide;
+
 import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
 
@@ -122,7 +120,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_remove:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/wishlist.php?aid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"wishlist.php?aid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             if(output!=null) {

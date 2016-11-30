@@ -27,7 +27,7 @@ public class PendingAdsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         list_ad = new ArrayList<>();
         adsAdapter=new MyPendingAdsAdapter(getContext(),list_ad);
-        new FAd("http://rng.000webhostapp.com/activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=PENDING",adsAdapter,list_ad).execute();
+        new FAd(Config.link+"activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=PENDING",adsAdapter,list_ad).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(adsAdapter);

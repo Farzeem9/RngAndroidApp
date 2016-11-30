@@ -1,7 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class RateActivity extends AppCompatActivity {
     private RatingBar ratingBar;
@@ -57,7 +54,7 @@ public class RateActivity extends AppCompatActivity {
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GenericAsyncTask(getApplicationContext(),"http://rng.000webhostapp.com/ratings.php?aid="+aid+"&rating="+Integer.toString(ratingBar.getProgress())+"&pid="+AccessToken.getCurrentAccessToken().getUserId(),"",new AsyncResponse(){
+                new GenericAsyncTask(getApplicationContext(),Config.link+"ratings.php?aid="+aid+"&rating="+Integer.toString(ratingBar.getProgress())+"&pid="+AccessToken.getCurrentAccessToken().getUserId(),"",new AsyncResponse(){
                     @Override
                     public void processFinish(Object output) {
 
@@ -85,7 +82,7 @@ public class RateActivity extends AppCompatActivity {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                     Log.v("Item selected","position "+Integer.toString(position));
                                                 if(!(n>0))
-                                                { new GenericAsyncTask(getApplicationContext(), "http://rng.000webhostapp.com/comments.php?aid=" + aid +"&commentid="+Integer.toString(position+1)+ "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                                                { new GenericAsyncTask(getApplicationContext(), Config.link+"comments.php?aid=" + aid +"&commentid="+Integer.toString(position+1)+ "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                                                     @Override
                                                     public void processFinish(Object output) {
                                                         finish();
@@ -101,7 +98,7 @@ public class RateActivity extends AppCompatActivity {
                                               }
                                           }
         );
-        GenericAsyncTask g=new GenericAsyncTask(getApplication(), "http://rng.000webhostapp.com/currentcomment.php?aid=" + aid +"&pid="+ AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(getApplication(), Config.link+"currentcomment.php?aid=" + aid +"&pid="+ AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 sp_comments.setSelection(Integer.parseInt((String)output)-1);

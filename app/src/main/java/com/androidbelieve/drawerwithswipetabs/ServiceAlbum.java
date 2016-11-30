@@ -26,7 +26,7 @@ public class ServiceAlbum {
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.sid=sid;
-        link="http://rng.000webhostapp.com/imgthumbnail.php?id="+sid;
+        link=Config.link+"imgthumbnail.php?id="+sid;
         this.cat=cat;
         Date today=new Date();
         Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);

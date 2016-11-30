@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +27,6 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -110,7 +109,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
-        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, "http://rng.000webhostapp.com/getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
+        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, Config.link+"getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {
@@ -183,7 +182,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     public void onRent(final String message)
     {
         AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link="http://rng.000webhostapp.com/reqNoti.php?pid=&message="+message+" for "+rentperiod;
+            String link=Config.link+"reqNoti.php?pid=&message="+message+" for "+rentperiod;
             @Override
             protected String doInBackground(String... params) {
                 try {
@@ -236,7 +235,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             String result = null;
             try {
 
-                String link = "http://rng.000webhostapp.com/fetchservice.php?sid=" + sid+"&pid="+pid;
+                String link = Config.link+"getserviceforedit.php?sid=" + sid+"&pid="+pid;
                 Log.v("link",link);
                 URL url = new URL(link);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

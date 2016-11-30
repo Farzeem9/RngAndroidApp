@@ -131,7 +131,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/deletead.php?sid=" + MyServices.getAid(), "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"deleteservice.php?sid=" + MyServices.getAid(), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;
@@ -147,7 +147,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
                 }
                 return true;
                 case R.id.action_activate:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/changestatus.php?sid=" + MyServices.getAid()+"&status=PENDING", "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"changestatusservice.php?sid=" + MyServices.getAid()+"&status=PENDING", "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

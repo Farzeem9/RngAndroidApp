@@ -10,7 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,37 +34,6 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-
-
-import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.androidbelieve.drawerwithswipetabs.DescriptionAnimation;
-import com.androidbelieve.drawerwithswipetabs.SliderLayout;
-import com.androidbelieve.drawerwithswipetabs.BaseSliderView;
-import com.androidbelieve.drawerwithswipetabs.TextSliderView;
-import com.androidbelieve.drawerwithswipetabs.ViewPagerEx;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.concurrent.Exchanger;
 
 
 public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
@@ -116,7 +98,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
         getAd=new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId());
         getAd.execute();
-        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
@@ -170,11 +152,11 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     public void onRent(final String message)
     {
             AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-                String link="http://rng.000webhostapp.com/reqNoti.php?pid=&message="+message+" for "+rentperiod;
+                String link=Config.link+"reqNoti.php?message="+message+" for "+rentperiod;
                 @Override
                 protected String doInBackground(String... params) {
                     try {
-                        URL url = new URL(link+params[0]+"&aid="+params[1]);
+                        URL url = new URL(link+params[0]+"&aid="+params[1]+"&ad=AD");
                         URLConnection connection=url.openConnection();
 
                         BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -199,7 +181,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
                 }
             };
-            s.execute(AccessToken.getCurrentAccessToken().getUserId(),aid);
+            s.execute("&pid="+AccessToken.getCurrentAccessToken().getUserId(),aid);
         }
 
     public void onPageSelected(int position) {
@@ -223,7 +205,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             String result = null;
             try {
 
-                String link = "http://rng.000webhostapp.com/fetchad.php?aid=" + aid+"&pid="+pid;
+                String link = Config.link+"fetchad.php?aid=" + aid+"&pid="+pid;
                 Log.v("link",link);
                 URL url = new URL(link);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -358,7 +340,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"checkwishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
@@ -390,7 +372,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             case R.id.action_share:
                 return true;
             case R.id.action_wishlist:
-                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                     if(set)

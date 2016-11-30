@@ -1,6 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.app.Service;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +51,7 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                         .findLastVisibleItemPosition();
                 if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
                     //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();
-                    GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, "http://rng.000webhostapp.com/showservice.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
+                    GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"showservice.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

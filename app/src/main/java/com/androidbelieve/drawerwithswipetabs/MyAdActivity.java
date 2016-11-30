@@ -7,46 +7,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
-
-import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidbelieve.drawerwithswipetabs.DescriptionAnimation;
-import com.androidbelieve.drawerwithswipetabs.SliderLayout;
-import com.androidbelieve.drawerwithswipetabs.BaseSliderView;
-import com.androidbelieve.drawerwithswipetabs.TextSliderView;
-import com.androidbelieve.drawerwithswipetabs.ViewPagerEx;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.concurrent.Exchanger;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
@@ -93,7 +73,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         ratingBar.setClickable(false);
         //rating_comments.setClickable(false);
         new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
-        new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?aid=" + aid, "", new AsyncResponse() {
+        new GenericAsyncTask(this, Config.link+"sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);

@@ -14,7 +14,7 @@ public class Album {
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.aid=aid;
-        link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        link=Config.link+"viewthumb.php?aid="+aid;
         Log.v("link in album",link);
     }
 

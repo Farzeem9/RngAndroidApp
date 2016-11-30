@@ -135,7 +135,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
                     mContext.startActivity(intent);
                     return true;}
                 case R.id.action_delete: {
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/deletead.php?sid=" + MyServices.getAid(), "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"deleteservice.php?sid=" + MyServices.getAid(), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;
@@ -151,7 +151,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
                 }
                 return true;
                 case R.id.action_deactivate:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, "http://rng.000webhostapp.com/changestatus.php?sid=" + MyServices.getAid()+"&status=DEACTIVE", "", new AsyncResponse() {
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"changestatusservice.php?sid=" + MyServices.getAid()+"&status=DEACTIVE", "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

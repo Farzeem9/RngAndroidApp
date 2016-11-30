@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -17,34 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
-
-import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -52,11 +29,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidbelieve.drawerwithswipetabs.DescriptionAnimation;
-import com.androidbelieve.drawerwithswipetabs.SliderLayout;
-import com.androidbelieve.drawerwithswipetabs.BaseSliderView;
-import com.androidbelieve.drawerwithswipetabs.TextSliderView;
-import com.androidbelieve.drawerwithswipetabs.ViewPagerEx;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.squareup.picasso.Picasso;
@@ -66,8 +38,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.concurrent.Exchanger;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
@@ -157,7 +134,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
         //getAd=new GetAd(sid,AccessToken.getCurrentAccessToken().getUserId());
         //getAd.execute();
-        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, "http://rng.000webhostapp.com/getserviceforedit.php?sid=" + sid, "", new AsyncResponse() {
+        GenericAsyncTask genericAsyncTaskgetservice=new GenericAsyncTask(this, Config.link+"getserviceforedit.php?pid="+AccessToken.getCurrentAccessToken().getUserId()+"&sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {
@@ -168,7 +145,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
         genericAsyncTaskgetservice.execute();
-        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendrating.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
@@ -219,11 +196,11 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public void onRent(final String message)
     {
         AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link="http://rng.000webhostapp.com/reqNoti.php?pid=&message="+message+" for "+rentperiod;
+            String link=Config.link+"reqNoti.php?message="+message+" for "+rentperiod;
             @Override
             protected String doInBackground(String... params) {
                 try {
-                    URL url = new URL(link+params[0]+"&sid="+params[1]);
+                    URL url = new URL(link+params[0]+"&sid="+params[1]+"&ad=SERVICE");
                     URLConnection connection=url.openConnection();
 
                     BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -248,7 +225,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
             }
         };
-        s.execute(AccessToken.getCurrentAccessToken().getUserId(),sid);
+        s.execute("&pid="+AccessToken.getCurrentAccessToken().getUserId(),sid);
     }
 
     public void onPageSelected(int position) {
@@ -311,7 +288,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             for(int i=0;i<ilinks.length();i++)
                 alllinks.add(ilinks.getJSONObject(i).getString("link"));
 
-            //canrent=c.getString("CANRATE");
+            canrent=c.getString("CANRATE");
 
             Date today=new Date();
             String ddate;
@@ -380,7 +357,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);
-        GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlistservice.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+        GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"checkwishlistservice.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 String out=(String)output;
@@ -412,7 +389,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             case R.id.action_share:
                 return true;
             case R.id.action_wishlist:
-                GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/servicewishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"servicewishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         if(set)

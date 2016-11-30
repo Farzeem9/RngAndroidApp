@@ -1,7 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ public class ActiveAdsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         list_ad = new ArrayList<>();
         adsAdapter=new MyActiveAdsAdapter(getContext(),list_ad);
-        new FAd("http://rng.000webhostapp.com/activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=ACTIVE",adsAdapter,list_ad).execute();
+        new FAd(Config.link+"activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=ACTIVE",adsAdapter,list_ad).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(adsAdapter);

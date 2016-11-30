@@ -32,7 +32,7 @@ public class Ads {
         this.specs = specs;
         this.price = price;
         this.aid=aid;
-        this.link="http://rng.000webhostapp.com/viewthumb.php?aid="+aid;
+        this.link=Config.link+"viewthumb.php?aid="+aid;
         Date today=new Date();
         Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
         Log.v("timeStamp",timestamp);

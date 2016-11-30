@@ -1,11 +1,10 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.app.Service;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +52,7 @@ public class Service_Category extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/showservice.php?category=" + cat, "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + cat, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {
