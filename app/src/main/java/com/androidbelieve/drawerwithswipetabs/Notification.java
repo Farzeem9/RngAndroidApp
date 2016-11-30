@@ -81,7 +81,7 @@ static String Month(Date d)
     }
     public boolean getType()
     {
-        if(type.equals("BUTTON"))
+        if(type.equals("BUTTON")||type.equals("AD")||type.equals("SERVICE"))
             return true;
         else
             return false;

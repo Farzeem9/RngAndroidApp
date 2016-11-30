@@ -405,7 +405,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        onRent("");
+                        onRent("rent");
                     }
                 });
 

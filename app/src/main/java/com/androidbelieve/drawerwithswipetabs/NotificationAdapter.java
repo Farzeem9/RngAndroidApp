@@ -83,7 +83,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View v) {
                 Log.v("Type inside",type);
-                if(type.equals("AD")||type.equals("SERVICE")||type.equals("BUTTON"))
+                if(notification.getType())
                 {
                     Log.v("Check this","Check");
                     Log.v("Link",Config.link+"sendnoti.php?nid="+notification.getNid());

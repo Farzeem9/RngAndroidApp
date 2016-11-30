@@ -108,7 +108,6 @@ public class NotificationActivity extends AppCompatActivity {
                         c.remove("TYPE");
                         c.put("TYPE", "REPLIED");
                         Log.v("inside","inside");
-
                     }
                 Log.v("finaljson",finaljarray.toString());
                     finaljarray.put(c);
