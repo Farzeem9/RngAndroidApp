@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
        //pid=info_id.getText().toString();
         name=info.getText().toString();
         email=info_mail.getText().toString();
-        contact="9769689908";
+        contact=info_phone.getText().toString();
         new NewAd(userID,name,email,contact,this).execute();
 
     }

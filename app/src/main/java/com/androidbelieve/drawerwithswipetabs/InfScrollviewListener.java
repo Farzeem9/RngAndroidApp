@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
 
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 6;
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
     private AlbumsAdapter adapter;
@@ -41,22 +42,23 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
 
         super.onScrolled(recyclerView, dx, dy);
         if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-
+                Log.v("Loading is",Boolean.toString(listend));
             final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView
                     .getLayoutManager();
             totalItemCount = linearLayoutManager.getItemCount();
             lastVisibleItem = linearLayoutManager
                     .findLastVisibleItemPosition();
             if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
+                Log.v("Checking","check"+Integer.toString(lastVisibleItem + 1));
                 //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();
                 GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"viewads.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String out=(String)output;
+                        Log.v("out",out);
                         if(!out.equals("{\"result\":[]}"))
                         {
                             try {
-                                listend = true;
                                 JSONObject jobj = new JSONObject(out);
                                 prepareAlbum(jobj.getJSONArray("result"));
                             }
@@ -67,7 +69,7 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
                         }
                         else
                         {
-                            loading=true;
+                            listend = true;
                         }
                     }
                 });

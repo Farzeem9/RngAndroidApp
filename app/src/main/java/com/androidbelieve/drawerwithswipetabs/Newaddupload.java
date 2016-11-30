@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
  *Contains link!!
  */
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,8 +30,10 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
     private ArrayList<Bitmap> images;
     private Context context;
     ProgressDialog progress;
-    Newaddupload(String pid, String prod_name, String description, String prod_age, String category, String rent, String prod_deposit, ArrayList<Bitmap> images,Context c,String f1,String f2,String city)
+    Activity a;
+    Newaddupload(Activity a,String pid, String prod_name, String description, String prod_age, String category, String rent, String prod_deposit, ArrayList<Bitmap> images,Context c,String f1,String f2,String city)
     {
+        this.a=a;
         this.pid=pid;
         this.prod_name= URLEncoder.encode(prod_name);
         this.description= URLEncoder.encode(description);
@@ -113,6 +116,10 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
         if(result!=null)
         {
             if(result.contains("success"))
+            {
+                a.finish();
+            }
+            else
             {
 
             }
