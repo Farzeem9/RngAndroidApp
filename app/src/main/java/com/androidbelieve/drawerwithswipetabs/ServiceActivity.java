@@ -27,7 +27,6 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -49,7 +48,7 @@ import java.util.Date;
 
 public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
-    private SliderLayout mDemoSlider;
+    //private SliderLayout mDemoSlider;
     private ArrayList<Bitmap> images;
     private boolean imageshown=false;
     private ArrayList<String>links=new ArrayList<>();
@@ -70,6 +69,17 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private GenericAsyncTask genericAsyncTask;
     private HorizontalAdapter HorizontalAdapter;
     private RecyclerView recyclerView;
+    private ProgressDialog progressDialog;
+    @Override
+    public void onBackPressed() {
+        if(!imageshown)
+        super.onBackPressed();
+        else
+        {
+            hidePager();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +91,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);
         more= (RadioButton) findViewById(R.id.more);
-        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         images=new ArrayList<>();
 
@@ -127,7 +136,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         ratingBar.setClickable(false);
 
         rating_comments.setClickable(false);
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
@@ -145,24 +154,27 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
         genericAsyncTaskgetservice.execute();
-        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendrating.php?sid=" + sid, "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendratingservice.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
                 ratingBar.setProgress(i);
                 rating_comments.setClickable(true);
-                progressDialog.dismiss();
+                if(progressDialog.isShowing())
+                progressDialog.setMessage("Fetching images!");
             }
         });
-     //   genericAsyncTask.execute();
+       genericAsyncTask.execute();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String abc= checkedId+"";
-                Toast.makeText(ServiceActivity.this,abc, Toast.LENGTH_SHORT).show();
                 RadioButton rb=(RadioButton)findViewById(checkedId);
                 rentperiod=rb.getText().toString();
+                rb=(RadioButton)findViewById(R.id.less);
+                rb.setFocusableInTouchMode(false);
+                rb.setError(null);
                 selected=true;
             }
         });
@@ -170,23 +182,13 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-       // mDemoSlider.stopAutoCycle();
-        super.onStop();
-    //    if(genericAsyncTask!=null)
-  //          if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
-   //             genericAsyncTask.cancel(true);
+        super.onDestroy();
+        if(genericAsyncTask!=null)
+            if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+                genericAsyncTask.cancel(true);
     }
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -200,7 +202,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             @Override
             protected String doInBackground(String... params) {
                 try {
-                    URL url = new URL(link+params[0]+"&sid="+params[1]+"&ad=SERVICE");
+                    URL url = new URL(link+params[0]+"&aid="+params[1]+"&ad=SERVICE");
                     URLConnection connection=url.openConnection();
 
                     BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -222,6 +224,26 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             @Override
             protected void onPostExecute(String result)
             {
+
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(ServiceActivity.this);
+                alertbox.setTitle("Request");
+                if(result==null)
+                {
+                    alertbox.setMessage("There was some error in server, Please try again later");
+                    alertbox.show();
+                    return;
+                }
+
+                if(result.contains("SUCCESS"))
+                    alertbox.setMessage("Request sent!");
+                else if(result.contains("Same user"))
+                    alertbox.setMessage("You cannot request to your own service!");
+                else if(result.contains("FAILURE"))
+                    alertbox.setMessage("Request was already sent before");
+                else
+                    alertbox.setMessage("There was some error in server, Please try again later");
+                alertbox.show();
+
 
             }
         };
@@ -289,7 +311,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 alllinks.add(ilinks.getJSONObject(i).getString("link"));
 
             canrent=c.getString("CANRATE");
-
             Date today=new Date();
             String ddate;
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
@@ -312,11 +333,19 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name);
             final int length[]={alllinks.size()};
+            if(alllinks.size()==0)
+            {
+                //Set photos to null
+                progressDialog.dismiss();
+            }
             for(String x:alllinks) {
 
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if(length[0]--==1)
+                            progressDialog.dismiss();
+                        Log.v("new Bitmap loaded","okay");
                         images.add(bitmap);
                         HorizontalAdapter.notifyDataSetChanged();
                     }
@@ -430,8 +459,10 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     }
     public void onUrgentRent(View view){
         if(!selected) {
-            //radioGroup.requestFocusInWindow();
-            radioGroup.requestFocus(View.LAYOUT_DIRECTION_LOCALE);
+            RadioButton rb=(RadioButton)findViewById(R.id.less);
+            rb.setFocusableInTouchMode(true);
+            rb.setError("Please select at least one option!");
+            rb.requestFocus();
             return;
         }
 

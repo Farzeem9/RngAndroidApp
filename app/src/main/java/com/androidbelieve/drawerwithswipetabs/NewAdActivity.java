@@ -1,21 +1,16 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
-import android.widget.SpinnerAdapter;
 
 public class NewAdActivity extends AppCompatActivity {
 
@@ -31,11 +26,52 @@ public class NewAdActivity extends AppCompatActivity {
              {
                 a.hidePager();
              }
+             else
+             {
+                 AlertDialog.Builder alertbox=new AlertDialog.Builder(this);
+                 alertbox.setTitle("Exit");
+                 alertbox.setMessage("Exit creating a new service?");
+                 alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         finish();
+                     }
+                 });
+                 alertbox.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+
+                     }
+                 });
+                 alertbox.show();
+             }
          }
          if(fragment instanceof ServiceFragment)
          {
              ServiceFragment sf=(ServiceFragment)fragment;
+             if(sf.imageshown)
+             {
+                 sf.hidePager();
+             }
+             else
+             {
+                 AlertDialog.Builder alertbox=new AlertDialog.Builder(this);
+                 alertbox.setTitle("Exit");
+                 alertbox.setMessage("Exit creating a new service?");
+                 alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         finish();
+                     }
+                 });
+                 alertbox.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
 
+                     }
+                 });
+                 alertbox.show();
+             }
          }
             return;
         }

@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.MyViewHolder> {
@@ -87,8 +85,6 @@ public class MyAdsAdapter extends RecyclerView.Adapter<MyAdsAdapter.MyViewHolder
         //}
         //});
         holder.setIsRecyclable(false);
-
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override

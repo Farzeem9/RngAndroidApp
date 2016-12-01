@@ -1,10 +1,13 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,12 +51,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static android.graphics.BitmapFactory.decodeFile;
-
 public class ServiceFragment extends Fragment {
     private View view;
-    private ArrayList<String>links;
-    private boolean imageshown=false;
+    private ArrayList<String>links=new ArrayList<>();
+    boolean imageshown=false;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
     private Uri fileUri;
@@ -401,12 +402,33 @@ public class ServiceFragment extends Fragment {
                     @Override
                     public void processFinish(Object output) {
                         if(output!=null) {
-                            getActivity().finish();
+                            String out=(String)output;
+                            AlertDialog.Builder alertbox=new AlertDialog.Builder(getContext());
+                            alertbox.setTitle("Submit Ad");
+
+                            if(out.contains("success"))
+                            {
+                                alertbox.setMessage("Ad successfully submitted!");
+                                alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getActivity().finish();
+                                    }
+                                });
+
+                            }
+                            else
+                            {
+                                alertbox.setMessage("There was some error, Please try again");
+
+                            }
+                            alertbox.show();
+
                         Log.v("result",(String)output);
                         }
                     }
                 });
-                g.setProgressView(true);
+             //   g.setProgressView(true);
                 g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
                 g.setImagePost(images,0);
                 int i=0;
@@ -415,7 +437,7 @@ public class ServiceFragment extends Fragment {
                     g.setExtraPost("link"+Integer.toString(i++),x);
                 }
 
-                g.execute();
+                //g.execute();
             }
         });
         location=(Button)view.findViewById(R.id.btn_location);
@@ -597,10 +619,16 @@ public class ServiceFragment extends Fragment {
                 return;
             Log.v("Trying", "trying");
             ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
+            Log.v("Starting","okay");
             for (Image x : imagesfrompicker) {
                 String picturePath = x.getPath();
-                Bitmap b = decodeFile(picturePath);
-
+                Bitmap orig= BitmapFactory.decodeFile(picturePath);
+                float div=orig.getWidth()/orig.getHeight();
+                int width=720,hieght=1280;
+                if(!(div<1))
+                {width=1280;hieght=720;}
+                Bitmap b=Config.lessResolution(picturePath,width,hieght);
+                Log.v("bytecount", Integer.toString(b.getByteCount()));
                 images.add(b);
             }
             horizontalAdapter.notifyDataSetChanged();
@@ -632,6 +660,10 @@ public class ServiceFragment extends Fragment {
             lvlinks.setMinimumHeight(h);
         }
     }
+
+
+
+
     class HorizontalAdapter  extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;

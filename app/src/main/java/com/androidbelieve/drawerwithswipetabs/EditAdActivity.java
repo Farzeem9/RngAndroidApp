@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,8 +51,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import static android.graphics.BitmapFactory.decodeFile;
 
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,rent,deposit,duration;
@@ -509,8 +508,13 @@ public class EditAdActivity extends AppCompatActivity {
             ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
             for (Image x : imagesfrompicker) {
                 String picturePath = x.getPath();
-                Bitmap b = decodeFile(picturePath);
-
+                Bitmap orig= BitmapFactory.decodeFile(picturePath);
+                float div=orig.getWidth()/orig.getHeight();
+                int width=720,hieght=1280;
+                if(!(div<1))
+                {width=1280;hieght=720;}
+                Bitmap b=Config.lessResolution(picturePath,width,hieght);
+                Log.v("bytecount", Integer.toString(b.getByteCount()));
                 images.add(b);
             }
             HorizontalAdapter.notifyDataSetChanged();
@@ -582,7 +586,7 @@ public class EditAdActivity extends AppCompatActivity {
         g.setPostParams("aid",aid,"work",Integer.toString(work),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         int i=1;
         g.setImagePost(images,1);
-        g.execute();
+        //g.execute();
     }
 
     void fillAdd(JSONArray jarray)

@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -42,7 +46,6 @@ public class HomeFragment extends Fragment {
         servicecats=new ArrayList<String>();
         recyclerView= (RecyclerView) rootView.findViewById(R.id.rr);
         recyclerViewservice=(RecyclerView)rootView.findViewById(R.id.serv_rel_lay);
-
         ha= new HomeAdapter(getContext(),cats,Category_List.class);
         homeAdapter=new HomeAdapter(getContext(),servicecats,Service_Category.class);
         recyclerView.setAdapter(ha);
@@ -50,6 +53,8 @@ public class HomeFragment extends Fragment {
         fabservice=(FloatingActionButton)rootView.findViewById(R.id.fabnewservice);
         fabad=(FloatingActionButton)rootView.findViewById(R.id.fabnewad);
         final FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+        final TextView v=(TextView)rootView.findViewById(R.id.Tv_ad);
+        final TextView vs=(TextView)rootView.findViewById(R.id.Tv_serv);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +63,51 @@ public class HomeFragment extends Fragment {
 
             Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
             fab.startAnimation(cross);
+
+            v.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    v.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+            vs.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    vs.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+
+
 
             Animation fabad_show = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_show);
             fabad.startAnimation(fabad_show);
@@ -87,6 +137,50 @@ public class HomeFragment extends Fragment {
         {
             Animation anticross=AnimationUtils.loadAnimation(getContext(),R.anim.anticross);
             fab.startAnimation(anticross);
+
+            v.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    v.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+            vs.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    vs.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
+
 
             Animation fabad_hide = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_hide);
             fabad.startAnimation(fabad_hide);
@@ -153,9 +247,9 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onStop()
+    public void onDestroy()
     {
-        super.onStop();
+        super.onDestroy();
         if(genericAsyncTask!=null)
             if(genericAsyncTask.getStatus()!= AsyncTask.Status.FINISHED)
                 genericAsyncTask.cancel(true);

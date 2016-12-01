@@ -4,8 +4,10 @@ package com.androidbelieve.drawerwithswipetabs;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -78,7 +80,7 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
             for (int i = 0; i < images.size(); i++) {
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                images.get(i).compress(Bitmap.CompressFormat.PNG, 90, stream);
+                images.get(i).compress(Bitmap.CompressFormat.JPEG, 80, stream);
                 String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
                 Log.v("EncodedString", encodedString);
                 Log.v("image", "image" + Integer.toString(i));
@@ -115,14 +117,26 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
         progress.dismiss();
         if(result!=null)
         {
+            AlertDialog.Builder alertbox=new AlertDialog.Builder(context);
+            alertbox.setTitle("Submit Ad");
+
             if(result.contains("success"))
             {
-                a.finish();
+                alertbox.setMessage("Ad successfully submitted!");
+                alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        a.finish();
+                    }
+                });
+
             }
             else
             {
+                alertbox.setMessage("There was some error, Please try again");
 
             }
+            alertbox.show();
             /*try {
             Integer.parseInt(result);
             new AdFragment.UploadAd(images,result).execute();

@@ -49,7 +49,7 @@ import java.util.Date;
 
 public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener{
     private SliderLayout mDemoSlider;
-    private ArrayList<Bitmap> images;
+    private ArrayList<Bitmap> images=new ArrayList<>();
     private boolean imageshown=false;
     private ArrayList<String>links=new ArrayList<>();
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;

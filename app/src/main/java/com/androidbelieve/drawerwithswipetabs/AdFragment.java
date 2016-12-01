@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -39,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.facebook.AccessToken;
@@ -51,9 +50,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.jar.Manifest;
-
-import static android.graphics.BitmapFactory.decodeFile;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -414,7 +410,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             return;
         }
 
-        Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -546,7 +542,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 Log.v("MN","Pq");
 
                 image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fileUri);
-                int nh = (int) ( image.getHeight() * (1080.0 / image.getWidth()) );
+                int nh = (int) ( image.getHeight() * (10800.0 / image.getWidth()) );
                 image=Bitmap.createScaledBitmap(image, 1080, nh, true);
                 images.add(image);
             } catch (IOException e) {
@@ -563,8 +559,13 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
             for (Image x : imagesfrompicker) {
                 String picturePath = x.getPath();
-                Bitmap b = decodeFile(picturePath);
-
+                Bitmap orig= BitmapFactory.decodeFile(picturePath);
+                float div=orig.getWidth()/orig.getHeight();
+                int width=720,hieght=1280;
+                if(!(div<1))
+                {width=1280;hieght=720;}
+                Bitmap b=Config.lessResolution(picturePath,width,hieght);
+                Log.v("bytecount", Integer.toString(b.getByteCount()));
                 images.add(b);
             }
             horizontalAdapter.notifyDataSetChanged();

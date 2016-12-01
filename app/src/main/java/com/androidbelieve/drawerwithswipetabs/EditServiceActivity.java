@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +55,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static android.graphics.BitmapFactory.decodeFile;
 import static com.androidbelieve.drawerwithswipetabs.ServiceFragment.setListViewHeightBasedOnChildren;
 
 /**
@@ -127,7 +127,7 @@ public class EditServiceActivity extends AppCompatActivity {
                     g.setExtraPost("link"+Integer.toString(i++),x);
                 }
 
-                g.execute();
+                //g.execute();
             }
         });
         setasthumb=(Button)findViewById(R.id.thumb_button_1);
@@ -768,8 +768,13 @@ public class EditServiceActivity extends AppCompatActivity {
             ArrayList<Image> imagesfrompicker = (ArrayList<Image>) ImagePicker.getImages(data);
             for (Image x : imagesfrompicker) {
                 String picturePath = x.getPath();
-                Bitmap b = decodeFile(picturePath);
-
+                Bitmap orig= BitmapFactory.decodeFile(picturePath);
+                float div=orig.getWidth()/orig.getHeight();
+                int width=720,hieght=1280;
+                if(!(div<1))
+                {width=1280;hieght=720;}
+                Bitmap b=Config.lessResolution(picturePath,width,hieght);
+                Log.v("bytecount", Integer.toString(b.getByteCount()));
                 images.add(b);
             }
             HorizontalAdapter.notifyDataSetChanged();

@@ -19,26 +19,6 @@
         app:title="RnG"
         android:layout_alignParentTop="true"/>
 
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentBottom="true"
-        android:weightSum="12"
-        >
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Rent Now"
-            android:onClick="onUrgentRent"
-            android:id="@+id/btn_rent"
-            android:background="@color/red"
-            android:textColor="@color/white"
-            android:layout_marginRight="5dp"
-            android:layout_weight="12"
-            />
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -220,13 +200,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rg_period"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:layout_marginTop="5dp">
 
                     <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
                         android:id="@+id/less"
                         android:text="Less than Rent period"/>
                     <RadioButton
@@ -257,6 +236,7 @@
                     android:id="@+id/ratingBar1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:isIndicator="true"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp" />
                 <Button
@@ -268,6 +248,7 @@
                     android:layout_gravity="center"
                     android:onClick="onRateAndComment"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="35dp"
                     android:textColor="#000000"
                     android:text="Rate And Comment" />
                 <!--LinearLayout
@@ -296,7 +277,28 @@
                 </LinearLayout-->
             </LinearLayout>
         </RelativeLayout>
+
     </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:weightSum="12"
+        >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rent Now"
+            android:onClick="onUrgentRent"
+            android:id="@+id/btn_rent"
+            android:background="@color/red"
+            android:textColor="@color/white"
+            android:layout_weight="12"
+            />
+    </LinearLayout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"

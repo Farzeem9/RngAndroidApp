@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -48,25 +50,55 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
         Log.v("sbtostring",sb.toString());
         postdata=sb.toString();
     }
-    void setImagePost(ArrayList<Bitmap> images,int x)
+    void setImagePost(final ArrayList<Bitmap> images,final int x)
     {
-        int i=x;
-        for(Bitmap b:images)
+
+        progress = new ProgressDialog(context);
+        progress.setMessage("Communicating with server..");
+        progress.setIndeterminate(true);
+        progress.setProgress(0);
+        progress.setCancelable(false);
+        progress.show();
+
+     Thread thread=new Thread()
+     {
+        @Override
+         public void run()
         {
+            Looper.prepare();
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG,90,stream);
-            String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
-            //StringBuffer sb=new StringBuffer(postdata);
-            //sb.append("&"+URLEncoder.encode("image"+Integer.toString(i++))+"="+URLEncoder.encode(encodedString));
-            try {
-                postdata+="&"+ URLEncoder.encode("image" + Integer.toString(i++), "UTF-8") + "=" + URLEncoder.encode(encodedString, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            int i=x;
+            for(Bitmap b:images)
+            {
+
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                b.compress(Bitmap.CompressFormat.JPEG,80,stream);
+                String encodedString = Base64.encodeToString(stream.toByteArray(), 0);
+                try {
+                    stream.flush();
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //StringBuffer sb=new StringBuffer(postdata);
+                //sb.append("&"+URLEncoder.encode("image"+Integer.toString(i++))+"="+URLEncoder.encode(encodedString));
+                try {
+                    postdata+="&"+ URLEncoder.encode("image" + Integer.toString(i++), "UTF-8") + "=" + URLEncoder.encode(encodedString, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
-
-
+            execute();
         }
+     };
+
+        thread.start();
+
     }
     void setExtraPost(String...Params)
     {   if(!hasPost)
@@ -101,7 +133,9 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
 
     void removeProgress()
     {
-        if(setProgressView)
+        if(progress==null)
+            return;
+        if(progress.isShowing())
             progress.dismiss();
     }
 
@@ -126,6 +160,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
                 wr.flush();
 
             }
+            Log.v("Wrote post parameter","okay");
 
             BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
             StringBuilder sb = new StringBuilder();

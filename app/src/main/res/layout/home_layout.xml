@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".MainActivity"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f7f7f7"
@@ -79,6 +80,23 @@
             android:layout_marginBottom="@dimen/fab_margin"
             app:backgroundTint="@color/darkred"
             android:src="@android:drawable/ic_input_add" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/fabnewad"
+            android:layout_alignBottom="@+id/fabnewad"
+            android:layout_alignTop="@+id/fabnewad"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Ad"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:id="@+id/Tv_ad"
+                android:paddingRight="10dp"
+                />
+        </RelativeLayout>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabnewad"
             android:layout_width="wrap_content"
@@ -90,6 +108,23 @@
             android:visibility="invisible"
             app:backgroundTint="@color/darkred"
             android:src="@drawable/addnewproduct" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/fabnewservice"
+            android:layout_alignBottom="@+id/fabnewservice"
+            android:layout_alignTop="@+id/fabnewservice"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Service"
+            android:layout_centerInParent="true"
+            android:paddingRight="10dp"
+            android:visibility="invisible"
+            android:id="@+id/Tv_serv"
+            />
+        </RelativeLayout>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabnewservice"
             android:layout_width="wrap_content"

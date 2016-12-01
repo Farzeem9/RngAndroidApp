@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveServiceAdapter.MyViewHolder> {
@@ -70,7 +72,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
 
-        new DisplayImage(ad.getLink(),holder.ads).execute();
+        Picasso.with(mContext).load(ad.getsLink()).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +92,6 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
         }
         });
         holder.setIsRecyclable(false);
-
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override

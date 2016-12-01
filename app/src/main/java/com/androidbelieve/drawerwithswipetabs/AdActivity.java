@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -113,9 +112,12 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 String abc= checkedId+"";
-                Toast.makeText(AdActivity.this,abc, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AdActivity.this,abc, Toast.LENGTH_SHORT).show();
                 RadioButton rb=(RadioButton)findViewById(checkedId);
                 rentperiod=rb.getText().toString();
+                rb=(RadioButton)findViewById(R.id.less);
+                rb.setFocusableInTouchMode(false);
+                rb.setError(null);
                 selected=true;
             }
         });
@@ -157,6 +159,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 protected String doInBackground(String... params) {
                     try {
                         URL url = new URL(link+params[0]+"&aid="+params[1]+"&ad=AD");
+
                         URLConnection connection=url.openConnection();
 
                         BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -178,6 +181,27 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 @Override
                 protected void onPostExecute(String result)
                 {
+
+                    AlertDialog.Builder alertbox = new AlertDialog.Builder(AdActivity.this);
+                    alertbox.setTitle("Request");
+                    if(result==null)
+                    {
+                        alertbox.setMessage("There was some error in server, Please try again later");
+                        alertbox.show();
+                        return;
+                    }
+
+                    if(result.contains("SUCCESS"))
+                        alertbox.setMessage("Request sent!");
+                    else if(result.contains("Same user"))
+                        alertbox.setMessage("You cannot request to your own ad!");
+                    else if(result.contains("FAILURE"))
+                        alertbox.setMessage("Request was already sent before");
+                    else
+                        alertbox.setMessage("There was some error in server, Please try again later");
+
+                    alertbox.show();
+
 
                 }
             };
@@ -392,7 +416,12 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     public void onUrgentRent(View view){
         if(!selected) {
             //radioGroup.requestFocusInWindow();
-            radioGroup.requestFocus(View.LAYOUT_DIRECTION_LOCALE);
+
+            RadioButton rb=(RadioButton)findViewById(R.id.less);
+            rb.setFocusableInTouchMode(true);
+            rb.setError("Please select at least one option!");
+            rb.requestFocus();
+
             return;
         }
 

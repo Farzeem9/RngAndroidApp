@@ -58,7 +58,6 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                             if(!out.equals("{\"result\":[]}"))
                             {
                                 try {
-                                    listend = true;
                                     JSONObject jobj = new JSONObject(out);
                                     prepareAlbum(jobj.getJSONArray("result"));
                                 }
@@ -69,7 +68,7 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                             }
                             else
                             {
-                                loading=true;
+                                listend=true;
                             }
                         }
                     });
@@ -87,6 +86,7 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
     }
     void prepareAlbum(JSONArray jarray)
     {
+        loading=false;
         for(int i=0;i<jarray.length();i++)
         {
             try {
@@ -104,7 +104,8 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                 e.printStackTrace();
             }
         }
-        adapter.notifyDataSetChanged();
+       adapter.notifyDataSetChanged();
+
     }
 
 }
