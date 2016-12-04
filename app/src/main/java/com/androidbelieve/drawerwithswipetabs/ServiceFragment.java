@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,7 +195,14 @@ public class ServiceFragment extends Fragment {
         });
 
         fragment=this;
-
+        ScrollView scrollView=(ScrollView)view.findViewById(R.id.scrolv);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                (view.findViewById(R.id.lv_links)).getParent().getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -398,7 +406,7 @@ public class ServiceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //add validation here
-                GenericAsyncTask g=new GenericAsyncTask(getContext(), Config.link+"new service.php", "", new AsyncResponse() {
+                GenericAsyncTask g=new GenericAsyncTask(getContext(), Config.link+"new%20service.php", "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         if(output!=null) {
@@ -430,14 +438,14 @@ public class ServiceFragment extends Fragment {
                 });
              //   g.setProgressView(true);
                 g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
-                g.setImagePost(images,0);
+
                 int i=0;
                 for(String x:links)
                 {
                     g.setExtraPost("link"+Integer.toString(i++),x);
                 }
-
-                //g.execute();
+                g.setImagePost(images,0);
+//                g.execute();
             }
         });
         location=(Button)view.findViewById(R.id.btn_location);
@@ -641,23 +649,26 @@ public class ServiceFragment extends Fragment {
         }
         if(requestCode == 22)
         {
-            links=data.getStringArrayListExtra("links");
+            //links=data.getStringArrayListExtra("links");
+            links.addAll(data.getStringArrayListExtra("links"));
+
             int l = links.size();
             lvlinks.setVisibility(View.VISIBLE);
-            setListViewHeightBasedOnChildren(lvlinks);
+          //  setListViewHeightBasedOnChildren(lvlinks);
 
             lvlinks.setOnTouchListener(new View.OnTouchListener() {
                 // Setting on Touch Listener for handling the touch inside ScrollView
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     // Disallow the touch request for parent scroll on touch of child view
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
+
+                    lvlinks.getParent().requestDisallowInterceptTouchEvent(true);
+
+
                     return false;
                 }
             });
             lvlinks.setAdapter(linksAdapter);
-            int h =  50*l;
-            lvlinks.setMinimumHeight(h);
         }
     }
 
@@ -822,6 +833,7 @@ public class ServiceFragment extends Fragment {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+        listView.setMinimumHeight(totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)));
     }
     public boolean isCameraStorageAllowed()
     {

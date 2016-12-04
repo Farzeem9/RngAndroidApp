@@ -46,6 +46,7 @@ public class AdLinksActivity extends AppCompatActivity {
                                        @Override
                                        public void onClick(View view) {
                                            lllinks.setVisibility(View.VISIBLE);
+                                           etlinks.setText("");
                                        }
                                    }
         );

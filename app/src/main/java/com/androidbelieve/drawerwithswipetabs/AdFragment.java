@@ -239,6 +239,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     rent_subtypes.add("5");
                     rent_subtypes.add("6");
                     rent_types.remove("Select a Category");
+                    show_day();
                     rent_subtypes.remove("Select a sub-category");
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
@@ -247,6 +248,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     rent_subtypes.add("3");
                     rent_types.remove("Select a Category");
                     rent_subtypes.remove("Select a sub-category");
+                    show_week();
                 } else if (item == "Months")
                 {
                     rent_subtypes.clear();
@@ -264,6 +266,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     rent_subtypes.add("12");
                     rent_types.remove("Select a Category");
                     rent_subtypes.remove("Select a sub-category");
+                    showall();
                 }
                 spinner_subrent.setSelection(0, true);
 
@@ -338,6 +341,21 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         });
 
         return view;
+    }
+    void showall()
+    {
+        view.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.month).setVisibility(View.VISIBLE);
+    }
+    void show_week()
+    {
+        view.findViewById(R.id.month).setVisibility(View.GONE);
+        view.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
+    }
+    void show_day()
+    {
+        view.findViewById(R.id.weeks).setVisibility(View.GONE);
+        view.findViewById(R.id.month).setVisibility(View.GONE);
     }
     void hidePager()
     {

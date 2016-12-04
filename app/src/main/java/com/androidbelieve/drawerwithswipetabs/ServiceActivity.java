@@ -41,6 +41,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -198,7 +199,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public void onRent(final String message)
     {
         AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link=Config.link+"reqNoti.php?message="+message+" for "+rentperiod;
+            String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message)+" for "+rentperiod;
             @Override
             protected String doInBackground(String... params) {
                 try {

@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -154,7 +155,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     public void onRent(final String message)
     {
             AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-                String link=Config.link+"reqNoti.php?message="+message+" for "+rentperiod;
+                String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message)+" for "+rentperiod;
                 @Override
                 protected String doInBackground(String... params) {
                     try {
@@ -298,8 +299,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             String city=c.getString("LOCATION");
             String age=c.getString("AGE");
             String deposit=c.getString("DEPOSIT");
+            String cat=c.getString("SUBCAT");
             canrent=c.getString("CANRATE");
-
+            ((TextView)findViewById(R.id.tv_subcat)).setText(cat);
             Date today=new Date();
             String ddate;
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
