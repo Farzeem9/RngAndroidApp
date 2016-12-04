@@ -28,12 +28,15 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:minLines="2"
+                android:maxLines="2"
                 android:layout_below="@id/thumbnail"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
                 android:textColor="@color/album_title"
-                android:textSize="@dimen/album_title" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/count"

@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ public class Category_List extends AppCompatActivity {
     private AlbumsAdapter adapter;
     private ArrayList<Album> albumList;
     private Toolbar toolbar;
+    private CollapsingToolbarLayout toolbarLayout;
     private GetJSON getJSON;
     private InfScrollviewListener infScrollviewListener;
     @Override
@@ -39,6 +41,7 @@ public class Category_List extends AppCompatActivity {
                 finish();
             }
         });
+
         albumList = new ArrayList<>();
         adapter = new AlbumsAdapter(this, albumList);
 
