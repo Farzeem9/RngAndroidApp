@@ -56,7 +56,7 @@ import java.util.List;
  */
 public class AdFragment extends Fragment implements AdapterView.OnItemClickListener {
     private CheckBox r1,r2,r3;
-    private Spinner spinner,spinner_rent,spinner_subrent;
+    private Spinner spinner,spinner_rent,spinner_subrent,spinner2;
     private EditText inputPname, inputPdesc, inputPage, inputPrent, inputPdeposit;
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
     private TextView city;
@@ -179,15 +179,19 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
 
 
         spinner = (Spinner) (view).findViewById(R.id.sp_types);
+        spinner2 = (Spinner) (view).findViewById(R.id.sp_subtypes);
         spinner_rent = (Spinner) (view).findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) (view).findViewById(R.id.sp_rent_subtypes);
         List<String> categories = new ArrayList<String>();
-        categories.add("Mobiles");
+        final List<String> categories2 = new ArrayList<String>();
+        categories.add("Electronics & Appliances");
         categories.add("Cars");
-        categories.add("Books");
-        categories.add("Pots");
         categories.add("Bikes");
-        categories.add("Select a Category");
+        categories.add("Furniture");
+        categories.add("Books, Sports & Hobbies");
+        categories.add("Fashion");
+        categories.add("Real Estate");
+        categories.add("Tools & Equipments");
 
         final List<String> rent_types = new ArrayList<>();
         rent_types.add("Select a Category");
@@ -202,21 +206,90 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rent_types);
         ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rent_subtypes);
+        ArrayAdapter<String> dataAdapter4 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories2);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
         spinner_rent.setAdapter(dataAdapter2);
         spinner_subrent.setAdapter(dataAdapter3);
+        spinner2.setAdapter(dataAdapter4);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
+                                                  if(item=="Electronics & Appliances"){
+                                                      categories2.clear();
+                                                      categories2.add("Mobile Phone");
+                                                      categories2.add("Tablet");
+                                                      categories2.add("Accessories");
+                                                      categories2.add("Computer & Laptop");
+                                                      categories2.add("TV, Video-Audio");
+                                                      categories2.add("Printer");
+                                                      categories2.add("Computer Accessories");
+                                                      categories2.add("Camera & Lenses");
+                                                      categories2.add("Kitchen Appliance");
+                                                      categories2.add("Speakers");
+                                                      categories2.add("Projectors");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Cars"){
+                                                      categories2.clear();
+                                                      categories2.add("Cars");
+                                                      categories2.add("Commerical Vehicle");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Bikes"){
+                                                      categories2.clear();
+                                                      categories2.add("Bike");
+                                                      categories2.add("Scooter");
+                                                      categories2.add("Bicycle");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Furniture"){
+                                                      categories2.clear();
+                                                      categories2.add("Sofa");
+                                                      categories2.add("Dining");
+                                                      categories2.add("Bed");
+                                                      categories2.add("Wardrobe");
+                                                      categories2.add("Home Décor & Garden");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Books, Sports & Hobbies"){
+                                                      categories2.clear();
+                                                      categories2.add("Book");
+                                                      categories2.add("Musical Instrument");
+                                                      categories2.add("Sports Equipment");
+                                                      categories2.add("Travel & Camping");
+                                                      categories2.add("Gaming");
+                                                      categories2.add("Party Equipment");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Fashion"){
+                                                      categories2.clear();
+                                                      categories2.add("Men");
+                                                      categories2.add("Women");
+                                                      categories2.add("Kids");
+                                                  }
+                                                  else if(item=="Real Estate"){
+                                                      categories2.clear();
+                                                      categories2.add("Residential");
+                                                      categories2.add("Commercial");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Tools & Equipments"){
+                                                      categories2.clear();
+                                                      categories2.add("Power tool");
+                                                      categories2.add("Spanner");
+                                                      categories2.add("Others");
 
+                                                  }
+                                                  spinner2.setSelection(1,true);
                                               }
 
                                               @Override
@@ -225,6 +298,9 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                               }
                                           }
         );
+
+
+
         spinner_rent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -350,12 +426,15 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     void show_week()
     {
         view.findViewById(R.id.month).setVisibility(View.GONE);
+        r3.setChecked(false);
         view.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
     }
     void show_day()
     {
         view.findViewById(R.id.weeks).setVisibility(View.GONE);
         view.findViewById(R.id.month).setVisibility(View.GONE);
+        r2.setChecked(false);
+        r3.setChecked(false);
     }
     void hidePager()
     {
