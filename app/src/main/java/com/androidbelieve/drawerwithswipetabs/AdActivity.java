@@ -419,7 +419,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
             RadioButton rb=(RadioButton)findViewById(R.id.less);
             rb.setFocusableInTouchMode(true);
-            rb.setError("Please select at least one option!");
+            rb.setError("Please select one option!");
             rb.requestFocus();
 
             return;
