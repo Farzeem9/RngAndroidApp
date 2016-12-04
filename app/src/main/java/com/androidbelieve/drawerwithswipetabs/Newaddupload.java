@@ -71,7 +71,7 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
         try {
             String link = Config.link+"newad.php?pid="+pid+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rent+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size())+"&crent="+f2+"&maxrent="+f1+"&city="+city;
             if(this.subcat!="")
-                link+="subcat="+subcat;
+                link+="&subcat="+subcat;
             Log.v("link",link);
             URL url = new URL(link);
 
