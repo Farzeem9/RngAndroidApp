@@ -199,7 +199,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public void onRent(final String message)
     {
         AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message)+" for "+rentperiod;
+            String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message)+"%20for%20"+URLEncoder.encode(rentperiod);
             @Override
             protected String doInBackground(String... params) {
                 try {
