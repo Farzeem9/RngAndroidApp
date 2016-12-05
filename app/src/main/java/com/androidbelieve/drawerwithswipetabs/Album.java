@@ -7,9 +7,11 @@ public class Album {
     private int numOfSongs;
     private int thumbnail;
     private String link;
-    private String aid;
+    private String aid,pid,subcat;
 
-    public Album(String name, int numOfSongs, int thumbnail,String aid) {
+    public Album(String subcat,String pid,String name, int numOfSongs, int thumbnail,String aid) {
+        this.pid=pid;
+        this.subcat=subcat;
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
@@ -31,11 +33,14 @@ public class Album {
     public void setName(String name) {
         this.name = name;
     }
-
+    public String getPid()
+    {
+        return pid;
+    }
     public int getNumOfSongs() {
         return numOfSongs;
     }
-
+    public String getSubcat(){return subcat;}
     public void setNumOfSongs(int numOfSongs) {
         this.numOfSongs = numOfSongs;
     }

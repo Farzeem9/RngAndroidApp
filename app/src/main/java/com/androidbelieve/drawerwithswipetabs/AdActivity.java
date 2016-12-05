@@ -34,12 +34,13 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
-    private TextView name,desc,rent,date,city,age,deposit;
+    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent;
     private String aid;
     private MenuItem star;
     private Button rating_comments;
@@ -59,6 +60,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
+
         radioGroup= (RadioGroup) findViewById(R.id.rg_period);
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);
@@ -84,6 +86,8 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         age=(TextView)findViewById(R.id.tv_prod_age);
         deposit=(TextView)findViewById(R.id.tv_prod_dep);
         date=(TextView)findViewById(R.id.tv_date);
+        crent=(TextView)findViewById(R.id.crent);
+        maxrent=date=(TextView)findViewById(R.id.tv_max_rent);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
@@ -301,10 +305,25 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             String deposit=c.getString("DEPOSIT");
             String cat=c.getString("SUBCAT");
             canrent=c.getString("CANRATE");
+            String[] crent=c.getString("crent").split(",");
+            String temp="";
+            for(String x:crent)
+            temp+=x+" ";
+            this.crent.setText(temp);
+
+            String maxrent=c.getString("maxrent");
+            Log.v("maxrent",maxrent);
+            int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
+            //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
+            String temp2=new String("Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1));
+            Log.v("maxrent",temp2);
+
+            this.maxrent.setText(temp2);
             ((TextView)findViewById(R.id.tv_subcat)).setText(cat);
             Date today=new Date();
             String ddate;
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+            date.setTime(date.getTime()+19800000);
             Log.v("timeStamp",timestamp);
             Log.v("date",date.toString());
             if(today.getDay()==date.getDay())
@@ -318,6 +337,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 if(!(today.getYear()==date.getYear()))
                     ddate+=date.getYear()+" ";
             }
+            Log.v("date",ddate);
+
+
             this.date.setText(ddate);
             this.city.setText(city);
             this.age.setText(age + " Years");

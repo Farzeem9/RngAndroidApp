@@ -81,7 +81,12 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         more= (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
-
+        final TextView[] count=new TextView[5];
+        count[0]=(TextView)findViewById(R.id.count1);
+        count[1]=(TextView)findViewById(R.id.count2);
+        count[2]=(TextView)findViewById(R.id.count3);
+        count[3]=(TextView)findViewById(R.id.count4);
+        count[4]=(TextView)findViewById(R.id.count5);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
@@ -121,36 +126,29 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             }
         });
         genericAsyncTaskgetservice.execute();
-
-        //getAd=new GetAd(sid, AccessToken.getCurrentAccessToken().getUserId());
-        //getAd.execute();
-//        rating_comments.setClickable(false);
-        //final ProgressDialog progressDialog=new ProgressDialog(this);
-       // progressDialog.setMessage("Fetching ad Please wait");
-       // progressDialog.setIndeterminate(true);
-      //  progressDialog.show();
-
-/*        genericAsyncTask=new GenericAsyncTask(this, "http://rng.000webhostapp.com/sendrating.php?sid=" + sid, "", new AsyncResponse() {
+        new GenericAsyncTask(this, Config.link + "sendcommentservice.php?sid=" + sid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
-                int i=Integer.parseInt((String)output);
-                ratingBar.setProgress(i);
-                rating_comments.setClickable(true);
-                progressDialog.dismiss();
-            }
-        });*/
-        //genericAsyncTask.execute();
+                if(output!=null)
+                {
 
-/*        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String abc= checkedId+"";
-                Toast.makeText(MyServiceActivity.this,abc, Toast.LENGTH_SHORT).show();
-                RadioButton rb=(RadioButton)findViewById(checkedId);
-                rentperiod=rb.getText().toString();
-                selected=true;
+                    String out=(String)output;
+                    String[] delim=out.split(";;");
+                    for(String x:delim)
+                    {
+                        String[] temp = x.split(",,");
+                        try {
+                            count[Integer.parseInt(temp[0])].setText(temp[1]);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            Log.v("Temp string",x);
+                        }
+                    }
+                }
             }
-        });*/
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
     @Override
     protected void onStop() {

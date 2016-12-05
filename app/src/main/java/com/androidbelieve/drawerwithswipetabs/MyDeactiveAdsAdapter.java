@@ -87,7 +87,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
         holder.ads.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
-          Intent i=new Intent(mContext,AdActivity.class);
+          Intent i=new Intent(mContext,MyAdActivity.class);
          i.putExtra("AID",aid);
          mContext.startActivity(i);
 

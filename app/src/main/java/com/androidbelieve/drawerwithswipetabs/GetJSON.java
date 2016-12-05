@@ -84,11 +84,13 @@ public class GetJSON extends AsyncTask<String, Void, String> {
         {
             try {
                 JSONObject ad = jarray.getJSONObject(i);
+                String pid=ad.getString("PID");
                 String name = ad.getString("PROD_NAME");
                 String aid = ad.getString("AID");
+                String subcat=ad.getString("CATEGORY");
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
 
-                Album a=new Album(name,amount,i,aid);
+                Album a=new Album(subcat,pid,name,amount,i,aid);
                 albumList.add(a);
 
             }

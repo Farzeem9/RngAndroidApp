@@ -83,7 +83,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:layout_weight="2"
-                    android:text="Subcat"/>
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/tv_date"

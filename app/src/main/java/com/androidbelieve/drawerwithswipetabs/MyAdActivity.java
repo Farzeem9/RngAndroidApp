@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +46,12 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_my_ad);
-
+        final TextView[] count=new TextView[5];
+        count[0]=(TextView)findViewById(R.id.count1);
+        count[1]=(TextView)findViewById(R.id.count2);
+        count[2]=(TextView)findViewById(R.id.count3);
+        count[3]=(TextView)findViewById(R.id.count4);
+        count[4]=(TextView)findViewById(R.id.count5);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         //rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -71,6 +77,11 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
+        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Fetching ad Please wait");
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+
         //rating_comments.setClickable(false);
         new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId()).execute();
         new GenericAsyncTask(this, Config.link+"sendrating.php?aid=" + aid, "", new AsyncResponse() {
@@ -78,9 +89,32 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             public void processFinish(Object output) {
                 int i=Integer.parseInt((String)output);
                 ratingBar.setProgress(i);
-              //  rating_comments.setClickable(true);
+                progressDialog.dismiss();
             }
         }).execute();
+        new GenericAsyncTask(this, Config.link + "sendcomment.php?aid=" + aid, "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                if(output!=null)
+                {
+
+                    String out=(String)output;
+                    String[] delim=out.split(";;");
+                    for(String x:delim)
+                    {
+                        String[] temp = x.split(",,");
+                       try {
+                           count[Integer.parseInt(temp[0])].setText(temp[1]);
+                       }
+                       catch (Exception e)
+                       {
+                           e.printStackTrace();
+                           Log.v("Temp string",x);
+                       }
+                    }
+                }
+            }
+        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -128,7 +162,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             String result = null;
             try {
 
-                String link = "http://rng.000webhostapp.com/fetchad.php?aid=" + aid+"&pid="+pid;
+                String link = Config.link+"fetchad.php?aid=" + aid+"&pid="+pid;
                 Log.v("link",link);
                 URL url = new URL(link);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

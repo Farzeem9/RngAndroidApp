@@ -2,9 +2,12 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.util.Log;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class Notification {
@@ -51,7 +54,8 @@ static String Month(Date d)
         this.type=type;
         this.nid=nid;
         Date today=new Date();
-        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK).parse(timestamp);
+        date.setTime(date.getTime()+19800000);
         Log.v("timeStamp",timestamp);
         Log.v("date",date.toString());
         if(today.getDay()==date.getDay())
@@ -66,7 +70,9 @@ static String Month(Date d)
                 this.date+=date.getYear()+" ";
         }
 
-        this.time=new SimpleDateFormat("HH:mm").format(date);
+        DateFormat time=new SimpleDateFormat("HH:mm");
+        this.time=time.format(date);
+
     }
     public String getNid()
     {

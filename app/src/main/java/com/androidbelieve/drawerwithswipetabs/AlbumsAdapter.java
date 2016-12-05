@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -30,11 +31,12 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
+        public TextView title, count,subcat;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
             super(view);
+            subcat=(TextView)view.findViewById(R.id.tv_subcat);
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
@@ -59,8 +61,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Album album = albumList.get(position);
+        final Album album = albumList.get(position);
         holder.title.setText(album.getName());
+        holder.subcat.setText(album.getSubcat());
         holder.count.setText("₹ " + album.getNumOfSongs() );
         Log.v("link of album",album.getLink());
         Log.v("aid",album.getAid());
@@ -70,7 +73,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(mContext,AdActivity.class);
+               Intent i;
+                if(album.getPid().equals(AccessToken.getCurrentAccessToken().getUserId()))
+                i=new Intent(mContext,MyAdActivity.class);
+                else
+                i=new Intent(mContext,AdActivity.class);
                 i.putExtra("AID",aid);
                 mContext.startActivity(i);
             }

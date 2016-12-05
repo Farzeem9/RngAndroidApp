@@ -67,8 +67,10 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         ServiceAlbum album = albumList.get(position);
         Log.v("Holder added" ,"here");
         holder.title.setText(album.getName());
-        holder.count.setText("₹ " + album.getNumOfSongs() );
+        String temp="₹ " + album.getNumOfSongs();
+        holder.count.setText(temp );
         holder.date.setText(album.getDate());
+        Log.v("cat in holder",album.getsubCat());
         holder.subcat.setText(album.getsubCat());
         Drawable errord=mContext.getResources().getDrawable(album.getThumbnail());
         //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link

@@ -37,12 +37,12 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
     Newaddupload(String subcat,Activity a,String pid, String prod_name, String description, String prod_age, String category, String rent, String prod_deposit, ArrayList<Bitmap> images,Context c,String f1,String f2,String city)
     {
         this.a=a;
-        this.subcat=subcat;
+        this.subcat=URLEncoder.encode(subcat);
         this.pid=pid;
         this.prod_name= URLEncoder.encode(prod_name);
         this.description= URLEncoder.encode(description);
         this.prod_age=prod_age;
-        this.category=category;
+        this.category=URLEncoder.encode(category);
         this.rent=rent;
         this.prod_deposit=prod_deposit;
         this.images=images;
