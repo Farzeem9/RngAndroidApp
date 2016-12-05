@@ -289,7 +289,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                       categories2.add("Others");
 
                                                   }
-                                                  spinner2.setSelection(1,true);
+                                                  spinner2.setSelection(0,true);
                                               }
 
                                               @Override
