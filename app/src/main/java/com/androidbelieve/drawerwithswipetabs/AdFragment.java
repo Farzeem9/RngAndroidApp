@@ -289,7 +289,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                       categories2.add("Others");
 
                                                   }
+
                                                   spinner2.setSelection(0,true);
+
+                                          ///        spinner2.setSelection(1,true);
+
                                               }
 
                                               @Override
@@ -396,7 +400,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 if(r3.isChecked())
                     f2=f2+"Months";
                 if(images.size()>=2&&images.size()<=5)
-                    new Newaddupload(getActivity(),AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
+                    new Newaddupload((String)spinner2.getSelectedItem(),getActivity(),AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
                 else
                     Toast.makeText(getContext(), "Please select proper number of Images!!", Toast.LENGTH_SHORT).show();
             }
