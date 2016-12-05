@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class Service_Category extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class Service_Category extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + cat, "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + URLEncoder.encode(cat), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {

@@ -40,10 +40,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         String cat=categories.get(position);
-        if(cat.contains("and")) {
-            Log.v("cat contains abd","okay");
-            cat=cat.replace("and", "and\n");
-        }
+
 
         holder.category.setText(cat);
 
