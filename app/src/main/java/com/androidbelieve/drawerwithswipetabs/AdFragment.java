@@ -192,15 +192,17 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         categories.add("Fashion");
         categories.add("Real Estate");
         categories.add("Tools & Equipments");
+        categories2.add(" ");
 
         final List<String> rent_types = new ArrayList<>();
-        rent_types.add("Select a Category");
+        //rent_types.add("Select a Category");
         rent_types.add("Days");
         rent_types.add("Weeks");
         rent_types.add("Months");
 
         final List<String> rent_subtypes= new ArrayList<>();
-        rent_subtypes.add("Select a sub-category");
+        rent_subtypes.add(" ");
+        //rent_subtypes.add("Select a sub-category");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
@@ -289,7 +291,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                       categories2.add("Others");
 
                                                   }
-
+                                                  spinner2.setSelection(1,true);
                                                   spinner2.setSelection(0,true);
 
                                           ///        spinner2.setSelection(1,true);
@@ -318,16 +320,16 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     rent_subtypes.add("4");
                     rent_subtypes.add("5");
                     rent_subtypes.add("6");
-                    rent_types.remove("Select a Category");
+                    //rent_types.remove("Select a Category");
                     show_day();
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_subtypes.remove("Select a sub-category");
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
-                    rent_types.remove("Select a Category");
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_types.remove("Select a Category");
+                    //rent_subtypes.remove("Select a sub-category");
                     show_week();
                 } else if (item == "Months")
                 {
@@ -344,10 +346,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     rent_subtypes.add("10");
                     rent_subtypes.add("11");
                     rent_subtypes.add("12");
-                    rent_types.remove("Select a Category");
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_types.remove("Select a Category");
+                    //rent_subtypes.remove("Select a sub-category");
                     showall();
                 }
+                spinner_subrent.setSelection(1,true);
                 spinner_subrent.setSelection(0, true);
 
             }

@@ -51,7 +51,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
-        toolbar.setNavigationIcon(getResources().getDrawable(android.R.drawable.ic_media_previous));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,7 +262,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         startActivity(i);
     }
 
-    void getMenus(Menu menu)
+    /*void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);
         GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/checkwishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
@@ -284,19 +284,19 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             }
         });
         g.execute();
-    }
+    }*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.menu_show_ad, menu);
-        getMenus(menu);
+        getMenuInflater().inflate(R.menu.menu_my_ad, menu);
+        //getMenus(menu);
         return super.onCreateOptionsMenu(menu);
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
                 return true;
-            case R.id.action_wishlist:
+           /* case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
@@ -309,7 +309,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
                     }
                 });
                 g.execute();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

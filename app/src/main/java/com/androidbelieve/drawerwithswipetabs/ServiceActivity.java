@@ -63,8 +63,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private String canrent;
     private boolean set=false;
     private Toolbar toolbar;
-    private RadioGroup radioGroup;
-    private RadioButton less,more,equal;
     private boolean selected=false;
     private String rentperiod;
     private GenericAsyncTask genericAsyncTask;
@@ -88,10 +86,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         setContentView(R.layout.activity_service);
         String sid=getIntent().getStringExtra("sid");
         this.sid=sid;
-        radioGroup= (RadioGroup) findViewById(R.id.rg_period);
-        less= (RadioButton) findViewById(R.id.less);
-        equal= (RadioButton) findViewById(R.id.equal);
-        more= (RadioButton) findViewById(R.id.more);
+
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         images=new ArrayList<>();
 
@@ -167,18 +162,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         });
        genericAsyncTask.execute();
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String abc= checkedId+"";
-                RadioButton rb=(RadioButton)findViewById(checkedId);
-                rentperiod=rb.getText().toString();
-                rb=(RadioButton)findViewById(R.id.less);
-                rb.setFocusableInTouchMode(false);
-                rb.setError(null);
-                selected=true;
-            }
-        });
+
 
     }
 

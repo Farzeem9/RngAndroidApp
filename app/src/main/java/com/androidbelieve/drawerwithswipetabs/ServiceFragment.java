@@ -114,6 +114,7 @@ public class ServiceFragment extends Fragment {
         categories.add("Business");
         categories.add("Lifestyle");
         categories.add("Gifts");
+        categories2.add(" ");
         //categories2.add("Select a Sub-Category");
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categories);
@@ -382,6 +383,7 @@ public class ServiceFragment extends Fragment {
                   //  categories.remove("Select a Category");
                   //  categories2.remove("Select a Sub-Category");
                 }
+                spinner2.setSelection(1,true);
                 spinner2.setSelection(0,true);
             }
 

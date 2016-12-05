@@ -196,29 +196,7 @@
                         </android.support.v7.widget.CardView>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rg_period"
-                    android:layout_marginTop="5dp">
 
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusableInTouchMode="true"
-                        android:id="@+id/less"
-                        android:text="Less than Rent period"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/equal"
-                        android:text="Same as Rent period"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/more"
-                        android:text="More than Rent period"/>
-                </RadioGroup>
 
                 <View
                     android:layout_width="match_parent"
@@ -248,7 +226,7 @@
                     android:layout_gravity="center"
                     android:onClick="onRateAndComment"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="35dp"
+
                     android:textColor="#000000"
                     android:text="Rate And Comment" />
                 <!--LinearLayout
@@ -275,29 +253,36 @@
                     android:drawableLeft="@android:drawable/star_big_off"
                     android:textSize="12sp" />
                 </LinearLayout-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray"/>
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:weightSum="12"
+                    >
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Rent Now"
+                        android:onClick="onUrgentRent"
+                        android:id="@+id/btn_rent"
+                        android:background="@color/red"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/white"
+                        android:layout_weight="12"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentBottom="true"
-        android:weightSum="12"
-        >
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Rent Now"
-            android:onClick="onUrgentRent"
-            android:id="@+id/btn_rent"
-            android:background="@color/red"
-            android:textColor="@color/white"
-            android:layout_weight="12"
-            />
-    </LinearLayout>
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
