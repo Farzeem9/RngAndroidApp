@@ -14,6 +14,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,5 +142,17 @@ public class Service_Category extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        FacebookSdk.sdkInitialize(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FacebookSdk.sdkInitialize(this);
     }
 }
