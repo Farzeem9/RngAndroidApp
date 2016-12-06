@@ -131,8 +131,8 @@ public class Service_Category extends AppCompatActivity {
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
                 String timestamp=ad.getString("TIMESTAMP");
                 String subcat=ad.getString("SUBCATEGORY");
-
-                albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
+                String pid=ad.getString("PID");
+                albumList.add(new ServiceAlbum(pid,name,amount,R.drawable.broly,sid,timestamp,subcat));
             }
             catch(Exception e)
             {

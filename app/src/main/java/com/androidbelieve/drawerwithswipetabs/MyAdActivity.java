@@ -33,7 +33,7 @@ import java.util.Date;
 public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
-    private TextView name,desc,rent,date,city,age,deposit;
+    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent;
     private String aid;
     private MenuItem star;
     private Button rating_comments;
@@ -73,6 +73,8 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         deposit=(TextView)findViewById(R.id.tv_prod_dep);
         date=(TextView)findViewById(R.id.tv_date);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
+        crent=(TextView)findViewById(R.id.crent);
+        maxrent=(TextView)findViewById(R.id.tv_max_rent);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
@@ -234,6 +236,22 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             String age=c.getString("AGE");
             String deposit=c.getString("DEPOSIT");
             canrent=c.getString("CANRATE");
+
+            String[] crent=c.getString("crent").split(",");
+            String temp="";
+            for(String x:crent)
+                temp+=x+" ";
+            this.crent.setText(temp);
+
+            String maxrent=c.getString("maxrent");
+            Log.v("maxrent",maxrent);
+            int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
+            //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
+            String temp2=new String("Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1));
+            Log.v("maxrent",temp2);
+
+            this.maxrent.setText(temp2);
+
 
             Date today=new Date();
             String ddate;

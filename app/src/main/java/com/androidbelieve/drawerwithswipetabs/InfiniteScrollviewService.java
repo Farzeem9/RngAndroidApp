@@ -96,8 +96,8 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
                 String timestamp=ad.getString("TIMESTAMP");
                 String subcat=ad.getString("SUBCAT");
-
-                albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
+                String pid=ad.getString("PID");
+                albumList.add(new ServiceAlbum(pid,name,amount,R.drawable.broly,sid,timestamp,subcat));
             }
             catch(Exception e)
             {

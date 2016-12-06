@@ -17,12 +17,14 @@ public class ServiceAlbum {
     private int numOfSongs;
     private int thumbnail;
     private String cat;
+    private String pid;
     private String date;
     private String link;
     private String sid;
 
-    public ServiceAlbum(String name, int numOfSongs, int thumbnail, String sid,String timestamp,String cat) throws ParseException {
+    public ServiceAlbum(String pid,String name, int numOfSongs, int thumbnail, String sid,String timestamp,String cat) throws ParseException {
         this.name = name;
+        this.pid=pid;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.sid=sid;
@@ -50,7 +52,7 @@ public class ServiceAlbum {
     public String getName() {
         return name;
     }
-
+    public String getPid(){return pid;}
     public void setName(String name) {
         this.name = name;
     }

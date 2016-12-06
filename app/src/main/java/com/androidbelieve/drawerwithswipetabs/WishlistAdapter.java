@@ -25,6 +25,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
 
     private Context mContext;
     private List<Ads> adList;
+    private boolean isservice=false;
     private static Ads Ads;
     private static int pos;
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -54,9 +55,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
         }
     }
 
-    public WishlistAdapter(Context mContext, List<Ads> adList) {
+    public WishlistAdapter(Context mContext, List<Ads> adList,boolean isservice) {
         this.mContext = mContext;
         this.adList = adList;
+        this.isservice=isservice;
     }
 
     @Override
@@ -120,7 +122,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_remove:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"wishlist.php?aid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                    String link=Config.link+"wishlist.php?aid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId();
+                    if(isservice)
+                        link=Config.link+"servicewishlist.php?sid=" + Ads.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId();
+
+                    GenericAsyncTask g=new GenericAsyncTask(mContext,link , "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             if(output!=null) {

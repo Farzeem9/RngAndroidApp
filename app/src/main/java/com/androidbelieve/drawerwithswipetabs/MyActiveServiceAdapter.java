@@ -90,7 +90,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
          @Override
           public void onClick(View view) {
           Intent i=new Intent(mContext,MyServiceActivity.class);
-         i.putExtra("SID",aid);
+         i.putExtra("sid",aid);
          mContext.startActivity(i);
 
         }

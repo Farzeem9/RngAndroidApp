@@ -50,6 +50,30 @@ public class Ads {
         }
 
     }
+    public Ads(String status,String specs,String price,String timestamp,String sid,String imagelink) throws ParseException {
+        this.status = status;
+        this.specs = specs;
+        this.price = price;
+        this.aid=sid;
+        this.link=Config.link+"imgthumbnail.php?sid="+sid;
+        Date today=new Date();
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+        date.setTime(date.getTime()+19800000);
+        Log.v("timeStamp",timestamp);
+        Log.v("date",date.toString());
+        if(today.getDay()==date.getDay())
+            this.date="Today ";
+        else if(today.getDay()==date.getDay()+1)
+            this.date="Yesterday ";
+        else
+        {
+
+            this.date=date.getDay()+" "+Month(date)+" ";
+            if(!(today.getYear()==date.getYear()))
+                this.date+=date.getYear()+" ";
+        }
+
+    }
     public String getStatus() {
         return status;
     }

@@ -22,14 +22,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceWishlistFragment extends Fragment {
     private ViewGroup rootView;
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
-    private ServiceCategoryAdapter adapter;
-    private ArrayList<ServiceAlbum> albumList;
+    //private ServiceCategoryAdapter adapter;
+    //private ArrayList<ServiceAlbum> albumList;
     private GenericAsyncTask genericAsyncTask;
+    private List<Ads> list_ad;
+    private WishlistAdapter adapter;
     public ServiceWishlistFragment()
     {
         //Required empty constructor
@@ -41,8 +44,8 @@ public class ServiceWishlistFragment extends Fragment {
         rootView = (ViewGroup) inflater.inflate(R.layout.services_wishlist_tab,null);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_wishlist);
         recyclerView.setHasFixedSize(true);
-        albumList = new ArrayList<>();
-        adapter = new ServiceCategoryAdapter(getContext(), albumList);
+        list_ad = new ArrayList<>();
+        adapter = new WishlistAdapter(getContext(), list_ad,true);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -118,11 +121,10 @@ public class ServiceWishlistFragment extends Fragment {
                     JSONObject ad = jarray.getJSONObject(i);
                     String name = ad.getString("SNAME");
                     String sid = ad.getString("SID");
-                    int amount = Integer.parseInt(ad.getString("STARTRENT"));
+                    String amount =ad.getString("STARTRENT");
                     String timestamp=ad.getString("TIMESTAMP");
                     String subcat=ad.getString("CATEGORY");
-
-                    albumList.add(new ServiceAlbum(name,amount,R.drawable.broly,sid,timestamp,subcat));
+                    list_ad.add(new Ads(subcat,name,amount,timestamp,sid,""));
                 }
                 catch(Exception e)
                 {

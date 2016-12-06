@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
 
     private Context mContext;
     private ArrayList<ServiceAlbum> albumList;
-
+    static  ServiceAlbum Ads;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count,date,subcat;
@@ -64,7 +65,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        ServiceAlbum album = albumList.get(position);
+        final ServiceAlbum album = albumList.get(position);
         Log.v("Holder added" ,"here");
         holder.title.setText(album.getName());
         String temp="₹ " + album.getNumOfSongs();
@@ -80,6 +81,8 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(mContext,ServiceActivity.class);
+                if(album.getPid().equals(AccessToken.getCurrentAccessToken().getUserId()))
+                i=new Intent(mContext,MyServiceActivity.class);
                 i.putExtra("sid",aid);
                 mContext.startActivity(i);
             }
@@ -88,6 +91,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Ads=album;
                 showPopupMenu(holder.overflow);
             }
         });
@@ -117,7 +121,15 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to Wishlist", Toast.LENGTH_SHORT).show();
+                    if(!Ads.getPid().equals(AccessToken.getCurrentAccessToken().getUserId())) {
+                        GenericAsyncTask g = new GenericAsyncTask(mContext, Config.link + "servicewishlist.php?sid=" + Ads.getSid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                            @Override
+                            public void processFinish(Object output) {
+                                String out = (String) output;
+                            }
+                        });
+                        g.execute();
+                    }
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();

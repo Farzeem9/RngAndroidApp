@@ -97,7 +97,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 finish();
             }
         });
-        sid = getIntent().getStringExtra("SID");
+        sid = getIntent().getStringExtra("sid");
         name=(TextView)findViewById(R.id.tv_sname);
         desc=(TextView)findViewById(R.id.tv_desc);
         rent=(TextView)findViewById(R.id.tv_rent);

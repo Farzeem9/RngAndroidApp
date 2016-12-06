@@ -56,7 +56,7 @@ public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,rent,deposit,duration;
     private Toolbar toolbar=null;
     private TextView city;
-    private Spinner spinner_rent,spinner_subrent,spinner;
+    private Spinner spinner_rent,spinner_subrent,spinner,spinner2;
     private String aid;
     private CheckBox r1,r2,r3;
     private RecyclerView rr;
@@ -250,6 +250,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("6");
                     rent_types.remove("Select a Category");
                     rent_subtypes.remove("Select a sub-category");
+                    show_day();
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
                     rent_subtypes.add("1");
@@ -257,6 +258,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("3");
                     rent_types.remove("Select a Category");
                     rent_subtypes.remove("Select a sub-category");
+                    show_week();
                 } else if (item == "Months")
                 {
                     rent_subtypes.clear();
@@ -274,6 +276,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("12");
                     rent_types.remove("Select a Category");
                     rent_subtypes.remove("Select a sub-category");
+                    showall();
                 }
                 spinner_subrent.setSelection(0, true);
 
@@ -583,11 +586,31 @@ public class EditAdActivity extends AppCompatActivity {
                 finish();
             }
         });
-        g.setPostParams("aid",aid,"work",Integer.toString(work),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         int i=1;
         g.setImagePost(images,1);
         //g.execute();
     }
+
+    void showall()
+    {
+        findViewById(R.id.weeks).setVisibility(View.VISIBLE);
+        findViewById(R.id.month).setVisibility(View.VISIBLE);
+    }
+    void show_week()
+    {
+        findViewById(R.id.month).setVisibility(View.GONE);
+        r3.setChecked(false);
+        findViewById(R.id.weeks).setVisibility(View.VISIBLE);
+    }
+    void show_day()
+    {
+        findViewById(R.id.weeks).setVisibility(View.GONE);
+        findViewById(R.id.month).setVisibility(View.GONE);
+        r2.setChecked(false);
+        r3.setChecked(false);
+    }
+
 
     void fillAdd(JSONArray jarray)
     {
@@ -602,7 +625,8 @@ public class EditAdActivity extends AppCompatActivity {
 
 //            String maxrent=c.getString("maxrent");
 //            String crent=c.getString("crent");
-//            String city=c.getString("CITY");
+            String city=c.getString("CITY");
+            this.city.setText(city);
             JSONArray links=c.getJSONArray("LINKS");
 
             ArrayList<String> alllinks=new ArrayList<>();
