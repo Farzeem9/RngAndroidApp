@@ -36,12 +36,15 @@
                 android:layout_toRightOf="@+id/iv_ads"
                 android:weightSum="5"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp">
                 <TextView
                     android:id="@+id/tv_status1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textColor="@color/album_title"
                     android:textSize="25sp"
                     android:text="Status"
@@ -50,7 +53,9 @@
                 <TextView
                     android:id="@+id/tv_name1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_height="0dp"
                     android:textColor="@color/album_title"
                     android:textSize="25sp"
                     android:text="service name"
@@ -59,7 +64,9 @@
                 <TextView
                     android:id="@+id/tv_rent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_height="0dp"
                     android:textSize="20sp"
                     android:text="Rent"
                     android:textColor="#000000"
@@ -69,7 +76,9 @@
                 <TextView
                     android:id="@+id/tv_subcat"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_height="0dp"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:layout_weight="1"
@@ -78,8 +87,10 @@
 
                 <TextView
                     android:id="@+id/tv_date"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textSize="15sp"
                     android:text="Date"/>
