@@ -87,7 +87,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         deposit=(TextView)findViewById(R.id.tv_prod_dep);
         date=(TextView)findViewById(R.id.tv_date);
         crent=(TextView)findViewById(R.id.crent);
-        maxrent=date=(TextView)findViewById(R.id.tv_max_rent);
+        maxrent=(TextView)findViewById(R.id.tv_max_rent);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
