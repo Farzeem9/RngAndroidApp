@@ -69,7 +69,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     private GenericAsyncTask genericAsyncTask;
     private HorizontalAdapter HorizontalAdapter;
     private RecyclerView recyclerView;
-
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +82,20 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         final TextView[] count=new TextView[5];
+        images=new ArrayList<>();
+
+        viewPager=(ViewPager)findViewById(R.id.pager);
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePager();
+            }
+        });
+        recyclerView=(RecyclerView)findViewById(R.id.rr);
+        HorizontalAdapter=new MyServiceActivity.HorizontalAdapter(getApplicationContext(),images);
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setAdapter(HorizontalAdapter);
+
         count[0]=(TextView)findViewById(R.id.count1);
         count[1]=(TextView)findViewById(R.id.count2);
         count[2]=(TextView)findViewById(R.id.count3);
@@ -110,7 +124,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
@@ -344,11 +358,19 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name);
             final int length[]={alllinks.size()};
+            if(alllinks.size()==0)
+            {
+                //Set photos to null
+                progressDialog.dismiss();
+            }
             for(String x:alllinks) {
 
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if(length[0]--==1)
+                            progressDialog.dismiss();
+
                         images.add(bitmap);
                         HorizontalAdapter.notifyDataSetChanged();
                     }

@@ -29,7 +29,7 @@ public class ServicePendingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FacebookSdk.sdkInitialize(getContext());
+       // FacebookSdk.sdkInitialize(getContext());
 
         rootView = (ViewGroup) inflater.inflate(R.layout.pendingads_layout,null);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_pending_ads);
@@ -41,7 +41,6 @@ public class ServicePendingFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(serviceAdapter);
         //setupListItems();
-
         recyclerView.setOnScrollListener(new onListenerScroll(serviceAdapter,list_service));
         recyclerView.setLayoutManager(llm);
         return rootView;

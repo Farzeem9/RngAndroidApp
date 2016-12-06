@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.FacebookSdk;
+
 public class MainActivity extends AppCompatActivity{
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

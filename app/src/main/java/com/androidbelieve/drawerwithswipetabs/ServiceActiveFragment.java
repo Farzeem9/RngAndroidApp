@@ -33,13 +33,14 @@ public class ServiceActiveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FacebookSdk.sdkInitialize(getContext());
+   //FacebookSdk.sdkInitialize(getContext());
         rootView = (ViewGroup) inflater.inflate(R.layout.pendingads_layout,null);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view_pending_ads);
         recyclerView.setHasFixedSize(true);
         list_service = new ArrayList<>();
+        String abc=AccessToken.getCurrentAccessToken().getUserId();
         serviceAdapter=new MyActiveServiceAdapter(getContext(),list_service);
-        new fService(Config.link+"myservices.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=ACTIVE",serviceAdapter,list_service).execute();
+        new fService(Config.link+"myservices.php?pid="+abc+"&status=ACTIVE",serviceAdapter,list_service).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(serviceAdapter);

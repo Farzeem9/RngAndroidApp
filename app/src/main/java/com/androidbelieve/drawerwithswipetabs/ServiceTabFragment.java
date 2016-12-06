@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +51,9 @@ public class ServiceTabFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 : return new ServiceActiveFragment();
-                case 1 : return new ServicePendingFragment();
-                case 2 : return new ServiceDeactivatedFragment();
+                case 0 :Log.v("Service","Active");return new ServiceActiveFragment();
+                case 1 :Log.v("Service","Pending"); return new ServicePendingFragment();
+                case 2 :Log.v("Service","Deactive"); return new ServiceDeactivatedFragment();
             }
             return null;
         }
