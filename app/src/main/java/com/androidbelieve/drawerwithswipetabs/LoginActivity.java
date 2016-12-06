@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                                 info.setText(object.getString("name"));
                                 //info_id.setText("Hi, "+object.getString("id"));
                                 info_mail.setText(object.getString("email"));
+                                Toast.makeText(LoginActivity.this, AccessToken.getCurrentAccessToken().getUserId(), Toast.LENGTH_SHORT).show();
                             } catch(JSONException ex) {
                                 ex.printStackTrace();
                             }
