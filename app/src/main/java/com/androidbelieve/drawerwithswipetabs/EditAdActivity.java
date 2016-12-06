@@ -191,41 +191,119 @@ public class EditAdActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.sp_types);
         spinner_rent = (Spinner) findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) findViewById(R.id.sp_rent_subtypes);
+        spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
         List<String> categories = new ArrayList<String>();
-        categories.add("Mobiles");
+        final List<String> categories2 = new ArrayList<String>();
+        categories.add("Electronics & Appliances");
         categories.add("Cars");
-        categories.add("Books");
-        categories.add("Pots");
         categories.add("Bikes");
-        categories.add("Select a Category");
+        categories.add("Furniture");
+        categories.add("Books, Sports & Hobbies");
+        categories.add("Fashion");
+        categories.add("Real Estate");
+        categories.add("Tools & Equipments");
+        categories2.add(" ");
 
         final List<String> rent_types = new ArrayList<String>();
-        rent_types.add("Select a Category");
+        //rent_types.add("Select a Category");
         rent_types.add("Days");
         rent_types.add("Weeks");
         rent_types.add("Months");
 
         final List<String> rent_subtypes= new ArrayList<String>();
-        rent_subtypes.add("Select a sub-category");
+        rent_subtypes.add(" ");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rent_types);
         ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rent_subtypes);
+        ArrayAdapter<String> dataAdapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories2);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
         spinner_rent.setAdapter(dataAdapter2);
         spinner_subrent.setAdapter(dataAdapter3);
+        spinner2.setAdapter(dataAdapter4);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
+                                                  if(item=="Electronics & Appliances"){
+                                                      categories2.clear();
+                                                      categories2.add("Mobile Phone");
+                                                      categories2.add("Tablet");
+                                                      categories2.add("Accessories");
+                                                      categories2.add("Computer & Laptop");
+                                                      categories2.add("TV, Video-Audio");
+                                                      categories2.add("Printer");
+                                                      categories2.add("Computer Accessories");
+                                                      categories2.add("Camera & Lenses");
+                                                      categories2.add("Kitchen Appliance");
+                                                      categories2.add("Speakers");
+                                                      categories2.add("Projectors");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Cars"){
+                                                      categories2.clear();
+                                                      categories2.add("Cars");
+                                                      categories2.add("Commerical Vehicle");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Bikes"){
+                                                      categories2.clear();
+                                                      categories2.add("Bike");
+                                                      categories2.add("Scooter");
+                                                      categories2.add("Bicycle");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Furniture"){
+                                                      categories2.clear();
+                                                      categories2.add("Sofa");
+                                                      categories2.add("Dining");
+                                                      categories2.add("Bed");
+                                                      categories2.add("Wardrobe");
+                                                      categories2.add("Home Décor & Garden");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Books, Sports & Hobbies"){
+                                                      categories2.clear();
+                                                      categories2.add("Book");
+                                                      categories2.add("Musical Instrument");
+                                                      categories2.add("Sports Equipment");
+                                                      categories2.add("Travel & Camping");
+                                                      categories2.add("Gaming");
+                                                      categories2.add("Party Equipment");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Fashion"){
+                                                      categories2.clear();
+                                                      categories2.add("Men");
+                                                      categories2.add("Women");
+                                                      categories2.add("Kids");
+                                                  }
+                                                  else if(item=="Real Estate"){
+                                                      categories2.clear();
+                                                      categories2.add("Residential");
+                                                      categories2.add("Commercial");
+                                                      categories2.add("Others");
+                                                  }
+                                                  else if(item=="Tools & Equipments"){
+                                                      categories2.clear();
+                                                      categories2.add("Power tool");
+                                                      categories2.add("Spanner");
+                                                      categories2.add("Others");
+
+                                                  }
+                                                  spinner2.setSelection(1,true);
+                                                  spinner2.setSelection(0,true);
+
+                                                  ///        spinner2.setSelection(1,true);
 
                                               }
 
@@ -235,6 +313,9 @@ public class EditAdActivity extends AppCompatActivity {
                                               }
                                           }
         );
+
+
+
         spinner_rent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -248,16 +329,16 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("4");
                     rent_subtypes.add("5");
                     rent_subtypes.add("6");
-                    rent_types.remove("Select a Category");
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_types.remove("Select a Category");
                     show_day();
+                    //rent_subtypes.remove("Select a sub-category");
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
-                    rent_types.remove("Select a Category");
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_types.remove("Select a Category");
+                    //rent_subtypes.remove("Select a sub-category");
                     show_week();
                 } else if (item == "Months")
                 {
@@ -274,10 +355,11 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("10");
                     rent_subtypes.add("11");
                     rent_subtypes.add("12");
-                    rent_types.remove("Select a Category");
-                    rent_subtypes.remove("Select a sub-category");
+                    //rent_types.remove("Select a Category");
+                    //rent_subtypes.remove("Select a sub-category");
                     showall();
                 }
+                spinner_subrent.setSelection(1,true);
                 spinner_subrent.setSelection(0, true);
 
             }
