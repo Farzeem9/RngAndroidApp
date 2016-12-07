@@ -103,7 +103,7 @@ public class ServiceFragment extends Fragment {
         spinner2 = (Spinner) (view).findViewById(R.id.sp_subtypes);
         final List<String> categories2 = new ArrayList<String>();
         images=new ArrayList<Bitmap>();
-        //categories.add("Select a Category");
+        categories.add("Select a Category");
         categories.add("Graphics and Design");
         categories.add("Digital Marketing");
         categories.add("Writing and Translation");
@@ -114,6 +114,7 @@ public class ServiceFragment extends Fragment {
         categories.add("Business");
         categories.add("Lifestyle");
         categories.add("Gifts");
+        categories2.add("Select a Sub-Category");
         categories2.add(" ");
         //categories2.add("Select a Sub-Category");
         // Creating adapter for spinner
@@ -228,7 +229,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Vector Tracing");
                     categories2.add("Invitation");
                     categories2.add("Others");
-                    //categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                     //categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Digital Marketing") {
@@ -249,7 +250,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Domain Research");
                     categories2.add("Mobile Advertising");
                     categories2.add("Others");
-                    //categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                     //categories2.remove("Select a Sub-Category");
 
                 }
@@ -267,7 +268,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Transcription");
                     categories2.add("Legal Writing");
                     categories2.add("Others");
-                   // categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                     //categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Video and Animation") {
@@ -282,7 +283,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Animated Character & Modeling");
                     categories2.add("Video Greetings");
                     categories2.add("Others");
-                   // categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                    // categories2.remove("Select a Sub-Category");
                 }
                 if (item == "Music and Audio") {
@@ -296,7 +297,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Jingles & Drops");
                     categories2.add("Sound Effects");
                     categories2.add("Others");
-                   // categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                    // categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Programming and Tech") {
@@ -315,7 +316,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("User Testing");
                     categories2.add("QA");
                     categories2.add("Others");
-                  //  categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                    // categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Advertising") {
@@ -330,7 +331,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Human Billboards");
                     categories2.add("Pet Models");
                     categories2.add("Others");
-                   // categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                   //  categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Business") {
@@ -346,7 +347,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Presentations");
                     categories2.add("Career Advice");
                     categories2.add("Others");
-                   // categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                     //categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Lifestyle") {
@@ -365,7 +366,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Parenting Tips");
                     categories2.add("Travel");
                     categories2.add("Others");
-                  //  categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                   //  categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Gifts") {
@@ -380,7 +381,7 @@ public class ServiceFragment extends Fragment {
                     categories2.add("Postcards From");
                     categories2.add("Recycled Crafts");
                     categories2.add("Others");
-                  //  categories.remove("Select a Category");
+                    categories.remove("Select a Category");
                   //  categories2.remove("Select a Sub-Category");
                 }
                 spinner2.setSelection(1,true);

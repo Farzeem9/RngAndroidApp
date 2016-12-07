@@ -192,8 +192,9 @@ public class EditAdActivity extends AppCompatActivity {
         spinner_rent = (Spinner) findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) findViewById(R.id.sp_rent_subtypes);
         spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
-        List<String> categories = new ArrayList<String>();
+        final List<String> categories = new ArrayList<String>();
         final List<String> categories2 = new ArrayList<String>();
+        categories.add("Select a Category");
         categories.add("Electronics & Appliances");
         categories.add("Cars");
         categories.add("Bikes");
@@ -202,15 +203,18 @@ public class EditAdActivity extends AppCompatActivity {
         categories.add("Fashion");
         categories.add("Real Estate");
         categories.add("Tools & Equipments");
+        categories2.add("Select a Sub-Category");
         categories2.add(" ");
 
         final List<String> rent_types = new ArrayList<String>();
         //rent_types.add("Select a Category");
+        rent_types.add("Select Rent Period");
         rent_types.add("Days");
         rent_types.add("Weeks");
         rent_types.add("Months");
 
         final List<String> rent_subtypes= new ArrayList<String>();
+        rent_subtypes.add("Select Time for Rent Period");
         rent_subtypes.add(" ");
 
         // Creating adapter for spinner
@@ -248,12 +252,14 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Speakers");
                                                       categories2.add("Projectors");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Cars"){
                                                       categories2.clear();
                                                       categories2.add("Cars");
                                                       categories2.add("Commerical Vehicle");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Bikes"){
                                                       categories2.clear();
@@ -261,6 +267,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Scooter");
                                                       categories2.add("Bicycle");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Furniture"){
                                                       categories2.clear();
@@ -270,6 +277,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Wardrobe");
                                                       categories2.add("Home Décor & Garden");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Books, Sports & Hobbies"){
                                                       categories2.clear();
@@ -280,24 +288,28 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Gaming");
                                                       categories2.add("Party Equipment");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Fashion"){
                                                       categories2.clear();
                                                       categories2.add("Men");
                                                       categories2.add("Women");
                                                       categories2.add("Kids");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Real Estate"){
                                                       categories2.clear();
                                                       categories2.add("Residential");
                                                       categories2.add("Commercial");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
                                                   }
                                                   else if(item=="Tools & Equipments"){
                                                       categories2.clear();
                                                       categories2.add("Power tool");
                                                       categories2.add("Spanner");
                                                       categories2.add("Others");
+                                                      categories.remove("Select a Category");
 
                                                   }
                                                   spinner2.setSelection(1,true);
@@ -329,6 +341,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("4");
                     rent_subtypes.add("5");
                     rent_subtypes.add("6");
+                    rent_types.remove("Select Rent Period");
                     //rent_types.remove("Select a Category");
                     show_day();
                     //rent_subtypes.remove("Select a sub-category");
@@ -337,6 +350,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
+                    rent_types.remove("Select Rent Period");
                     //rent_types.remove("Select a Category");
                     //rent_subtypes.remove("Select a sub-category");
                     show_week();
@@ -355,6 +369,7 @@ public class EditAdActivity extends AppCompatActivity {
                     rent_subtypes.add("10");
                     rent_subtypes.add("11");
                     rent_subtypes.add("12");
+                    rent_types.remove("Select Rent Period");
                     //rent_types.remove("Select a Category");
                     //rent_subtypes.remove("Select a sub-category");
                     showall();
