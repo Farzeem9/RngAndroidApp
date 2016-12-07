@@ -184,6 +184,14 @@
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No Photos to Preview"
+                                android:textSize="15sp"
+                                android:textColor="@color/black"
+                                android:id="@+id/default_text"
+                                android:visibility="gone"/>
                             <android.support.v7.widget.RecyclerView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

@@ -55,7 +55,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private ArrayList<String>links=new ArrayList<>();
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
-    private TextView name,desc,rent,date,subcat,age,projlinks;
+    private TextView name,desc,rent,date,subcat,age,projlinks,default_text;
     private String sid;
     private MenuItem star;
     private Button rating_comments;
@@ -86,7 +86,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         setContentView(R.layout.activity_service);
         String sid=getIntent().getStringExtra("sid");
         this.sid=sid;
-
+        default_text = (TextView) findViewById(R.id.default_text);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         images=new ArrayList<>();
 
@@ -287,8 +287,10 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 this.links.add(links.getJSONObject(i).getString("link"));
                 allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
             }
-
-            projlinks.setText(allprojlinks);
+            if(allprojlinks.isEmpty())
+                projlinks.setText("No Links to Preview");
+            else
+                projlinks.setText(allprojlinks);
 
             JSONArray ilinks=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
@@ -328,8 +330,11 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if(length[0]--==1)
+                        if(length[0]--==1){
                             progressDialog.dismiss();
+                            recyclerView.setVisibility(View.GONE);
+                            default_text.setVisibility(View.VISIBLE);
+                        }
                         Log.v("new Bitmap loaded","okay");
                         images.add(bitmap);
                         HorizontalAdapter.notifyDataSetChanged();
