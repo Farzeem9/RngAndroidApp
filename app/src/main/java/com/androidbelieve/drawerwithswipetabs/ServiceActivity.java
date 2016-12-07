@@ -323,6 +323,8 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             if(alllinks.size()==0)
             {
                 //Set photos to null
+                recyclerView.setVisibility(View.GONE);
+                default_text.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
             for(String x:alllinks) {
@@ -332,8 +334,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         if(length[0]--==1){
                             progressDialog.dismiss();
-                            recyclerView.setVisibility(View.GONE);
-                            default_text.setVisibility(View.VISIBLE);
                         }
                         Log.v("new Bitmap loaded","okay");
                         images.add(bitmap);
