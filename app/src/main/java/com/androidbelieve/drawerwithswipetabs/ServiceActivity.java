@@ -593,10 +593,10 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                             imageshown=true;
                             viewPager.setVisibility(View.VISIBLE);
                             viewPager.setCurrentItem(position);
-                    holder.i.setAnimation(null);
+
                         }
                     });
-
+                    holder.i.setAnimation(null);
                     Log.v("Bitmap set!","okay");
                 }
 
