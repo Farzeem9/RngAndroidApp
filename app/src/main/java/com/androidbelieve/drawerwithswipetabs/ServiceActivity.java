@@ -596,7 +596,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
                         }
                     });
-                    holder.i.setAnimation(null);
+
                     Log.v("Bitmap set!","okay");
                 }
 
