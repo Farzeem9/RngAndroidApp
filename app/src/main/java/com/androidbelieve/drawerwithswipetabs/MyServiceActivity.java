@@ -57,7 +57,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     private ArrayList<String>links=new ArrayList<>();
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
-    private TextView name,desc,rent,date,subcat,age,projlinks;
+    private TextView name,desc,rent,date,subcat,age,projlinks,default_text;
     private String sid;
     private MenuItem star;
     private Button rating_comments;
@@ -83,6 +83,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         equal= (RadioButton) findViewById(R.id.equal);
         more= (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        default_text = (TextView) findViewById(R.id.default_text);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
         final TextView[] count=new TextView[5];
         images=new ArrayList<>();
@@ -330,7 +331,10 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
             }
 
-            projlinks.setText(allprojlinks);
+            if(allprojlinks.isEmpty())
+                projlinks.setText("No Links to Preview");
+            else
+                projlinks.setText(allprojlinks);
 
             JSONArray ilinks=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
@@ -368,6 +372,8 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             if(alllinks.size()==0)
             {
                 //Set photos to null
+                recyclerView.setVisibility(View.GONE);
+                default_text.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
             progressDialog.dismiss();

@@ -201,19 +201,32 @@
                             android:textSize="20sp"
                             android:textColor="#000000"
                             android:textStyle="bold"/>
-                        <HorizontalScrollView
-                            android:layout_width="wrap_content"
+                        <android.support.v7.widget.CardView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <android.support.v7.widget.RecyclerView
-                                android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="horizontal"
-                                android:visibility="invisible"
-                                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                                android:id="@+id/rr"
-                                />
-                        </HorizontalScrollView>
+                                android:text="No Photos to Preview"
+                                android:textSize="15sp"
+                                android:textColor="@color/black"
+                                android:id="@+id/default_text"
+                                android:visibility="gone"/>
+                            <HorizontalScrollView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <android.support.v7.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/btn_capture"
+                                    android:layout_marginTop="20dp"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                                    android:id="@+id/rr"
+                                    />
+                            </HorizontalScrollView>
+                        </android.support.v7.widget.CardView>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <View
