@@ -52,6 +52,95 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             //holder.imageButton.setImageResource(R.drawable.bell);
 
         }
+        else if(holder.category.getText().toString().equals("Bikes")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.bike);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Furniture")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.furniture);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Books, Sports & Hobbies")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.bookssportsandhobbies);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Fashion")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.fashion);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Electronics & Appliances")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.electronicsandappliances);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Tools & Equipments")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.my_ads_service);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Video and Animation")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.videoandanimation);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Writing and Translation")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.writingandtranslate);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Programming and Tech")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.programingandtech);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Graphics and Design")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.graphicdesign);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+
+        else if(holder.category.getText().toString().equals("Digital Marketing")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.digitalmarketing);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
         else if(holder.category.getText().toString().equals("Music and Audio")){
             Drawable dr = context.getResources().getDrawable(R.drawable.musicandaudio);
             Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
@@ -60,8 +149,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             //holder.imageButton.setImageResource(R.drawable.bell);
 
         }
-        else if(holder.category.getText().toString().equals("Gift")){
+        else if(holder.category.getText().toString().equals("Gifts")){
             Drawable dr = context.getResources().getDrawable(R.drawable.gift);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Advertising")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.advertising);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+        else if(holder.category.getText().toString().equals("Business")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.business);
             Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
             Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
             holder.imageButton.setImageDrawable(d);

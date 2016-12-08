@@ -7,7 +7,7 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_notification" android:title="Notifications"
         android:orderInCategory="99"
-        app:showAsAction="always" android:icon="@drawable/bell"/>
+        app:showAsAction="always" android:icon="@drawable/nonotification"/>
 
 </group>
     <item android:id="@+id/search"

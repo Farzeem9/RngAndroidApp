@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity{
                 String out=(String)output;
                 if(out.equals("1"))
                 {
-                    noti.setIcon(R.drawable.gift);
+                    noti.setIcon(R.drawable.newnotification);
                 }
             }
         });
