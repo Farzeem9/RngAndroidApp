@@ -51,6 +51,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +59,7 @@ import java.util.Date;
 import java.util.List;
 
 public class EditAdActivity extends AppCompatActivity {
-    private EditText name,desc,age,rent,deposit,duration;
+    private EditText name,desc,age,rent,deposit,duration,tags;
     private Toolbar toolbar=null;
     private TextView city;
     private Spinner spinner_rent,spinner_subrent,spinner,spinner2;
@@ -69,10 +70,10 @@ public class EditAdActivity extends AppCompatActivity {
     private Uri fileUri;
     private Button setasthumb,location;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent,inputLayoutPtags;
     private RelativeLayout rl;
     private ViewPager viewPager;
-    private String item,number,f1="",f2="";
+    private String item,number,f1="",f2="",tagstring;
     private ImageButton btnPhoto,btnGal;
     private ArrayList<Bitmap> images;
     private boolean imageshown=false;
@@ -96,9 +97,11 @@ public class EditAdActivity extends AppCompatActivity {
         inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
         inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
+        inputLayoutPtags = (TextInputLayout) findViewById(R.id.input_layout_ptags);
         name = (EditText)findViewById(R.id.input_pname);
         desc = (EditText)findViewById(R.id.input_pdesc);
         age = (EditText)findViewById(R.id.input_page);
+        tags = (EditText)findViewById(R.id.input_ptags);
         rent = (EditText)findViewById(R.id.input_prent);
         deposit = (EditText)findViewById(R.id.input_pdeposit);
         city=(TextView)findViewById(R.id.tv_city);
@@ -417,6 +420,18 @@ public class EditAdActivity extends AppCompatActivity {
         findViewById(R.id.btn_signup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                submitForm();
+                if(tags.getText().equals(""))
+                {
+                    tags.setError("Please Enter some tags!");
+                    inputLayoutPtags.setError("Enter space separated values!");
+                    return;
+                }
+                String[] temp=tags.getText().toString().split(" ");
+                StringBuffer sbuff=new StringBuffer("");
+                for(String x:temp)
+                    sbuff.append(x+",");
+                tagstring= URLEncoder.encode(sbuff.toString());
                 if(work==0)
                     nowork();
                 else if(work==1)
@@ -689,7 +704,7 @@ public class EditAdActivity extends AppCompatActivity {
                 finish();
             }
         });
-        g.setPostParams("aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         int i=1;
         g.setImagePost(images,1);
         //g.execute();

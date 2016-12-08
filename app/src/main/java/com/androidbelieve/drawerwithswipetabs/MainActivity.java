@@ -11,9 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.facebook.FacebookSdk;
 
@@ -25,6 +23,8 @@ public class MainActivity extends AppCompatActivity{
     android.support.v7.widget.Toolbar toolbar;
     private boolean home=true;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this);
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
              mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
              mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
              toolbar=(Toolbar)findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+             setSupportActionBar(toolbar);
              toolbar.setTitle("RnG");
              mFragmentManager = getSupportFragmentManager();
              mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -107,6 +107,10 @@ public class MainActivity extends AppCompatActivity{
                 FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                 toolbar.setTitle("Profile");
                 xfragmentTransaction.replace(R.id.containerView,new ProfileFragment()).commit();
+                return true;
+            case R.id.search:
+                Log.v("search clicked","okay");
+                startActivity(new Intent(this,SearchViewActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

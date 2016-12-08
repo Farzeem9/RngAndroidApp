@@ -46,6 +46,7 @@ import com.facebook.AccessToken;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,8 +75,8 @@ public class ServiceFragment extends Fragment {
     private ImageButton btnGal,btnPhoto;
     private String item;
     LinksAdapter linksAdapter;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent;
-    private EditText inputPname,inputPdesc,inputPrent;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent,inputLayoutPtags;
+    private EditText inputPname,inputPdesc,inputPrent,inputPtags;
     private TextView city;
     private Button btnSignUp;
     private String subcat;
@@ -93,9 +94,11 @@ public class ServiceFragment extends Fragment {
         inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
         inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
+        inputLayoutPtags = (TextInputLayout) view.findViewById(R.id.input_layout_ptags);
         inputPname = (EditText) view.findViewById(R.id.input_pname);
         inputPdesc = (EditText) view.findViewById(R.id.input_pdesc);
         inputPrent = (EditText) view.findViewById(R.id.input_prent);
+        inputPtags=(EditText)ServiceFragment.this.view.findViewById(R.id.input_ptags);
         btnSignUp=(Button)view.findViewById(R.id.submit);
         setasthumb=(Button)view.findViewById(R.id.thumb_button_1);
         spinner = (Spinner) (view).findViewById(R.id.sp_types);
@@ -409,6 +412,18 @@ public class ServiceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //add validation here
+                submitForm();
+                if(inputPtags.getText().equals(""))
+                {
+                    inputPtags.setError("Please Enter some tags!");
+                    inputLayoutPtags.setError("Enter space separated values!");
+                    return;
+                }
+                String[] temp=inputPtags.getText().toString().split(" ");
+                StringBuffer sbuff=new StringBuffer("");
+                for(String x:temp)
+                    sbuff.append(x+",");
+                String tags= URLEncoder.encode(sbuff.toString());
                 GenericAsyncTask g=new GenericAsyncTask(getContext(), Config.link+"new%20service.php", "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
@@ -440,7 +455,7 @@ public class ServiceFragment extends Fragment {
                     }
                 });
              //   g.setProgressView(true);
-                g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
+                g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"tags",tags,"numlinks",Integer.toString(links.size()));
 
                 int i=0;
                 for(String x:links)

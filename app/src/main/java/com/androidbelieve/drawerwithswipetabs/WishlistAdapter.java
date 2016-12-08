@@ -80,7 +80,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(mContext,AdActivity.class);
+
                 i.putExtra("AID",ads.getAid());
+                if(isservice)
+                {
+                    i=new Intent(mContext, ServiceActivity.class);
+                    i.putExtra("sid", ads.getAid());
+                }
                 mContext.startActivity(i);
             }
         });

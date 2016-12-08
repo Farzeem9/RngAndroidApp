@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <group>
         <item android:id="@+id/action_clear" android:title="Clear all notifications"
-            android:orderInCategory="101" app:showAsAction="never" />
-        <item android:id="@+id/action_refresh" android:title="Refresh"
             android:orderInCategory="100" app:showAsAction="never" />
+        <item android:id="@+id/action_refresh" android:title="Refresh"
+            android:orderInCategory="99" app:showAsAction="never" />
     </group>
 </menu>

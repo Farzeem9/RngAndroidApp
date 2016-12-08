@@ -45,6 +45,7 @@ import com.facebook.FacebookSdk;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,8 +58,8 @@ import java.util.List;
 public class AdFragment extends Fragment implements AdapterView.OnItemClickListener {
     private CheckBox r1,r2,r3;
     private Spinner spinner,spinner_rent,spinner_subrent,spinner2;
-    private EditText inputPname, inputPdesc, inputPage, inputPrent, inputPdeposit;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent;
+    private EditText inputPname, inputPdesc, inputPage, inputPrent, inputPdeposit,inputPtags;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent,inputLayoutPtags;
     private TextView city;
     private Fragment fragment;
     private Uri fileUri;
@@ -395,12 +396,14 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
         inputLayoutPage = (TextInputLayout) view.findViewById(R.id.input_layout_page);
         inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
+        inputLayoutPtags = (TextInputLayout) view.findViewById(R.id.input_layout_ptags);
         inputLayoutPdeposit = (TextInputLayout) view.findViewById(R.id.input_layout_pdeposit);
         inputPname = (EditText) view.findViewById(R.id.input_pname);
         inputPdesc = (EditText) view.findViewById(R.id.input_pdesc);
         inputPage = (EditText) view.findViewById(R.id.input_page);
         inputPrent = (EditText) view.findViewById(R.id.input_prent);
         inputPdeposit = (EditText) view.findViewById(R.id.input_pdeposit);
+        inputPtags = (EditText) view.findViewById(R.id.input_ptags);
         btnSignUp = (Button) view.findViewById(R.id.btn_signup);
 
         inputPname.addTextChangedListener(new MyTextWatcher(inputPname));
@@ -413,6 +416,18 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             @Override
             public void onClick(View view) {
                 submitForm();
+                if(inputPtags.getText().equals(""))
+                {
+                    inputPtags.setError("Please Enter some tags!");
+                    inputLayoutPtags.setError("Enter space separated values!");
+                    return;
+                }
+                String[] temp=inputPtags.getText().toString().split(" ");
+                StringBuffer sbuff=new StringBuffer("");
+                for(String x:temp)
+                    sbuff.append(x+",");
+                String tags= URLEncoder.encode(sbuff.toString());
+
                 if(r1.isChecked())
                     f2=f2+"days,";
                 if(r2.isChecked())
@@ -420,7 +435,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 if(r3.isChecked())
                     f2=f2+"Months";
                 if(images.size()>=2&&images.size()<=5)
-                    new Newaddupload((String)spinner2.getSelectedItem(),getActivity(),AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
+                    new Newaddupload(tags,(String)spinner2.getSelectedItem(),getActivity(),AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
                 else
                     Toast.makeText(getContext(), "Please select proper number of Images!!", Toast.LENGTH_SHORT).show();
             }

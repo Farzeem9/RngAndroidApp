@@ -40,6 +40,7 @@ public class NotificationActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         l1.setLayoutManager(mLayoutManager);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +67,8 @@ public class NotificationActivity extends AppCompatActivity {
                     c.updateList(notes[i],jarray.getJSONObject(i).getString("TYPE"),jarray.getJSONObject(i).getString("NID"),timestamp);
                 }
                 l1.setAdapter(c);
-                n= (NotificationUpdater) new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId()).execute();
+                n= new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId());
+                n.execute();
             }
             catch (Exception e)
             {
@@ -77,7 +79,8 @@ public class NotificationActivity extends AppCompatActivity {
         {
             c = new NotificationAdapter(getApplicationContext(), new LinkedList<Notification>(),this);
             l1.setAdapter(c);
-            new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId()).execute();
+            n=new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId());
+            n.execute();
         }
     }
     void clearNotis()
@@ -246,6 +249,12 @@ public class NotificationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                if(n!=null)
+                    if(n.getStatus()!= AsyncTask.Status.FINISHED)
+                    {
+                        n=new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId());
+                        n.execute();
+                    }
                 return true;
             case R.id.action_clear:
                 clearNotis();
@@ -255,4 +264,3 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 }
-

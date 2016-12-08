@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,8 +86,8 @@ public class EditServiceActivity extends AppCompatActivity {
     private ImageButton btnGal,btnPhoto;
     private String item;
     EditServiceActivity.LinksAdapter linksAdapter;
-    private EditText inputPname,inputPdesc,inputPrent;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent;
+    private EditText inputPname,inputPdesc,inputPrent,inputPtags;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPrent,inputLayoutPtags;
     private TextView city;
     private Button btnSignUp;
     private String subcat;
@@ -102,13 +103,28 @@ public class EditServiceActivity extends AppCompatActivity {
         inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
         inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
+        inputLayoutPtags = (TextInputLayout) findViewById(R.id.input_layout_ptags);
         inputPname = (EditText) findViewById(R.id.input_pname);
         inputPdesc = (EditText) findViewById(R.id.input_pdesc);
         inputPrent = (EditText) findViewById(R.id.input_prent);
+        inputPtags = (EditText) findViewById(R.id.input_ptags);
         btnSignUp=(Button)findViewById(R.id.submit);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                submitForm();
+                if(inputPtags.getText().equals(""))
+                {
+                    inputPtags.setError("Please Enter some tags!");
+                    inputLayoutPtags.setError("Enter space separated values!");
+                    return;
+                }
+                String[] temp=inputPtags.getText().toString().split(" ");
+                StringBuffer sbuff=new StringBuffer("");
+                for(String x:temp)
+                    sbuff.append(x+",");
+                String tags= URLEncoder.encode(sbuff.toString());
+
                 GenericAsyncTask g=new GenericAsyncTask(a, Config.link+"editservice.php", "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
@@ -119,7 +135,7 @@ public class EditServiceActivity extends AppCompatActivity {
                     }
                 });
                 g.setProgressView(true);
-                g.setPostParams("sid",sid,"sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
+                g.setPostParams("tags",tags,"sid",sid,"sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"numlinks",Integer.toString(links.size()));
                 g.setImagePost(images,0);
                 int i=0;
                 for(String x:links)

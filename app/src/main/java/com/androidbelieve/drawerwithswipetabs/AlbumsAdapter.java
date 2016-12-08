@@ -2,7 +2,6 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,20 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
     private Context mContext;
     private ArrayList<Album> albumList;
-
+    static Album a;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count,subcat;
@@ -87,6 +82,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 showPopupMenu(holder.overflow);
+                a=album;
             }
         });
     }
@@ -115,7 +111,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to Wishlist", Toast.LENGTH_SHORT).show();
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"checkwishlist.php?aid=" + a.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                        @Override
+                        public void processFinish(Object output) {
+                            String out=(String)output;
+                            Toast.makeText(mContext,"Added to wishlist",Toast.LENGTH_SHORT);
+                        }
+                    });
+                    g.execute();
+
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();
