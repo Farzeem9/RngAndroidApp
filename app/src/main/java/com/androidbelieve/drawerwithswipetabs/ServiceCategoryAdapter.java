@@ -114,16 +114,8 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    if(!Ads.getPid().equals(AccessToken.getCurrentAccessToken().getUserId())) {
-                        GenericAsyncTask g = new GenericAsyncTask(mContext, Config.link + "servicewishlist.php?sid=" + Ads.getSid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
-                            @Override
-                            public void processFinish(Object output) {
-                                String out = (String) output;
-                            }
-                        });
-                        g.execute();
-                    }
+                case R.id.action_share:
+                    Toast.makeText(mContext, "Shared", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();

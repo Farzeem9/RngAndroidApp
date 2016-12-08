@@ -211,6 +211,7 @@
                                 android:text="No Photos to Preview"
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
+                                android:layout_marginTop="10dp"
                                 android:id="@+id/default_text"
                                 android:visibility="gone"/>
                             <HorizontalScrollView

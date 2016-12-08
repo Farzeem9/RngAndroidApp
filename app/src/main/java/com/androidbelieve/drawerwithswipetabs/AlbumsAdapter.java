@@ -110,16 +110,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"checkwishlist.php?aid=" + a.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
-                        @Override
-                        public void processFinish(Object output) {
-                            String out=(String)output;
-                            Toast.makeText(mContext,"Added to wishlist",Toast.LENGTH_SHORT);
-                        }
-                    });
-                    g.execute();
-
+                case R.id.action_share:
+                    Toast.makeText(mContext, "Shared", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();

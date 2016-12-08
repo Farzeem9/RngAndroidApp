@@ -2,9 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/action_add_favourite"
+        android:id="@+id/action_share"
         android:orderInCategory="100"
-        android:title="Add to Wishlist" />
+        android:title="Share" />
 
     <item
         android:id="@+id/action_play_next"
