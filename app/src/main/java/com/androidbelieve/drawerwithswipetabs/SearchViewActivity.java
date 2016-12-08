@@ -78,6 +78,7 @@ public class SearchViewActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.search_view);
+        searchItem.collapseActionView();
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

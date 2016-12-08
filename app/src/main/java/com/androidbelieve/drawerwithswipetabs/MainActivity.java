@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 public class MainActivity extends AppCompatActivity{
@@ -22,8 +23,7 @@ public class MainActivity extends AppCompatActivity{
     FragmentTransaction mFragmentTransaction;
     android.support.v7.widget.Toolbar toolbar;
     private boolean home=true;
-
-
+    private MenuItem noti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +92,26 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+    void getMenu(Menu menu)
+    {
+        noti=menu.findItem(R.id.action_notification);
+        GenericAsyncTask genericAsyncTask= new GenericAsyncTask(this, Config.link + "checknoti.php?pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                String out=(String)output;
+                if(out.equals("1"))
+                {
+                    noti.setIcon(R.drawable.gift);
+                }
+            }
+        });
+        genericAsyncTask.execute();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu_main_our, menu);
+        getMenu(menu);
         return super.onCreateOptionsMenu(menu);
     }
     public boolean onOptionsItemSelected(MenuItem item) {

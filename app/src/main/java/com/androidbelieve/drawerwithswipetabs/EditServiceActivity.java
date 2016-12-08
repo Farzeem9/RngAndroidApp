@@ -129,8 +129,9 @@ public class EditServiceActivity extends AppCompatActivity {
                     @Override
                     public void processFinish(Object output) {
                         if(output!=null) {
-                            finish();
+
                             Log.v("result",(String)output);
+                            finish();
                         }
                     }
                 });

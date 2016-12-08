@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -75,7 +74,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
 
-        Picasso.with(mContext).load(ad.getLink()).into(holder.ads);
+        Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +95,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         });
         holder.setIsRecyclable(false);
 
-        Glide.with(mContext).load(ad.getImage_ads()).placeholder(R.drawable.image_placeholder).into(holder.ads);
+        //Glide.with(mContext).load(ad.getImage_ads()).placeholder(R.drawable.image_placeholder).into(holder.ads);
     }
 
     @Override

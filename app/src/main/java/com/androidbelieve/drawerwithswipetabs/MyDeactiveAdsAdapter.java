@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -95,7 +94,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
         });
         holder.setIsRecyclable(false);
 
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
+     //   Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
     }
 
     @Override

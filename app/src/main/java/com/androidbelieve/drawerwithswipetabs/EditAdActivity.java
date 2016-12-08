@@ -97,6 +97,8 @@ public class EditAdActivity extends AppCompatActivity {
         inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
         inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
+        inputLayoutPage = (TextInputLayout) findViewById(R.id.input_layout_page);
+        inputLayoutPdeposit = (TextInputLayout) findViewById(R.id.input_layout_pdeposit);
         inputLayoutPtags = (TextInputLayout) findViewById(R.id.input_layout_ptags);
         name = (EditText)findViewById(R.id.input_pname);
         desc = (EditText)findViewById(R.id.input_pdesc);
@@ -704,7 +706,7 @@ public class EditAdActivity extends AppCompatActivity {
                 finish();
             }
         });
-        g.setPostParams("tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
         int i=1;
         g.setImagePost(images,1);
         //g.execute();
@@ -758,7 +760,7 @@ public class EditAdActivity extends AppCompatActivity {
             deposit.setText(sdeposit);
 //            this.duration.setText(duration);
             if(alllinks.size()==0)
-                progress.dismiss();
+                dismissProgress();
             HorizontalAdapter.addLinks(alllinks);
 /*            ImageView imageView=(ImageView)findViewById(R.id.noimage);
             Target[] targets=new Target[alllinks.size()>0?alllinks.size():1];
@@ -852,8 +854,22 @@ public class EditAdActivity extends AppCompatActivity {
                                 viewPager.setCurrentItem(position);
                             }
                         });
+                        holder.del.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                work=2;
+                                images.remove(position);
+                                if(thumbnail==position) {
+                                    thumbnail = 0;
+                                    currentpos=0;
+                                }
+                                notifyDataSetChanged();
+                                reInstantiatePager();
+                            }
+                        });
                         if (x[0]-- == 1) {
                             dismissProgress();
+
                         }
                         holder.i.setAnimation(null);
 
@@ -887,7 +903,7 @@ public class EditAdActivity extends AppCompatActivity {
                     }
                 };
                 holder.i.setTag(t);
-                Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).placeholder(R.drawable.loading).into(t);
+                Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).placeholder(R.drawable.loadingpic).into(t);
             }
             else
             {
