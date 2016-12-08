@@ -74,7 +74,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         holder.price.setText("₹ " + ad.getPrice() );
 
         //new DisplayImage(ad.getLink(),holder.ads).execute();
-        Picasso.with(mContext).load(ad.getLink()).into(holder.ads);
+        Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

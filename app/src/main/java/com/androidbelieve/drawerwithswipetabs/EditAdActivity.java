@@ -1,8 +1,10 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -71,6 +76,7 @@ public class EditAdActivity extends AppCompatActivity {
     private ImageButton btnPhoto,btnGal;
     private ArrayList<Bitmap> images;
     private boolean imageshown=false;
+
     private final int CITY_SEARCH_REQUEST = 123;
     int work=0;
     int currentpos=0;
@@ -738,9 +744,13 @@ public class EditAdActivity extends AppCompatActivity {
 //            this.duration.setText(duration);
             if(alllinks.size()==0)
                 progress.dismiss();
-            for(String x:alllinks) {
+            HorizontalAdapter.addLinks(alllinks);
+/*            ImageView imageView=(ImageView)findViewById(R.id.noimage);
+            Target[] targets=new Target[alllinks.size()>0?alllinks.size():1];
+            int i=0;
 
-                Picasso.with(this).load(x).into(new Target() {
+            for(String x:alllinks) {
+                targets[i++]=new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         length[0]--;
@@ -760,9 +770,12 @@ public class EditAdActivity extends AppCompatActivity {
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
                     }
-                });
+                };
+                imageView.setTag(targets[i-1]);
+                Picasso.with(this).load(x).into(targets[i-1]);
                 Log.v("link in picasso",x);
             }
+            */
 
         }
         catch(Exception e) {
@@ -774,7 +787,10 @@ public class EditAdActivity extends AppCompatActivity {
     class HorizontalAdapter  extends RecyclerView.Adapter<EditAdActivity.HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;
+        private ArrayList<String> links=new ArrayList<>();
         private int thumbnail=0;
+        private boolean imagesloaded=false;
+        final int x[]={0};
         public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
             this.mContext = mContext;
             this.images=images;
@@ -801,7 +817,67 @@ public class EditAdActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final EditAdActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
 
-            holder.i.setImageBitmap(images.get(position));
+           // holder.i.setImageBitmap(images.get(position));
+            if(!imagesloaded) {
+                Target t = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if (position < images.size())
+                            images.add(position, bitmap);
+                        else
+                            images.add(bitmap);
+                        holder.i.setImageBitmap(bitmap);
+                        holder.i.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                reInstantiatePager();
+                                reInstantiatePager();
+                                imageshown = true;
+                                viewPager.setVisibility(View.VISIBLE);
+                                viewPager.setCurrentItem(position);
+                            }
+                        });
+                        if (x[0]-- == 1) {
+                            dismissProgress();
+                        }
+                        holder.i.setAnimation(null);
+
+                        Log.v("Bitmap set!", "okay");
+
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        holder.i.setImageDrawable(errorDrawable);
+                        AlertDialog.Builder alertbox = new AlertDialog.Builder(EditAdActivity.this);
+                        alertbox.setTitle("Error");
+                        alertbox.setMessage("There seems to have been an error while loadingpic the images, Please try again later");
+                        alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                        alertbox.show();
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        RotateAnimation anim = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+                        anim.setInterpolator(new LinearInterpolator());
+                        anim.setRepeatCount(Animation.INFINITE);
+                        anim.setDuration(700);
+                        holder.i.startAnimation(anim);
+
+                    }
+                };
+                holder.i.setTag(t);
+                Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).placeholder(R.drawable.loading).into(t);
+            }
+            else
+            {
+                holder.i.setImageBitmap(images.get(position));
+            }
 
             Log.v("inside","holder setting bitmap");
             /**
@@ -843,7 +919,7 @@ public class EditAdActivity extends AppCompatActivity {
         }
         @Override
         public int getItemCount() {
-            return images.size();
+            return imagesloaded?images.size():this.links.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -858,6 +934,19 @@ public class EditAdActivity extends AppCompatActivity {
                 i=(ImageView)view.findViewById(R.id.act_image);
                 //set=(Button)view.findViewById(R.id.button);
             }
+
         }
+        public void setImagesloaded(){this.imagesloaded=true;}
+        public void addLinks(ArrayList<String> newLinks)
+        {
+            this.links.addAll(newLinks);
+            x[0]=links.size();
+            Log.v("links added","okay");
+            HorizontalAdapter.notifyDataSetChanged();
+        }
+    }
+    public void dismissProgress() {
+        this.progress.dismiss();
+        HorizontalAdapter.setImagesloaded();
     }
 }

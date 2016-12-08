@@ -34,20 +34,26 @@ public class Ads {
         this.aid=aid;
         this.link=Config.link+"viewthumb.php?aid="+aid;
         Date today=new Date();
+        Date yesterday=new Date();
+        yesterday.setTime(today.getTime()-((long)864E5));
         Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+        date.setTime(date.getTime()+19800000);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
         Log.v("timeStamp",timestamp);
         Log.v("date",date.toString());
-        if(today.getDay()==date.getDay())
+        if(sdf.format(today).equals(sdf.format(date)))
             this.date="Today ";
-        else if(today.getDay()==date.getDay()+1)
+        else if(sdf.format(yesterday).equals(sdf.format(date)))
             this.date="Yesterday ";
         else
         {
 
-            this.date=date.getDay()+" "+Month(date)+" ";
+            //this.date=date.getDay()+" "+Month(date)+" ";
+            this.date=new SimpleDateFormat("d MMMM").format(date);
             if(!(today.getYear()==date.getYear()))
-                this.date+=date.getYear()+" ";
+                this.date+=" "+date.getYear()+" ";
         }
+        Log.v("Date written",this.date);
 
     }
     public Ads(String status,String specs,String price,String timestamp,String sid,String imagelink) throws ParseException {

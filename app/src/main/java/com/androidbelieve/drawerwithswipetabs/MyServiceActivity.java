@@ -19,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -338,21 +341,25 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
 
             Date today=new Date();
             String ddate;
+            Date yesterday=new Date();
+            yesterday.setTime(today.getTime()-((long)864E5));
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+            date.setTime(date.getTime()+19800000);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
             Log.v("timeStamp",timestamp);
             Log.v("date",date.toString());
-            if(today.getDay()==date.getDay())
+            if(sdf.format(today).equals(sdf.format(date)))
                 ddate="Today ";
-            else if(today.getDay()==date.getDay()+1)
+            else if(sdf.format(yesterday).equals(sdf.format(date)))
                 ddate="Yesterday ";
             else
             {
 
-                ddate=date.getDay()+" "+Month(date)+" ";
+                //this.date=date.getDay()+" "+Month(date)+" ";
+                ddate=new SimpleDateFormat("d MMMM").format(date);
                 if(!(today.getYear()==date.getYear()))
-                    ddate+=date.getYear()+" ";
-            }
-            this.date.setText(ddate);
+                    ddate+=" "+date.getYear()+" ";
+            }this.date.setText(ddate);
             this.subcat.setText(subcat);
             name.setText(prod_name);
             desc.setText(desc_str);
@@ -363,7 +370,9 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 //Set photos to null
                 progressDialog.dismiss();
             }
-            for(String x:alllinks) {
+            progressDialog.dismiss();
+
+            /*for(String x:alllinks) {
 
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
@@ -387,7 +396,8 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 });
                 Log.v("link in picasso",x);
             }
-
+            */
+            HorizontalAdapter.addLinks(alllinks);
 
         }
         catch(Exception e) {
@@ -492,6 +502,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     class HorizontalAdapter  extends RecyclerView.Adapter<MyServiceActivity.HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;
+        private ArrayList<String> links=new ArrayList<>();
         private int thumbnail=0;
         public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
             this.mContext = mContext;
@@ -515,23 +526,58 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
 
         @Override
         public void onBindViewHolder(final MyServiceActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
-            holder.i.setImageBitmap(images.get(position));
+            Target t=new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    if(position<images.size())
+                        images.add(position,bitmap);
+                    else
+                        images.add(bitmap);
+                    holder.i.setImageBitmap(bitmap);
+                    holder.i.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            reInstantiatePager();
+                            reInstantiatePager();
+                            imageshown=true;
+                            viewPager.setVisibility(View.VISIBLE);
+                            viewPager.setCurrentItem(position);
+
+                        }
+                    });
+                    holder.i.setAnimation(null);
+
+                    Log.v("Bitmap set!","okay");
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    holder.i.setImageDrawable(errorDrawable);
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    //holder.i.setImageDrawable(placeHolderDrawable);
+                    holder.i.setImageDrawable(placeHolderDrawable);
+                    RotateAnimation anim = new RotateAnimation(0f, 350f,Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+                    anim.setInterpolator(new LinearInterpolator());
+                    anim.setRepeatCount(Animation.INFINITE);
+                    anim.setDuration(700);
+                    holder.i.startAnimation(anim);
+
+
+                }
+            };
+            holder.i.setTag(t);
+
+            Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).placeholder(R.drawable.loadingpic).into(t);
+
             Log.v("inside","holder setting bitmap");
             /**
              *Set all onclicks here
              *
              */
-            holder.i.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    reInstantiatePager();
-                    reInstantiatePager();
-                    imageshown=true;
-                    viewPager.setVisibility(View.VISIBLE);
-                    viewPager.setCurrentItem(position);
 
-                }
-            });
             holder.relativeLayout.setBackgroundResource(R.drawable.empty);
 
             holder.del.setOnClickListener(new View.OnClickListener() {
@@ -547,7 +593,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         }
         @Override
         public int getItemCount() {
-            return images.size();
+            return this.links.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -564,6 +610,12 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
                 //set=(Button)view.findViewById(R.id.button);
             }
         }
+        public void addLinks(ArrayList<String> newLinks)
+        {
+            this.links.addAll(newLinks);
+            Log.v("links added","okay");
+            HorizontalAdapter.notifyDataSetChanged();
+        }
     }
     void reInstantiatePager()
     {
@@ -576,10 +628,9 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         }));
 
     }
-    void hidePager()
-    {
-        imageshown=false;
-        Log.v("Clicked","Hidden?");
+    void hidePager() {
+        imageshown = false;
+        Log.v("Clicked", "Hidden?");
         viewPager.setVisibility(View.GONE);
 
     }

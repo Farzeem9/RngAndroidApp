@@ -74,7 +74,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
 
-        Picasso.with(mContext).load(ad.getLink()).into(holder.ads);
+        Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

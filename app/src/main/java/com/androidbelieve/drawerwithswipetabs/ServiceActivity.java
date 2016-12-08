@@ -19,11 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,7 +90,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         this.sid=sid;
         default_text = (TextView) findViewById(R.id.default_text);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
-        images=new ArrayList<>();
+        images=new ArrayList<>(5);
 
         viewPager=(ViewPager)findViewById(R.id.pager);
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
@@ -298,21 +300,27 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 alllinks.add(ilinks.getJSONObject(i).getString("link"));
 
             canrent=c.getString("CANRATE");
+
             Date today=new Date();
             String ddate;
+            Date yesterday=new Date();
+            yesterday.setTime(today.getTime()-((long)864E5));
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+            date.setTime(date.getTime()+19800000);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
             Log.v("timeStamp",timestamp);
             Log.v("date",date.toString());
-            if(today.getDay()==date.getDay())
+            if(sdf.format(today).equals(sdf.format(date)))
                 ddate="Today ";
-            else if(today.getDay()==date.getDay()+1)
+            else if(sdf.format(yesterday).equals(sdf.format(date)))
                 ddate="Yesterday ";
             else
             {
 
-                ddate=date.getDay()+" "+Month(date)+" ";
+                //this.date=date.getDay()+" "+Month(date)+" ";
+                ddate=new SimpleDateFormat("d MMMM").format(date);
                 if(!(today.getYear()==date.getYear()))
-                    ddate+=date.getYear()+" ";
+                    ddate+=" "+date.getYear()+" ";
             }
             this.date.setText(ddate);
             this.subcat.setText(subcat);
@@ -327,7 +335,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 default_text.setVisibility(View.VISIBLE);
                 progressDialog.dismiss();
             }
-            for(String x:alllinks) {
+            /*for(String x:alllinks) {
 
                 Picasso.with(this).load(x).into(new Target() {
                     @Override
@@ -352,8 +360,9 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 });
                 Log.v("link in picasso",x);
             }
-
-
+*/
+            HorizontalAdapter.addLinks(alllinks);
+            progressDialog.dismiss();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -541,10 +550,12 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     class HorizontalAdapter  extends RecyclerView.Adapter<ServiceActivity.HorizontalAdapter.MyViewHolder> {
         private Context mContext;
         private ArrayList<Bitmap> images;
+        private ArrayList<String> links;
         private int thumbnail=0;
         public HorizontalAdapter(Context mContext, final ArrayList<Bitmap> images) {
             this.mContext = mContext;
             this.images=images;
+            links=new ArrayList<>(5);
             Log.v("Adapter created","Created");
 
         }
@@ -564,23 +575,55 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
         @Override
         public void onBindViewHolder(final ServiceActivity.HorizontalAdapter.MyViewHolder holder, final int position) {
-            holder.i.setImageBitmap(images.get(position));
+         //   holder.i.setImageBitmap(images.get(position));
+            //Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).fit().placeholder(R.drawable.image_placeholder).into(holder.i);
+            Target t=new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    if(position<images.size())
+                    images.add(position,bitmap);
+                    else
+                    images.add(bitmap);
+                    holder.i.setImageBitmap(bitmap);
+                    holder.i.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            reInstantiatePager();
+                            reInstantiatePager();
+                            imageshown=true;
+                            viewPager.setVisibility(View.VISIBLE);
+                            viewPager.setCurrentItem(position);
+
+                        }
+                    });
+
+                    Log.v("Bitmap set!","okay");
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    holder.i.setImageDrawable(errorDrawable);
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    RotateAnimation anim = new RotateAnimation(0f, 350f, Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+                    anim.setInterpolator(new LinearInterpolator());
+                    anim.setRepeatCount(Animation.INFINITE);
+                    anim.setDuration(700);
+                    holder.i.startAnimation(anim);
+
+                }
+            };
+            holder.i.setTag(t);
+
+            Picasso.with(mContext).load(links.get(position)).error(R.drawable.car).placeholder(R.drawable.loading).into(t);
             Log.v("inside","holder setting bitmap");
             /**
              *Set all onclicks here
              *
              */
-            holder.i.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    reInstantiatePager();
-                    reInstantiatePager();
-                    imageshown=true;
-                    viewPager.setVisibility(View.VISIBLE);
-                    viewPager.setCurrentItem(position);
-
-                }
-            });
+            holder.setIsRecyclable(false);
             holder.relativeLayout.setBackgroundResource(R.drawable.empty);
 
             holder.del.setOnClickListener(new View.OnClickListener() {
@@ -594,10 +637,12 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                     reInstantiatePager();                }
             });
         }
+
         @Override
         public int getItemCount() {
-            return images.size();
+            return this.links.size();
         }
+
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             Button set;
@@ -612,6 +657,12 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 relativeLayout=(RelativeLayout)view.findViewById(R.id.rel_lay);
                 //set=(Button)view.findViewById(R.id.button);
             }
+        }
+        public void addLinks(ArrayList<String> newLinks)
+        {
+            this.links.addAll(newLinks);
+            Log.v("links added","okay");
+            HorizontalAdapter.notifyDataSetChanged();
         }
     }
 

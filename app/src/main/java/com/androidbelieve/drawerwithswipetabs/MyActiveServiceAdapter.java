@@ -76,7 +76,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         holder.price.setText("₹ " + ad.getPrice() );
         holder.subcat.setText(ad.getSubcat());
         //new DisplayImage(ad.getsLink(),holder.ads).execute();
-        Picasso.with(mContext).load(ad.getsLink()).into(holder.ads);
+        Picasso.with(mContext).load(ad.getsLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

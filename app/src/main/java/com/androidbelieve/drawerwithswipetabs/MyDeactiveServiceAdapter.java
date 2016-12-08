@@ -72,7 +72,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
 
-        Picasso.with(mContext).load(ad.getsLink()).into(holder.ads);
+        Picasso.with(mContext).load(ad.getsLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

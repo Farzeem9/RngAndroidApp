@@ -34,7 +34,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
@@ -320,26 +319,25 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
             this.maxrent.setText(temp2);
             ((TextView)findViewById(R.id.tv_subcat)).setText(cat);
-            Date today=new Date();
             String ddate;
+            Date today=new Date();
+            Date yesterday=new Date();
+            yesterday.setTime(today.getTime()-((long)864E5));
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
             date.setTime(date.getTime()+19800000);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
             Log.v("timeStamp",timestamp);
             Log.v("date",date.toString());
-            if(today.getDay()==date.getDay())
+            if(sdf.format(today).equals(sdf.format(date)))
                 ddate="Today ";
-            else if(today.getDay()==date.getDay()+1)
+            else if(sdf.format(yesterday).equals(sdf.format(date)))
                 ddate="Yesterday ";
             else
             {
-
-                ddate=date.getDay()+" "+Month(date)+" ";
+                ddate=new SimpleDateFormat("d MMMM").format(date);
                 if(!(today.getYear()==date.getYear()))
-                    ddate+=date.getYear()+" ";
+                    ddate+=" "+date.getYear()+" ";
             }
-            Log.v("date",ddate);
-
-
             this.date.setText(ddate);
             this.city.setText(city);
             this.age.setText(age + " Years");

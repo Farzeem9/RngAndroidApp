@@ -84,7 +84,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
                 mContext.startActivity(i);
             }
         });
-        // loading album cover using Glide library
+        // loadingpic album cover using Glide library
         Log.v("wihslist link",ads.getlink());
         //new DisplayImage(ads.getlink(),holder.ads).execute();
         Picasso.with(mContext).load(ads.getlink()).fit().into(holder.ads);

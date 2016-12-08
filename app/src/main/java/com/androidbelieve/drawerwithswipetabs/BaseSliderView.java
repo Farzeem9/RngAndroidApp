@@ -62,7 +62,7 @@ public abstract class BaseSliderView {
     }
 
     /**
-     * the placeholder image when loading image from url or file.
+     * the placeholder image when loadingpic image from url or file.
      * @param resId Image resource id
      * @return
      */
@@ -315,7 +315,7 @@ public abstract class BaseSliderView {
     }
 
     /**
-     * Provide a Picasso instance to use when loading pictures, this is useful if you have a
+     * Provide a Picasso instance to use when loadingpic pictures, this is useful if you have a
      * particular HTTP cache you would like to share.
      *
      * @param picasso The Picasso instance to use, may be null to let the system use the default

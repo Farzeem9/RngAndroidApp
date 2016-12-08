@@ -6,8 +6,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 
 public class Notification {
@@ -54,22 +52,24 @@ static String Month(Date d)
         this.type=type;
         this.nid=nid;
         Date today=new Date();
-        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK).parse(timestamp);
+        Date yesterday=new Date();
+        yesterday.setTime(today.getTime()-((long)864E5));
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
         date.setTime(date.getTime()+19800000);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
         Log.v("timeStamp",timestamp);
         Log.v("date",date.toString());
-        if(today.getDay()==date.getDay())
+        if(sdf.format(today).equals(sdf.format(date)))
             this.date="Today ";
-        else if(today.getDay()==date.getDay()+1)
+        else if(sdf.format(yesterday).equals(sdf.format(date)))
             this.date="Yesterday ";
         else
         {
-
-            this.date=date.getDay()+" "+Month(date)+" ";
+            this.date=new SimpleDateFormat("d MMMM").format(date);
             if(!(today.getYear()==date.getYear()))
-                this.date+=date.getYear()+" ";
+                this.date+=" "+date.getYear()+" ";
         }
-
+        Log.v("Date written",this.date);
         DateFormat time=new SimpleDateFormat("HH:mm");
         this.time=time.format(date);
 

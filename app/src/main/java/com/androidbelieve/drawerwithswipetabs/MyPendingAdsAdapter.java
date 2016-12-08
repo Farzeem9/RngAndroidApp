@@ -96,7 +96,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         });
         holder.setIsRecyclable(false);
 
-        Glide.with(mContext).load(ad.getImage_ads()).into(holder.ads);
+        Glide.with(mContext).load(ad.getImage_ads()).placeholder(R.drawable.image_placeholder).into(holder.ads);
     }
 
     @Override

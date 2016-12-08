@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +54,17 @@ public class AdLinksActivity extends AppCompatActivity {
         ibdone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                links.add(etlinks.getText().toString());
-                lvlinks.setAdapter(linksAdapter);
-                //linksAdapter.notifyDataSetChanged();
-                lllinks.setVisibility(View.GONE);
+                if(Patterns.WEB_URL.matcher(etlinks.getText().toString()).matches()) {
+                    links.add(etlinks.getText().toString());
+                    lvlinks.setAdapter(linksAdapter);
+                    //linksAdapter.notifyDataSetChanged();
+                    lllinks.setVisibility(View.GONE);
+                }
+                else
+                {
+                    etlinks.setError("This is not a valid url!");
+                    etlinks.requestFocus();
+                }
 
             }
         });

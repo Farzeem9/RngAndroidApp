@@ -255,19 +255,24 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
 
             Date today=new Date();
             String ddate;
+            Date yesterday=new Date();
+            yesterday.setTime(today.getTime()-((long)864E5));
             Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp);
+            date.setTime(date.getTime()+19800000);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
             Log.v("timeStamp",timestamp);
             Log.v("date",date.toString());
-            if(today.getDay()==date.getDay())
+            if(sdf.format(today).equals(sdf.format(date)))
                 ddate="Today ";
-            else if(today.getDay()==date.getDay()+1)
+            else if(sdf.format(yesterday).equals(sdf.format(date)))
                 ddate="Yesterday ";
             else
             {
 
-                ddate=date.getDay()+" "+Month(date)+" ";
+                //this.date=date.getDay()+" "+Month(date)+" ";
+                ddate=new SimpleDateFormat("d MMMM").format(date);
                 if(!(today.getYear()==date.getYear()))
-                    ddate+=date.getYear()+" ";
+                    ddate+=" "+date.getYear()+" ";
             }
             this.date.setText(ddate);
             this.city.setText(city);

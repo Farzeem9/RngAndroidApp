@@ -77,7 +77,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.MyViewHolder> {
         holder.date.setText(ads.getDate());
         holder.price.setText("Rs " + ads.getPrice());
 
-        // loading album cover using Glide library
+        // loadingpic album cover using Glide library
         Glide.with(mContext).load(ads.getImage_ads()).into(holder.ads);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
