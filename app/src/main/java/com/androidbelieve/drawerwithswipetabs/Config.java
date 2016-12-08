@@ -8,8 +8,8 @@ import android.graphics.BitmapFactory;
  */
 
 public class Config {
-    public static final String link="http://sample-env.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
-
+    //public static final String link="http://sample-env.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
+    public static final String link="http://custom-env-1.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
     public static Bitmap lessResolution (String filePath, int width, int height) {
         int reqHeight = height;
         int reqWidth = width;
