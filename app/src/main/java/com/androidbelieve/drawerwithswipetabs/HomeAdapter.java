@@ -141,6 +141,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             //holder.imageButton.setImageResource(R.drawable.bell);
 
         }
+        else if(holder.category.getText().toString().equals("Real Estate")){
+            Drawable dr = context.getResources().getDrawable(R.drawable.realestate);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
+            holder.imageButton.setImageDrawable(d);
+            //holder.imageButton.setImageResource(R.drawable.bell);
+
+        }
+
         else if(holder.category.getText().toString().equals("Music and Audio")){
             Drawable dr = context.getResources().getDrawable(R.drawable.musicandaudio);
             Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
