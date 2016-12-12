@@ -29,10 +29,11 @@ public class Category_List extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category__list);
         String cat=getIntent().getStringExtra("Category");
-        TextView textView=(TextView)findViewById(R.id.cat_name);
-        textView.setText(cat);
+        //TextView textView=(TextView)findViewById(R.id.cat_name);
+        //textView.setText(cat);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         toolbar= (Toolbar) findViewById(R.id.toolbar1);
+        toolbar.setTitle(cat);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
