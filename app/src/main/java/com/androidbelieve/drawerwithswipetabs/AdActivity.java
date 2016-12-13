@@ -59,7 +59,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
-
+        Config.GenTime(this);
         radioGroup= (RadioGroup) findViewById(R.id.rg_period);
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);

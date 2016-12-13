@@ -1,7 +1,15 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by karth on 30-11-2016.
@@ -10,6 +18,33 @@ import android.graphics.BitmapFactory;
 public class Config {
     //public static final String link="http://sample-env.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
     public static final String link="http://custom-env-1.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
+    public static void GenTime(Context c){
+        try {
+            PackageInfo info = c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md;
+
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("hash key", something);
+                Thread.sleep(200);
+            }
+        }
+        catch (PackageManager.NameNotFoundException e1) {
+            // TODO Auto-generated catch block
+            Log.e("name not found", e1.toString());
+        }
+
+        catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            Log.e("no such an algorithm", e.toString());
+        }
+        catch (Exception e){
+            Log.e("exception", e.toString());
+        }
+
+    }
     public static Bitmap lessResolution (String filePath, int width, int height) {
         int reqHeight = height;
         int reqWidth = width;
