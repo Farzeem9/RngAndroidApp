@@ -284,6 +284,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
                 alllinks.add(links.getJSONObject(i).getString("link"));
 
             name.setText(prod_name);
+            toolbar.setTitle(prod_name);
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name +"/-");
             for(String name : alllinks){

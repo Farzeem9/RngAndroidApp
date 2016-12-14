@@ -323,7 +323,7 @@
                 android:text="Rent Now"
                 android:onClick="onUrgentRent"
                 android:id="@+id/btn_rent"
-                android:background="@color/red"
+                android:background="@color/orange"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/white"
                 android:layout_weight="12"

@@ -366,6 +366,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             }this.date.setText(ddate);
             this.subcat.setText(subcat);
             name.setText(prod_name);
+            toolbar.setTitle(prod_name);
             desc.setText(desc_str);
             rent.setText("₹ "+ rent_name);
             final int length[]={alllinks.size()};
