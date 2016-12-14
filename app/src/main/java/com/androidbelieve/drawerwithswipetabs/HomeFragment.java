@@ -1,7 +1,10 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -60,7 +64,21 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
 
         if(!shown) {
-
+            final Activity activity = getActivity();
+            final View content = rootView.getRootView();
+            if (content.getWidth() > 0) {
+                Bitmap image = Blur.blur(content,getContext());
+                activity.getWindow().setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
+            } else {
+                Log.v("in the else","okay");
+                content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Bitmap image = Blur.blur(content,getContext());
+                        activity.getWindow().setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
+                    }
+                });
+            }
             Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
             fab.startAnimation(cross);
             v.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
