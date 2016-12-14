@@ -68,7 +68,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final MyAds ad = adList.get(position);
         holder.status.setText("Active");
-        holder.status.setTextColor(Color.parseColor("#79ff4d"));
+        holder.status.setTextColor(Color.parseColor("#4CAF50"));
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );

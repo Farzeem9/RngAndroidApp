@@ -33,13 +33,13 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         public MyViewHolder(View view) {
             super(view);
             Log.v("Holder created" ,"here");
-            title = (TextView) view.findViewById(R.id.tv_specs);
+            title = (TextView) view.findViewById(R.id.tv_status);
             count = (TextView) view.findViewById(R.id.tv_price);
             thumbnail = (ImageView) view.findViewById(R.id.iv_ads);
             overflow = (ImageView) view.findViewById(R.id.overflow);
             date=(TextView)view.findViewById(R.id.tv_date);
-            subcat=(TextView)view.findViewById(R.id.tv_status);
             v=view.findViewById(R.id.card_view_ads);
+            subcat=(TextView)view.findViewById(R.id.tv_specs);
         }
     }
 

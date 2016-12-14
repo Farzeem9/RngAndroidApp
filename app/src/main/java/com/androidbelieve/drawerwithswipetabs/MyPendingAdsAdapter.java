@@ -69,7 +69,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         final MyAds ad = adList.get(position);
 
         holder.status.setText("Pending");
-        holder.status.setTextColor(Color.parseColor("#ffe680"));
+        holder.status.setTextColor(Color.parseColor("#FFEB3B"));
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
