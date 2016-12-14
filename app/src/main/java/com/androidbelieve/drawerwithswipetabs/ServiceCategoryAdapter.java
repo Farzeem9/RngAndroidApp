@@ -29,7 +29,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count,date,subcat;
         public ImageView thumbnail, overflow;
-
+        public View v;
         public MyViewHolder(View view) {
             super(view);
             Log.v("Holder created" ,"here");
@@ -39,6 +39,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
             overflow = (ImageView) view.findViewById(R.id.overflow);
             date=(TextView)view.findViewById(R.id.tv_date);
             subcat=(TextView)view.findViewById(R.id.tv_status);
+            v=view.findViewById(R.id.card_view_ads);
         }
     }
 
@@ -71,7 +72,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
         Picasso.with(mContext).load(album.getLink()).placeholder(R.drawable.image_placeholder).fit().error(errord).into(holder.thumbnail);
         final String aid=album.getSid();
-        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+        holder.v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(mContext,ServiceActivity.class);

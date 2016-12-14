@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.androidbelieve.drawerwithswipetabs.SearchViewActivity">
-
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -15,70 +14,30 @@
         android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="Search" />
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+    android:layout_height="match_parent">
 
-     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:background="@android:color/darker_gray"
-            android:layout_height="match_parent">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:orientation="vertical"
-           android:layout_height="match_parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_ads"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="Ads"
-            android:padding="7dp"
-            />
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:id="@+id/No_ads"
-               android:gravity="center_horizontal"
-               android:text="@string/no_ads"
-               android:textStyle="italic"
-               android:textColor="@color/white"
-               android:visibility="gone"
-               />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_below="@+id/tv_ads"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:scrollbars="vertical" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_below="@+id/recycler_view"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_services"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:text="Services"
-            android:padding="7dp"
-            />
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:id="@+id/No_service"
-               android:gravity="center_horizontal"
-               android:text="@string/no_ads"
-               android:textStyle="italic"
-               android:textColor="@color/white"
-               android:visibility="gone"
-               />
-           <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_services"
-            android:layout_below="@+id/tv_services"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:scrollbars="vertical" />
-       </LinearLayout>
-     </ScrollView>
 
-    </RelativeLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        android:background="@color/red"
+        app:tabIndicatorColor="@color/red"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>
+</RelativeLayout>

@@ -3,24 +3,23 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -37,7 +36,11 @@ public class SearchViewActivity extends AppCompatActivity
     private RecyclerView recyclerViewservice;
     private ServiceCategoryAdapter adapterservice;
     private ArrayList<ServiceAlbum> albumListservice;
-
+    private SearchAdsFragment adsFragment;
+    private SearchServicesFragment servicesFragment;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    public static int int_items = 2 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +48,6 @@ public class SearchViewActivity extends AppCompatActivity
         setContentView(R.layout.activity_search_view);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        albumList=new ArrayList<>();
-        adapter=new AlbumsAdapter(this,albumList);
-        recyclerView=(RecyclerView)findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        albumListservice = new ArrayList<>();
-        adapterservice = new ServiceCategoryAdapter(this, albumListservice);
-
-        recyclerViewservice=(RecyclerView)findViewById(R.id.recycler_view_services);
-        RecyclerView.LayoutManager mLayoutManagerservice = new GridLayoutManager(this, 1);
-        recyclerViewservice.setLayoutManager(mLayoutManagerservice);
-        recyclerViewservice.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerViewservice.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewservice.setAdapter(adapterservice);
 
 
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
@@ -73,6 +58,16 @@ public class SearchViewActivity extends AppCompatActivity
             }
         });
 
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,177 +94,116 @@ public class SearchViewActivity extends AppCompatActivity
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if(searchtask==null)
-        {
-            searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
-                @Override
-                public void processFinish(Object output) {
-                    String result=(String)output;
+            if(searchtask==null)
+            {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
 
-                   try {
-                       JSONObject jobj = new JSONObject(result);
-                       prepareAlbum(jobj.getJSONArray("result"));
-                       prepareAlbumService(jobj.getJSONArray("resultservice"));
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+            else if(searchtask.getStatus()!= AsyncTask.Status.FINISHED)
+            {
+                searchtask.cancel(true);
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
 
-                   }
-                   catch (Exception e)
-                   {
-                       e.printStackTrace();
-                   }
-                }
-            });
-            searchtask.execute();
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+            else
+            {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
+
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+            return false;
+
         }
-        else if(searchtask.getStatus()!= AsyncTask.Status.FINISHED)
-        {
-            searchtask.cancel(true);
-            searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
-                @Override
-                public void processFinish(Object output) {
-                    String result=(String)output;
-
-                    try {
-                        JSONObject jobj = new JSONObject(result);
-                        prepareAlbum(jobj.getJSONArray("result"));
-                        prepareAlbumService(jobj.getJSONArray("resultservice"));
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            searchtask.execute();
-        }
-        else
-        {
-            searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
-                @Override
-                public void processFinish(Object output) {
-                    String result=(String)output;
-
-                    try {
-                        JSONObject jobj = new JSONObject(result);
-                        prepareAlbum(jobj.getJSONArray("result"));
-                        prepareAlbumService(jobj.getJSONArray("resultservice"));
-
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            searchtask.execute();
-        }
-        return false;
-    }
     @Override
     public boolean onQueryTextChange(String newText) {
-        albumListservice.clear();
+        /*albumListservice.clear();
         albumList.clear();
         adapter.notifyDataSetChanged();
         adapterservice.notifyDataSetChanged();
-
+*/
         return false;
     }
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
+    class MyAdapter extends FragmentPagerAdapter {
 
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
+        public MyAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
-
-    public int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-    void prepareAlbumService(JSONArray jarray)
-    {
-        albumListservice.clear();
-        if(jarray.length()==0)
+        public Fragment getItem(int position)
         {
-            findViewById(R.id.No_service).setVisibility(View.VISIBLE);
+            switch (position){
+                case 0 : adsFragment= new SearchAdsFragment();
+                        return adsFragment;
+                case 1 : servicesFragment= new SearchServicesFragment();
+                        return servicesFragment;
+            }
+            return null;
         }
-        else
-            findViewById(R.id.No_service).setVisibility(View.GONE);
 
-        for(int i=0;i<jarray.length();i++)
-        {
-            try {
-                JSONObject ad = jarray.getJSONObject(i);
-                String name = ad.getString("SNAME");
-                String sid = ad.getString("SID");
-                int amount = Integer.parseInt(ad.getString("AMOUNT"));
-                String timestamp=ad.getString("TIMESTAMP");
-                String subcat=ad.getString("SUBCATEGORY");
-                String pid=ad.getString("PID");
-                albumListservice.add(new ServiceAlbum(pid,name,amount,R.drawable.broly,sid,timestamp,subcat));
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        adapterservice.notifyDataSetChanged();
-    }
-    void prepareAlbum(JSONArray jarray)
-    {
-        albumList.clear();
-        if(jarray.length()==0)
-        {
-            findViewById(R.id.No_ads).setVisibility(View.VISIBLE);
-        }
-        else
-            findViewById(R.id.No_ads).setVisibility(View.GONE);
-        for(int i=0;i<jarray.length();i++)
-        {
-            try {
-                JSONObject ad = jarray.getJSONObject(i);
-                String pid=ad.getString("PID");
-                String name = ad.getString("PROD_NAME");
-                String aid = ad.getString("AID");
-                String subcat=ad.getString("CATEGORY");
-                int amount = Integer.parseInt(ad.getString("AMOUNT"));
+        @Override
+        public int getCount() {
 
-                Album a=new Album(subcat,pid,name,amount,i,aid);
-                albumList.add(a);
+            return int_items;
 
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
         }
-        adapter.notifyDataSetChanged();
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position){
+                case 0 :
+                    return "Ads";
+                case 1 :
+                    return "Services";
+            }
+            return null;
+        }
     }
 
 

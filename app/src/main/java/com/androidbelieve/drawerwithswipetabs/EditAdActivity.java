@@ -429,11 +429,12 @@ public class EditAdActivity extends AppCompatActivity {
                     inputLayoutPtags.setError("Enter space separated values!");
                     return;
                 }
-                String[] temp=tags.getText().toString().split(" ");
+                /*String[] temp=tags.getText().toString().split(" ");
                 StringBuffer sbuff=new StringBuffer("");
                 for(String x:temp)
                     sbuff.append(x+",");
-                tagstring= URLEncoder.encode(sbuff.toString());
+                tagstring= URLEncoder.encode(sbuff.toString());*/
+                tagstring=URLEncoder.encode(tags.getText().toString().replace(","," "));
                 if(work==0)
                     nowork();
                 else if(work==1)

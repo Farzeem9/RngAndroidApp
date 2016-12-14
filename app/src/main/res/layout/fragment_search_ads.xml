@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#f3f3f3"
+    android:layout_height="match_parent"
+    tools:context="com.androidbelieve.drawerwithswipetabs.SearchAdsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/No_ads"
+        android:gravity="center_horizontal"
+        android:text="@string/no_ads"
+        android:textStyle="italic"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_below="@+id/tv_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+ </LinearLayout>
+
+</FrameLayout>

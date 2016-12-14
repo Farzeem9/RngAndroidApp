@@ -111,14 +111,12 @@ public class WishlistFragment extends Fragment {
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
-
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
-
         return x;
 
     }

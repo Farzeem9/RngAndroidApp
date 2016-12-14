@@ -422,12 +422,13 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     inputLayoutPtags.setError("Enter space separated values!");
                     return;
                 }
-                String[] temp=inputPtags.getText().toString().split(" ");
+                /*String[] temp=inputPtags.getText().toString().split(" ");
                 StringBuffer sbuff=new StringBuffer("");
                 for(String x:temp)
                     sbuff.append(x+",");
                 String tags= URLEncoder.encode(sbuff.toString());
-
+                */
+                String tags=URLEncoder.encode(inputPtags.getText().toString().replace(","," "));
                 if(r1.isChecked())
                     f2=f2+"days,";
                 if(r2.isChecked())

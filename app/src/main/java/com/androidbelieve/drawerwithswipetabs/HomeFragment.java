@@ -63,7 +63,6 @@ public class HomeFragment extends Fragment {
 
             Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
             fab.startAnimation(cross);
-
             v.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {

@@ -119,11 +119,12 @@ public class EditServiceActivity extends AppCompatActivity {
                     inputLayoutPtags.setError("Enter space separated values!");
                     return;
                 }
-                String[] temp=inputPtags.getText().toString().split(" ");
+                /*String[] temp=inputPtags.getText().toString().split(" ");
                 StringBuffer sbuff=new StringBuffer("");
                 for(String x:temp)
                     sbuff.append(x+",");
-                String tags= URLEncoder.encode(sbuff.toString());
+                String tags= URLEncoder.encode(sbuff.toString());*/
+                String tags=URLEncoder.encode(inputPtags.getText().toString().replace(","," "));
 
                 GenericAsyncTask g=new GenericAsyncTask(a, Config.link+"editservice.php", "", new AsyncResponse() {
                     @Override
