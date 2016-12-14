@@ -93,7 +93,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
         }
         else if(holder.category.getText().toString().equals("Tools & Equipments")){
-            Drawable dr = context.getResources().getDrawable(R.drawable.my_ads_service);
+            Drawable dr = context.getResources().getDrawable(R.drawable.myadsservice);
             Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
             Drawable d = new BitmapDrawable(context.getResources(),Bitmap.createScaledBitmap(bitmap,75,75,true));
             holder.imageButton.setImageDrawable(d);

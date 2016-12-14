@@ -57,6 +57,7 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
         if(isLogin()){
             startActivity(new Intent(FirstActivity.this,MainActivity.class));
+            finish();
         }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -66,6 +67,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 startActivity(new Intent(FirstActivity.this,LoginActivity.class));
+                finish();
                 }
 
             @Override

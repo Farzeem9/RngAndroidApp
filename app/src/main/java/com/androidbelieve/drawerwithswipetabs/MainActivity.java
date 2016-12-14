@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity{
                 if(out.equals("1"))
                 {
                     noti.setIcon(R.drawable.newnotification);
+
                 }
             }
         });
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_notification:
-                item.setIcon(R.drawable.bell);
+                item.setIcon(R.drawable.nonotification);
                 startActivity(new Intent(this, NotificationActivity.class));
                 return true;
             case R.id.action_settings:
@@ -133,11 +135,17 @@ public class MainActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+    int x=1;
     @Override
     public void onBackPressed() {
-        if(home) {
+        if(home&&x==0) {
             super.onBackPressed();
             finish();
+        }
+        else if(home&&x!=0)
+        {
+         x=0;
+            Toast.makeText(this,"Press again to exit",Toast.LENGTH_SHORT).show();
         }
         else    {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();

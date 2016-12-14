@@ -14,7 +14,7 @@
             android:title="Profile" />
         <item
             android:id="@+id/nav_wishlist"
-            android:icon="@drawable/added_to_wishlist"
+            android:icon="@drawable/whishlistdrawer"
             android:title="Wishlist" />
         </group>
     <group android:checkableBehavior="single"
@@ -23,11 +23,11 @@
         <menu>
             <item
                 android:id="@+id/nav_myads"
-                android:icon="@drawable/my_ads_product"
+                android:icon="@drawable/myadsproduct"
                 android:title="My Products" />
             <item
                 android:id="@+id/nav_myservices"
-                android:icon="@drawable/my_ads_service"
+                android:icon="@drawable/myadsservice"
                 android:title="My Services" />
         </menu>
     </item>
