@@ -2,6 +2,7 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class ProfileFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
         info = (TextView) view.findViewById(R.id.fb_name);
         profilePictureView = (ProfilePictureView) view.findViewById(R.id.fb_pic);
-        //info_id=(TextView)findViewById(R.id.info_name);
+        info_id=(TextView) view.findViewById(R.id.fb_mobile);
         info_mail=(TextView) view.findViewById(R.id.fb_email);
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -62,6 +63,15 @@ public class ProfileFragment extends Fragment {
         userID= AccessToken.getCurrentAccessToken().getUserId();
         pid=userID;
         profilePictureView.setProfileId(userID);
+
+        new GenericAsyncTask(getContext(), Config.link + "contact.php?pid=" + pid, "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                String num = (String) output;
+                info_id.setText(num);
+            }
+        }).execute();
+        //Log.v("contact",num);
         return view;
     }
 }
