@@ -41,9 +41,6 @@
         <item
             android:id="@+id/nav_tandc"
             android:title="Terms and Conditions" />
-        <item
-            android:id="@+id/nav_privacy"
-            android:title="Privacy and Policy" />
 
     </group>
 

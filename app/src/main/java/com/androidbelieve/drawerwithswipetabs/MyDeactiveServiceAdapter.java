@@ -67,7 +67,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final MyAds ad = serviceList.get(position);
         holder.status.setText("Deactivated");
-        holder.status.setTextColor(Color.parseColor("#ff4d4d"));
+        holder.status.setTextColor(Color.parseColor("#F44336"));
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );

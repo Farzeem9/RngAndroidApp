@@ -69,7 +69,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final MyAds ad = serviceList.get(position);
         holder.status.setText("Active");
-        holder.status.setTextColor(Color.parseColor("#79ff4d"));
+        holder.status.setTextColor(Color.parseColor("#4CAF50"));
         holder.subcat.setText(ad.getSubcat());
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
