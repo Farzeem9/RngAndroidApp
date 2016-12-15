@@ -30,10 +30,10 @@
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="170dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/orange"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:layout_below="@+id/tv_rng"
         android:layout_marginTop="40dp"
         android:text="LOGIN"

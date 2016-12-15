@@ -46,7 +46,7 @@
                     android:paddingBottom="10dp"
                     android:layout_weight="6"
                     android:textAlignment="viewStart"
-                    android:text="Name"
+
                     android:textColor="#000000"
                     />
             </LinearLayout>
@@ -80,7 +80,6 @@
                     android:layout_height="match_parent"
                     android:id="@+id/fb_email"
                     android:paddingTop="10dp"
-                    android:text="emaiasdasdasdasdaal"
                     android:textAlignment="viewStart"
                     android:paddingBottom="10dp"
                     android:layout_weight="6"
@@ -159,15 +158,16 @@
         </android.support.v7.widget.CardView>
 
 
-        <Button
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Logout"
             android:background="@color/orange"
-            android:textColor="#ffffff"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
             android:layout_below="@+id/cv_delete"
+            android:layout_marginTop="40dp"
+            android:text="Logout"
             />
     </RelativeLayout>
 </FrameLayout>
