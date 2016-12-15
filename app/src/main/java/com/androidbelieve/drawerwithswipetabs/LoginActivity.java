@@ -1,6 +1,8 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONException;
@@ -34,6 +37,15 @@ public class LoginActivity extends AppCompatActivity {
     private ProfilePictureView profilePictureView;
     private String userID;
     private String pid,name,email,contact;
+    private SharedPreferences sharedPreferences;
+
+
+    @Override
+    public void onBackPressed() {
+        LoginManager.getInstance().logOut();
+        super.onBackPressed();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         //info_id=(TextView)findViewById(R.id.info_name);
         info_mail=(TextView)findViewById(R.id.info_mail);
         info_phone=(EditText)findViewById(R.id.info_contact);
+        sharedPreferences=getSharedPreferences("LOG",MODE_PRIVATE);
+
         if(isLogin())
         {
             GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
@@ -140,12 +154,26 @@ public class LoginActivity extends AppCompatActivity {
         {
             if(result!=null)
             {
-                // t.setText(result);
-                Toast.makeText(LoginActivity.this, result+"New user!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(thisac,MainActivity.class));
+                if(result.equals("Already registered")|| result.equals("sucess")) {
+                    String pid=AccessToken.getCurrentAccessToken().getUserId();
+                    EncryptDecrypt encryptDecrypt=null;
+                    try {
+                        encryptDecrypt = new EncryptDecrypt("kthiksramAndroidDevs");
+                        String temp = encryptDecrypt.encrypt(pid);
+                        sharedPreferences.edit().putString("abcxyz",temp).commit();
+                        startActivity(new Intent(thisac, MainActivity.class));
+                        finish();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        AlertDialog.Builder alertbox = new AlertDialog.Builder(LoginActivity.this);
+                        alertbox.setTitle("Error");
+                        alertbox.setMessage("There was am error while decoding Login parameters\nPlease notify the developers of this");
+                        alertbox.show();
+                    }
+                }
             }
-
-
         }
     }
     public void onSubmit(View view)
@@ -154,8 +182,14 @@ public class LoginActivity extends AppCompatActivity {
         name=info.getText().toString();
         email=info_mail.getText().toString();
         contact=info_phone.getText().toString();
+        if(contact.equals(""))
+        {
+            info_phone.setError("Please enter your phone number!");
+            info_phone.requestFocus();
+            return;
+        }
+        info_phone.setError(null);
         new NewAd(userID,name,email,contact,this).execute();
-
     }
     public boolean isLogin()
     {

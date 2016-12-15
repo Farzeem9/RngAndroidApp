@@ -1,18 +1,21 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -23,6 +26,7 @@ import java.util.Arrays;
 public class FirstActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +55,34 @@ public class FirstActivity extends AppCompatActivity {
         catch (Exception e){
             Log.e("exception", e.toString());
         }
-
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        sharedPreferences=getApplicationContext().getSharedPreferences("LOG", Context.MODE_PRIVATE);
+        String abc=sharedPreferences.getString("abcxyz",null);
         setContentView(R.layout.activity_first);
-        if(isLogin()){
-            startActivity(new Intent(FirstActivity.this,MainActivity.class));
-            finish();
+        if(isLogin()&&abc!=null){
+            String pid=AccessToken.getCurrentAccessToken().getUserId();
+
+            EncryptDecrypt encryptDecrypt=null;
+            try {
+                encryptDecrypt=new EncryptDecrypt("kthiksramAndroidDevs");
+                String temp=encryptDecrypt.encrypt(pid);
+                if(temp.equals(abc))
+                {
+                    startActivity(new Intent(FirstActivity.this,MainActivity.class));
+                    finish();
+                }
+                else
+                {
+                    LoginManager.getInstance().logOut();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+                alertbox.setTitle("Error");
+                alertbox.setMessage("There was am error while decoding Login parameters\nPlease notify the developers of this");
+                alertbox.show();
+            }
         }
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.login_button);

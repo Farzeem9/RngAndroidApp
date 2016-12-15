@@ -163,6 +163,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Logout"
+            android:id="@+id/logout"
             android:background="@color/orange"
             android:textColor="#ffffff"
             android:layout_marginTop="40dp"

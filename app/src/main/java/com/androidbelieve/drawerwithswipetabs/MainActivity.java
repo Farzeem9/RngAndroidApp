@@ -1,6 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -77,6 +78,12 @@ public class MainActivity extends AppCompatActivity{
                      toolbar.setTitle("Wishlist");
                      xfragmentTransaction.replace(R.id.containerView,new WishlistFragment()).commit();
                      home=false;
+                 }
+                 else if (menuItem.getItemId() == R.id.nav_tandc)
+                 {
+                     Intent intent=new Intent(Intent.ACTION_VIEW);
+                     intent.setData(Uri.parse("http://google.com"));
+                     startActivityForResult(intent,0);
                  }
                  return false;
             }

@@ -21,11 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:background="@color/darkred"
+            android:tag="dis"
             android:id="@+id/view1"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:text="Products"
             android:textSize="20sp"
             android:layout_marginLeft="20dp"
@@ -55,6 +57,7 @@
             android:layout_height="15dp"
             android:background="@color/darkred"
             android:id="@+id/view2"
+            android:tag="dis"
             android:layout_below="@+id/hv_category"
             />
         <TextView
@@ -89,14 +92,16 @@
             android:layout_height="15dp"
             android:layout_below="@id/hv_service"
             android:id="@+id/view3"
+            android:tag="dis"
             android:background="@color/darkred"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:id="@+id/blurimage"
 
-            android:layout_height="match_parent" />
     </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/blurimage"
+
+        android:layout_height="match_parent" />
     <RelativeLayout
         android:id="@+id/relfab"
         android:layout_width="wrap_content"

@@ -422,9 +422,9 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                     @Override
                     public void processFinish(Object output) {
                         if(set)
-                            star.setIcon(R.drawable.added_to_wishlist);
-                        else
                             star.setIcon(R.drawable.add_to_whishlist);
+                        else
+                            star.setIcon(R.drawable.added_to_wishlist);
                     Log.v("Async out",(String)output);
                         set=!set;
                     }

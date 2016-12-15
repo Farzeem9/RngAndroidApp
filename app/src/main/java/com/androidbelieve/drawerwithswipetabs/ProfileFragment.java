@@ -1,11 +1,13 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONException;
@@ -24,7 +27,7 @@ public class ProfileFragment extends Fragment {
     private String userID;
     private String pid,name,email,contact;
     private TextView info,info_id,info_mail;
-
+    private SharedPreferences sharedPreferences;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -37,6 +40,7 @@ public class ProfileFragment extends Fragment {
 
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
+        sharedPreferences=getActivity().getSharedPreferences("LOG", Context.MODE_PRIVATE);
         info = (TextView) view.findViewById(R.id.fb_name);
         profilePictureView = (ProfilePictureView) view.findViewById(R.id.fb_pic);
         info_id=(TextView) view.findViewById(R.id.fb_mobile);
@@ -63,7 +67,15 @@ public class ProfileFragment extends Fragment {
         userID= AccessToken.getCurrentAccessToken().getUserId();
         pid=userID;
         profilePictureView.setProfileId(userID);
-
+        Button logout=(Button)view.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+                sharedPreferences.edit().clear().commit();
+                getActivity().finish();
+            }
+        });
         new GenericAsyncTask(getContext(), Config.link + "contact.php?pid=" + pid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {

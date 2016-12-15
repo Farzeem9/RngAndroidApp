@@ -2,6 +2,7 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,11 +37,13 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fabservice;
     private FloatingActionButton fabad;
     private boolean shown=false;
-
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         rootView = (ViewGroup) inflater.inflate(R.layout.home_layout, container, false);
         cats=new ArrayList<String>();
         servicecats=new ArrayList<String>();
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment {
         final FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         final TextView v=(TextView)rootView.findViewById(R.id.Tv_ad);
         final TextView vs=(TextView)rootView.findViewById(R.id.Tv_serv);
+
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +66,17 @@ public class HomeFragment extends Fragment {
         if(!shown) {
 
             final View content = rootView.findViewById(R.id.rl_main);
-            Blur.blur(rootView,rootView,getContext());
+            Blur.blur(rootView,getContext());
+            /*Animation hide= new AlphaAnimation(1f,0f);
+            hide.setDuration(500);
+            rootView.findViewById(R.id.view1).startAnimation(hide);
+            rootView.findViewById(R.id.view2).startAnimation(hide);
+            rootView.findViewById(R.id.view3).startAnimation(hide);
+
+            rootView.findViewById(R.id.view1).setVisibility(View.INVISIBLE);
+            rootView.findViewById(R.id.view2).setVisibility(View.INVISIBLE);
+            rootView.findViewById(R.id.view3).setVisibility(View.INVISIBLE);
+            */
             //Blur.unBlur(rootView.findViewById(R.id.relfab));
             Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
             fab.startAnimation(cross);
@@ -139,6 +153,15 @@ public class HomeFragment extends Fragment {
         {
             final View content = rootView;
             Blur.unBlur(content);
+            /*Animation hide=new AlphaAnimation(0f,1f);
+            hide.setDuration(500);
+            rootView.findViewById(R.id.view1).startAnimation(hide);
+            rootView.findViewById(R.id.view2).startAnimation(hide);
+            rootView.findViewById(R.id.view3).startAnimation(hide);
+            rootView.findViewById(R.id.view1).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.view2).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.view3).setVisibility(View.VISIBLE);
+            */
             Animation anticross=AnimationUtils.loadAnimation(getContext(),R.anim.anticross);
             fab.startAnimation(anticross);
 

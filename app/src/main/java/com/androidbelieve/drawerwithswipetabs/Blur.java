@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 
 /**
@@ -110,7 +111,7 @@ public class Blur  {
                 ((ImageView)rootView.findViewById(R.id.blurimage)).setImageDrawable(drawable);
                 AlphaAnimation alpha = new AlphaAnimation(0f, 1f);
                 alpha.setDuration(500);
-                target.findViewById(R.id.blurimage).startAnimation(alpha);
+                rootView.findViewById(R.id.blurimage).startAnimation(alpha);
                 //((ImageView)target.findViewById(R.id.blurimage)).setBackgroundColor(100);
                 //addView(target, drawable);
             }
@@ -170,16 +171,26 @@ public class Blur  {
     }
 
 
-    public static void blur(View rooot,View v, Context c) {
-        rootView=rooot;
-        Log.v("bulrring","okay");
+    public static void blur(View rooot, Context c) {
+        if(rootView==null) {
+            rootView = rooot;
+            Log.v("bulrring", "okay");
             Blur.with(c)
-                .radius(15)
-                .sampling(5)
-                .animate(10)
-                .onto((ViewGroup)v);
-
+                    .radius(15)
+                    .sampling(5)
+                    .animate(10)
+                    .onto((ViewGroup) rooot);
         }
+        else
+        {
+            rootView.findViewById(R.id.blurimage).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.blurimage).setAlpha(1f);
+            Animation show=new AlphaAnimation(0f,1f);
+            show.setDuration(500);
+            rootView.findViewById(R.id.blurimage).startAnimation(show);
+        }
+    }
+
         //Blur.with(c).async().capture(v).into((ImageView)v.findViewById(R.id.blurimage));
 
 
@@ -193,7 +204,10 @@ public class Blur  {
             Log.v("view not null","okay");
         }
         Log.v("antibulrring","okay");
-        ((ImageView)rootView.findViewById(R.id.blurimage)).setImageDrawable(null);
+        AlphaAnimation alpha = new AlphaAnimation(1f, 0f);
+        alpha.setDuration(500);
+        ((ImageView)rootView.findViewById(R.id.blurimage)).findViewById(R.id.blurimage).startAnimation(alpha);
+        ((ImageView)rootView.findViewById(R.id.blurimage)).setAlpha(0f);
     }
     private static Bitmap getScreenshot(View v) {
         Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
