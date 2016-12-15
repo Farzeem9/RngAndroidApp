@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnima tionEnd(Animator animation) {
                     v.setVisibility(View.VISIBLE);
                 }
 
