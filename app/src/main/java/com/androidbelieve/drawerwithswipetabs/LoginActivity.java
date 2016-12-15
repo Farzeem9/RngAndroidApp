@@ -40,9 +40,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
+    protected void onDestroy() {
+        super.onDestroy();
         LoginManager.getInstance().logOut();
-        super.onBackPressed();
     }
 
     @Override
