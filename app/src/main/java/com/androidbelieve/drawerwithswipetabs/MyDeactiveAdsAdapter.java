@@ -128,7 +128,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_edit: {
-                    Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mContext,EditAdActivity.class);
                     intent.putExtra("AID",myAds.getAid());
                     mContext.startActivity(intent);
@@ -146,7 +146,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
                         }
                     });
                     g.execute();
-                    Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
                 }
                 return true;
                 case R.id.action_activate:
@@ -162,7 +162,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
                         }
                     });
                     g.execute();
-                    Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

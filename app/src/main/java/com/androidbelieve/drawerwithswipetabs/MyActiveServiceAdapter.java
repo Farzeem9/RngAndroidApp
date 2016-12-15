@@ -129,7 +129,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_edit: {
-                    Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mContext,EditServiceActivity.class);
                     intent.putExtra("sid",MyServices.getAid());
                     mContext.startActivity(intent);
@@ -147,7 +147,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
                         }
                     });
                     g.execute();
-                    Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
                 }
                 return true;
                 case R.id.action_deactivate:
@@ -163,7 +163,7 @@ public class MyActiveServiceAdapter extends RecyclerView.Adapter<MyActiveService
                         }
                     });
                     g.execute();
-                    Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

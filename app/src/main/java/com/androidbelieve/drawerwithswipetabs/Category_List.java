@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,8 +16,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class Category_List extends AppCompatActivity {
@@ -61,7 +60,7 @@ public class Category_List extends AppCompatActivity {
         recyclerView.setOnScrollListener(infScrollviewListener);
 
 
-        getJSON=new GetJSON(Config.link+"viewads.php?category="+cat,adapter,albumList);
+        getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat),adapter,albumList);
         getJSON.execute();
 
 

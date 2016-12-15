@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -69,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                                 info.setText(object.getString("name"));
                                 //info_id.setText("Hi, "+object.getString("id"));
                                 info_mail.setText(object.getString("email"));
-                                Toast.makeText(LoginActivity.this, AccessToken.getCurrentAccessToken().getUserId(), Toast.LENGTH_SHORT).show();
                             } catch(JSONException ex) {
                                 ex.printStackTrace();
                             }

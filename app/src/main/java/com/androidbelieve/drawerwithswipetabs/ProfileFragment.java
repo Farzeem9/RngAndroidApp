@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -50,7 +49,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
-                            Toast.makeText(getActivity(), "Manny", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "Manny", Toast.LENGTH_SHORT).show();
                             info.setText(object.getString("name"));
                             //info_id.setText("Hi, "+object.getString("id"));
                             info_mail.setText(object.getString("email"));

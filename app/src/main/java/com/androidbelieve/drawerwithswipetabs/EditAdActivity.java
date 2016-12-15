@@ -481,7 +481,7 @@ public class EditAdActivity extends AppCompatActivity {
         {
             return;
         }
-        Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
     }
 
 
