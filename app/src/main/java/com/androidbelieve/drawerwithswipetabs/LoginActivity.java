@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,12 +38,23 @@ public class LoginActivity extends AppCompatActivity {
     private String userID;
     private String pid,name,email,contact;
     private SharedPreferences sharedPreferences;
-
+    private boolean enteredApp=false;
 
     @Override
     protected void onDestroy() {
+        if(enteredApp)
         super.onDestroy();
-        LoginManager.getInstance().logOut();
+        else {
+            LoginManager.getInstance().logOut();
+            try {
+                sharedPreferences.edit().clear();
+            }
+            catch (Exception e)
+            {
+                Log.e("Error Caught",e.getMessage());
+            }
+            super.onDestroy();
+        }
     }
 
     @Override
@@ -159,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                         encryptDecrypt = new EncryptDecrypt("kthiksramAndroidDevs");
                         String temp = encryptDecrypt.encrypt(pid);
                         sharedPreferences.edit().putString("abcxyz",temp).commit();
+                        LoginActivity.this.enteredApp=true;
                         startActivity(new Intent(thisac, MainActivity.class));
                         finish();
                     }

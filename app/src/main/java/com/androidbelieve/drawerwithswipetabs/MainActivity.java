@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
             case R.id.action_settings:
                 FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                 toolbar.setTitle("Profile");
+                home=false;
                 xfragmentTransaction.replace(R.id.containerView,new ProfileFragment()).commit();
                 return true;
             case R.id.search:
