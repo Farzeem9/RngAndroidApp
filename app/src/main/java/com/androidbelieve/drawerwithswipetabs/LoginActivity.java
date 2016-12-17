@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         if(enteredApp)
         super.onDestroy();
         else {
+            Log.v("logging out","okay");
             LoginManager.getInstance().logOut();
             try {
                 sharedPreferences.edit().clear();

@@ -59,6 +59,7 @@ public class FirstActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         sharedPreferences=getApplicationContext().getSharedPreferences("LOG", Context.MODE_PRIVATE);
         String abc=sharedPreferences.getString("abcxyz",null);
+        abc=abc.trim();
         setContentView(R.layout.activity_first);
         if(isLogin()&&abc!=null){
             String pid=AccessToken.getCurrentAccessToken().getUserId();
@@ -67,13 +68,15 @@ public class FirstActivity extends AppCompatActivity {
             try {
                 encryptDecrypt=new EncryptDecrypt("kthiksramAndroidDevs");
                 String temp=encryptDecrypt.encrypt(pid);
-                if(temp.equals(abc))
+                temp=temp.trim();
+                if(temp.equals(abc.trim()))
                 {
                     startActivity(new Intent(FirstActivity.this,MainActivity.class));
                     finish();
                 }
                 else
                 {
+                    Log.v("ogging out","okay"+this.getClass().getSimpleName());
                     LoginManager.getInstance().logOut();
                 }
             } catch (Exception e) {
@@ -110,7 +113,7 @@ public class FirstActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    public boolean isLogin()
+    public static boolean isLogin()
     {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;

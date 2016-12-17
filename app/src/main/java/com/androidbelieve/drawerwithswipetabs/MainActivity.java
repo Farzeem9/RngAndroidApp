@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity{
              mFragmentTransaction.replace(R.id.containerView,new HomeFragment());
              mFragmentTransaction.addToBackStack(null);
              mFragmentTransaction.commit();
+            NotificationReceiver.setupAlarm(getApplicationContext());
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
              @Override
              public boolean onNavigationItemSelected(MenuItem menuItem) {
