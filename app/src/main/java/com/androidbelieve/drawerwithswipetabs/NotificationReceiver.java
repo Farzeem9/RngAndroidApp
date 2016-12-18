@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.facebook.AccessToken;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,35 +19,41 @@ public class NotificationReceiver extends BroadcastReceiver {
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
     private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 2;
-
-    public static void setupAlarm(Context context) {
-        boolean alarmUp = (PendingIntent.getBroadcast(context, 0,
-                new Intent(ACTION_START_NOTIFICATION_SERVICE),
-                PendingIntent.FLAG_NO_CREATE) != null);
-       if(!alarmUp) {
-           AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    private static AlarmManager alarmManager;
+    private static String gPid;
+    public static void setupAlarm(Context context,String gpid) {
+        if(gPid==null)
+            gPid="0";
+        if(!gpid.equals(""))
+            gPid=gpid;
+           alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
            PendingIntent alarmIntent = getStartPendingIntent(context);
            alarmManager.setInexactRepeating(AlarmManager.RTC,
                    getTriggerAt(new Date()),
                    NOTIFICATIONS_INTERVAL_IN_HOURS * AlarmManager.INTERVAL_HOUR,
                    alarmIntent);
-           Log.v("Alarm Status","Starting up");
-       }
-        else
-       {
-           Log.v("Alarm Status","Already running");
-       }
+
+    }
+
+    public static void cancelAlarm(Context context)
+    {
+        Log.v("Cancel","Alarm");
+        alarmManager.cancel(getStartPendingIntent(context));
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String action = intent.getAction();
         Intent serviceIntent = null;
-        if (ACTION_START_NOTIFICATION_SERVICE.equals(action)&&FirstActivity.isLogin()) {
-            Log.i(getClass().getSimpleName(), "onReceive from alarm, starting notification service");
-            serviceIntent = CheckNotificationService.createIntentStartNotificationService(context);
-            serviceIntent.putExtra("pid", AccessToken.getCurrentAccessToken().getUserId());
+        if (ACTION_START_NOTIFICATION_SERVICE.equals(action))
+        {
+                serviceIntent = CheckNotificationService.createIntentStartNotificationService(context);
+                Log.v("gPID",gPid);
+                serviceIntent.putExtra("pid",gPid);
+                //serviceIntent.putExtra("pid", AccessToken.getCurrentAccessToken().getUserId());
         }
+
         if (serviceIntent != null) {
             context.startService(serviceIntent);
         }

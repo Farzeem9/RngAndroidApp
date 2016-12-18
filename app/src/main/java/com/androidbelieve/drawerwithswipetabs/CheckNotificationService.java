@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -58,10 +61,12 @@ public class CheckNotificationService extends IntentService {
                         if(sb.toString().equals("1"))
                         {
                             createNoti();
+                            Log.v("Create Noti","okay");
                         }
                         else
                         {
                             noNoti();
+                            Log.v("Create No Noti","okay");
                         }
 
                     }
@@ -81,14 +86,21 @@ public class CheckNotificationService extends IntentService {
     }
     public void noNoti()
     {
-        if(nonoticount++%3==0)
+        Log.v("Current nonoticount",Integer.toString(nonoticount));
+        if(nonoticount++%6==0)
         {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setContentTitle("Scheduled Notification")
+            builder.setContentTitle("RnG Notification")
                     .setAutoCancel(true)
                     .setColor(getResources().getColor(R.color.darkred))
                     .setContentText("We miss you!Please check our latest deals!")
                     .setSmallIcon(R.drawable.gift);
+            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+
+            //LED
+            builder.setLights(Color.RED, 3000, 3000);
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            builder.setSound(alarmSound);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
                     NOTIFICATION_ID,
@@ -107,7 +119,7 @@ public class CheckNotificationService extends IntentService {
     private void createNoti()
     {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("Scheduled Notification")
+        builder.setContentTitle("RnG Notification")
                 .setAutoCancel(true)
                 .setColor(getResources().getColor(R.color.darkred))
                 .setContentText("You have new notifications!Enter the app to know more!")
@@ -119,6 +131,13 @@ public class CheckNotificationService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         builder.setDeleteIntent(NotificationReceiver.getDeleteIntent(this));
+        builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+
+        //LED
+        builder.setLights(Color.GREEN, 3000, 3000);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(alarmSound);
+
 
         final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());

@@ -72,6 +72,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 LoginManager.getInstance().logOut();
                 sharedPreferences.edit().clear().commit();
+                NotificationReceiver.cancelAlarm(getActivity().getApplicationContext());
                 getActivity().finish();
             }
         });

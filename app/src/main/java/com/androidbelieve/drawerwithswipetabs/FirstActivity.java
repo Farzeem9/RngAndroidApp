@@ -115,6 +115,7 @@ public class FirstActivity extends AppCompatActivity {
     }
     public static boolean isLogin()
     {
+        
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
