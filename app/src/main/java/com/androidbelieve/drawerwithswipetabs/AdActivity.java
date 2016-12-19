@@ -66,7 +66,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         more= (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
         rating_comments= (Button) findViewById(R.id.btn_rate_comment);
-
+        less = (RadioButton) findViewById(R.id.less);
+        more = (RadioButton) findViewById(R.id.more);
+        equal = (RadioButton) findViewById(R.id.equal);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
@@ -309,6 +311,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             for(String x:crent)
             temp+=x+" ";
             this.crent.setText(temp);
+            less.setText("Less than "+temp.toString());
+            more.setText("More than "+temp.toString());
+            equal.setText("Same as "+temp.toString());
 
             String maxrent=c.getString("maxrent");
             Log.v("maxrent",maxrent);
