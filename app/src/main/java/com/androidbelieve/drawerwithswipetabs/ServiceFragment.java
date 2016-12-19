@@ -435,7 +435,7 @@ public class ServiceFragment extends Fragment {
 
                             if(out.contains("success"))
                             {
-                                alertbox.setMessage("Ad successfully submitted!");
+                                alertbox.setMessage("Service posted successfully. Your Service is pending currently and will be activated within 48 hours");
                                 alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
