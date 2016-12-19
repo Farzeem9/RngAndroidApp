@@ -240,14 +240,14 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             String[] crent=c.getString("crent").split(",");
             String temp="";
             for(String x:crent)
-                temp+=x+" ";
+                temp+="\u2022  "+x+"\n";
             this.crent.setText(temp);
 
             String maxrent=c.getString("maxrent");
             Log.v("maxrent",maxrent);
             int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
             //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
-            String temp2=new String("Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1));
+            String temp2=new String(Integer.toString(num)+" "+maxrent.substring(0,maxrent.length()-1));
             Log.v("maxrent",temp2);
 
             this.maxrent.setText(temp2);

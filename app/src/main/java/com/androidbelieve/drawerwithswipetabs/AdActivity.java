@@ -309,18 +309,19 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             String[] crent=c.getString("crent").split(",");
             String temp="";
             for(String x:crent)
-            temp+=x+" ";
+            temp+="\u2022  "+x+"\n";
             this.crent.setText(temp);
-            less.setText("Less than "+temp.toString());
-            more.setText("More than "+temp.toString());
-            equal.setText("Same as "+temp.toString());
 
             String maxrent=c.getString("maxrent");
             Log.v("maxrent",maxrent);
             int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
             //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
-            String temp2=new String("Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1));
+            String temp2=new String(Integer.toString(num)+" "+maxrent.substring(0,maxrent.length()-1));
             Log.v("maxrent",temp2);
+
+            less.setText("Less than "+temp2.toString());
+            more.setText("More than "+temp2.toString());
+            equal.setText("Same as "+temp2.toString());
 
             this.maxrent.setText(temp2);
             ((TextView)findViewById(R.id.tv_subcat)).setText(cat);
