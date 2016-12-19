@@ -1,7 +1,9 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -130,9 +132,21 @@ public class EditServiceActivity extends AppCompatActivity {
                     @Override
                     public void processFinish(Object output) {
                         if(output!=null) {
-
+                            AlertDialog.Builder alertbox = new AlertDialog.Builder(EditServiceActivity.this);
+                            if (((String) output).contains("success")) {
+                             s   alertbox.setTitle("Submit Ad");
+                                alertbox.setMessage("Service posted successfully. Your Service is pending currently and will be activated within 48 hours");
+                                alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                            } else {
+                                alertbox.setMessage("There was some error, Please try again");
+                            }
+                            alertbox.show();
                             Log.v("result",(String)output);
-                            finish();
                         }
                     }
                 });

@@ -481,6 +481,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                         TextView errorText = (TextView)spinner.getSelectedView();
                         errorText.setError("Please select a category!");
                         errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                        errorText.requestFocus();
                         Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
 
                     }

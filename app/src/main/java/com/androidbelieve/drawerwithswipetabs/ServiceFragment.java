@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -427,47 +428,63 @@ public class ServiceFragment extends Fragment {
                 for(String x:temp)
                     sbuff.append(x+",");
                 String tags= URLEncoder.encode(sbuff.toString());*/
-                String tags=URLEncoder.encode(inputPtags.getText().toString().replace(","," "));
-                GenericAsyncTask g=new GenericAsyncTask(getContext(), Config.link+"new%20service.php", "", new AsyncResponse() {
-                    @Override
-                    public void processFinish(Object output) {
-                        if(output!=null) {
-                            String out=(String)output;
-                            AlertDialog.Builder alertbox=new AlertDialog.Builder(getContext());
-                            alertbox.setTitle("Submit Ad");
-
-                            if(out.contains("success"))
-                            {
-                                alertbox.setMessage("Service posted successfully. Your Service is pending currently and will be activated within 48 hours");
-                                alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        getActivity().finish();
-                                    }
-                                });
-
-                            }
-                            else
-                            {
-                                alertbox.setMessage("There was some error, Please try again");
-
-                            }
-                            alertbox.show();
-
-                        Log.v("result",(String)output);
-                        }
-                    }
-                });
-             //   g.setProgressView(true);
-                g.setPostParams("sname",inputPname.getText().toString(),"category",item,"subcat",subcat,"description",inputPdesc.getText().toString(),"startrange",inputPrent.getText().toString(),"city",city.getText().toString(),"pid", AccessToken.getCurrentAccessToken().getUserId(),"num",Integer.toString(images.size()),"tags",tags,"numlinks",Integer.toString(links.size()));
-
-                int i=0;
-                for(String x:links)
+                if(item==null)
                 {
-                    g.setExtraPost("link"+Integer.toString(i++),x);
+                    TextView errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("Please select a category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+
                 }
-                g.setImagePost(images,0);
+                else if(item.equals("Select a Category"))
+                {
+                    TextView errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("Please select a category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+
+                }
+                else {
+                    String tags = URLEncoder.encode(inputPtags.getText().toString().replace(",", " "));
+                    GenericAsyncTask g = new GenericAsyncTask(getContext(), Config.link + "new%20service.php", "", new AsyncResponse() {
+                        @Override
+                        public void processFinish(Object output) {
+                            if (output != null) {
+                                String out = (String) output;
+                                AlertDialog.Builder alertbox = new AlertDialog.Builder(getContext());
+                                alertbox.setTitle("Submit Ad");
+
+                                if (out.contains("success")) {
+                                    alertbox.setMessage("Service posted successfully. Your Service is pending currently and will be activated within 48 hours");
+                                    alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            getActivity().finish();
+                                        }
+                                    });
+
+                                } else {
+                                    alertbox.setMessage("There was some error, Please try again");
+
+                                }
+                                alertbox.show();
+
+                                Log.v("result", (String) output);
+                            }
+                        }
+                    });
+                    //   g.setProgressView(true);
+                    g.setPostParams("sname", inputPname.getText().toString(), "category", item, "subcat", subcat, "description", inputPdesc.getText().toString(), "startrange", inputPrent.getText().toString(), "city", city.getText().toString(), "pid", AccessToken.getCurrentAccessToken().getUserId(), "num", Integer.toString(images.size()), "tags", tags, "numlinks", Integer.toString(links.size()));
+
+                    int i = 0;
+                    for (String x : links) {
+                        g.setExtraPost("link" + Integer.toString(i++), x);
+                    }
+                    g.setImagePost(images, 0);
 //                g.execute();
+                }
             }
         });
         location=(Button)view.findViewById(R.id.btn_location);
@@ -514,7 +531,7 @@ public class ServiceFragment extends Fragment {
         {
             return;
         }
-        Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
 
 

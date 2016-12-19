@@ -126,7 +126,7 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
 
             if(result.contains("success"))
             {
-                alertbox.setMessage("Ad successfully submitted!");
+                alertbox.setMessage("Ad posted successfully. Your Service is pending currently and will be activated within 48 hours");
                 alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

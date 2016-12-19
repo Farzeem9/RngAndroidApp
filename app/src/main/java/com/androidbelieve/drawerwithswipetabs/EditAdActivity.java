@@ -704,7 +704,20 @@ public class EditAdActivity extends AppCompatActivity {
             @Override
             public void processFinish(Object output) {
                 progress.dismiss();
-                finish();
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(EditAdActivity.this);
+                if (((String) output).contains("success")) {
+                    alertbox.setTitle("Submit Ad");
+                    alertbox.setMessage("Ad posted successfully. Your Service is pending currently and will be activated within 48 hours");
+                    alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                } else {
+                    alertbox.setMessage("There was some error, Please try again");
+                }
+                alertbox.show();
             }
         });
         g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
