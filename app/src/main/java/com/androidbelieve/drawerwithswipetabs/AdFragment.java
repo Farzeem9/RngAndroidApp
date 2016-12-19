@@ -228,6 +228,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
+                                                  Log.v("item",item);
                                                   if(item=="Electronics & Appliances"){
                                                       categories2.clear();
                                                       categories2.add("Mobile Phone");

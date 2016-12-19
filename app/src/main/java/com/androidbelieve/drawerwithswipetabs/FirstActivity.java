@@ -59,8 +59,9 @@ public class FirstActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         sharedPreferences=getApplicationContext().getSharedPreferences("LOG", Context.MODE_PRIVATE);
         String abc=sharedPreferences.getString("abcxyz",null);
-        if(abc!=null)
-            abc=abc.trim();
+        if(abc!=null) {
+            abc = abc.trim();
+        }
         setContentView(R.layout.activity_first);
         if(isLogin()&&abc!=null){
             String pid=AccessToken.getCurrentAccessToken().getUserId();
