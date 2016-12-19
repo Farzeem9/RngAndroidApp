@@ -148,6 +148,7 @@
                     android:src="@android:drawable/ic_menu_delete"/>
                 <TextView
                     android:layout_width="match_parent"
+                    android:id="@+id/delete"
                     android:layout_height="match_parent"
                     android:text="Delete Account"
                     android:paddingTop="10dp"

@@ -1,6 +1,8 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +40,30 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
+        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertbox=new AlertDialog.Builder(getContext());
+                alertbox.setTitle("Confirmation");
+                alertbox.setMessage("Are you sure you want to delete your account?");
+                alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                alertbox.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                alertbox.show();
+            }
+        });
+
         sharedPreferences=getActivity().getSharedPreferences("LOG", Context.MODE_PRIVATE);
         info = (TextView) view.findViewById(R.id.fb_name);
         profilePictureView = (ProfilePictureView) view.findViewById(R.id.fb_pic);
