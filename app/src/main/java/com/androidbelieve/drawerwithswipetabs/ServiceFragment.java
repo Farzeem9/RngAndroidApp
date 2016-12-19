@@ -213,7 +213,7 @@ public class ServiceFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                item = parent.getItemAtPosition(position).toString();
                 if (item == "Graphics and Design") {
-                    Toast.makeText(getContext(), "Graphics and Design", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(getContext(), "Graphics and Design", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Logo Design");
                     categories2.add("Business Card & Strategies");
@@ -275,7 +275,7 @@ public class ServiceFragment extends Fragment {
                     //categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Video and Animation") {
-                    Toast.makeText(getContext(), "Video and Animation", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext(), "Video and Animation", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Whiteboard & Explainer Videos");
                     categories2.add("Intros & Animated Logos");
@@ -304,7 +304,7 @@ public class ServiceFragment extends Fragment {
                    // categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Programming and Tech") {
-                    Toast.makeText(getContext(), "Programming and Tech", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext(), "Programming and Tech", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Wordpress");
                     categories2.add("Website Builder & CMS");
@@ -323,7 +323,7 @@ public class ServiceFragment extends Fragment {
                    // categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Advertising") {
-                    Toast.makeText(getContext(), "Advertising", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Advertising", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Music Promotion");
                     categories2.add("Radio");
@@ -338,7 +338,7 @@ public class ServiceFragment extends Fragment {
                   //  categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Business") {
-                    Toast.makeText(getContext(), "Business", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Business", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Virtual Assistant");
                     categories2.add("Market Research");
@@ -354,7 +354,7 @@ public class ServiceFragment extends Fragment {
                     //categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Lifestyle") {
-                    Toast.makeText(getContext(), "Lifestyle", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(getContext(), "Lifestyle", Toast.LENGTH_SHORT).show();
                     categories2.clear();
                     categories2.add("Animal Care & Pets");
                     categories2.add("Relationship Advice");
@@ -373,7 +373,7 @@ public class ServiceFragment extends Fragment {
                   //  categories2.remove("Select a Sub-Category");
                 }
                 else if (item == "Gifts") {
-                    Toast.makeText(getContext(), "Gifts", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getContext(), "Gifts", Toast.LENGTH_SHORT).show();
 
                     categories2.clear();
                     categories2.add("Greeting Cards");
@@ -389,6 +389,9 @@ public class ServiceFragment extends Fragment {
                 }
                 spinner2.setSelection(1,true);
                 spinner2.setSelection(0,true);
+                Log.v("spinner item",item);
+                Log.v("drop down item",(String)spinner2.getSelectedItem());
+
             }
 
             @Override
