@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -57,6 +58,8 @@ import java.util.List;
  */
 public class AdFragment extends Fragment implements AdapterView.OnItemClickListener {
     private CheckBox r1,r2,r3;
+    private List<String> categories;
+    private List<String> categories2;
     private Spinner spinner,spinner_rent,spinner_subrent,spinner2;
     private EditText inputPname, inputPdesc, inputPage, inputPrent, inputPdeposit,inputPtags;
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent,inputLayoutPtags;
@@ -72,6 +75,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private RelativeLayout rl;
     private int currentpos=0;
     private ArrayList<Bitmap> images = new ArrayList<>();
+    private ArrayAdapter<String> dataAdapter;
+    private ArrayAdapter<String> dataAdapter4;
     View view;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private final int CAMERA_PIC_REQUEST = 10;
@@ -80,12 +85,14 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private HorizontalAdapter horizontalAdapter;
     private String item,number,f1="",f2="";
 
+    static Boolean b=Boolean.valueOf(false); //To check if spinner has been selected once
+    Boolean a=Boolean.valueOf(false);        //Increasing redundancy
     /**
      * Adding unzoom methods vars here
      * change later to some better code
      */
     boolean imageshown=false;
-
+    boolean selected=false;
 
     public AdFragment() {
         // Required empty public constructor
@@ -183,8 +190,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         spinner2 = (Spinner) (view).findViewById(R.id.sp_subtypes);
         spinner_rent = (Spinner) (view).findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) (view).findViewById(R.id.sp_rent_subtypes);
-        final List<String> categories = new ArrayList<String>();
-        final List<String> categories2 = new ArrayList<String>();
+        categories = new ArrayList<String>();
+        categories2 = new ArrayList<String>();
         categories.add("Select a Category");
         categories.add("Electronics & Appliances");
         categories.add("Cars");
@@ -228,7 +235,25 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
+                                        if(item.equals("Electronics & Appliances")&&!b)
+                                        {
+                                                  categories.remove("Select a Category");
+                                                  categories2.remove("Select a Sub-Category");
+                                                  categories.clear();
+                                                  categories.add("Electronics & Appliances");
+                                                  categories.add("Cars");
+                                                  categories.add("Bikes");
+                                                  categories.add("Furniture");
+                                                  categories.add("Books, Sports & Hobbies");
+                                                  categories.add("Fashion");
+                                                  categories.add("Real Estate");
+                                                  categories.add("Tools & Equipments");
+                                                  a=true;
+                                            Log.v("Inside outer if","okay");
+                                        }
+
                                                   Log.v("item",item);
+                                                  Log.v("selected item",(String )spinner.getSelectedItem());
                                                   if(item=="Electronics & Appliances"){
                                                       categories2.clear();
                                                       categories2.add("Mobile Phone");
@@ -307,14 +332,24 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                       categories2.add("Power tool");
                                                       categories2.add("Spanner");
                                                       categories2.add("Others");
-                                                      categories.remove("Select a Category");
-                                                     // categories2.remove("Select a Sub-Category");
                                                   }
-                                                  spinner2.setSelection(1,true);
-                                                  spinner2.setSelection(0,true);
+                                                  if(selected&&!(item.equals("Select a Category"))) {
 
-                                          ///        spinner2.setSelection(1,true);
+                                                      refreshSpiner();
+                                                      if(!b)
+                                                      {position--;
+                                                      }
+                                                      spinner.setSelection(position);
+                                                      b=true;
+                                                  }
+                                                  else
+                                                  {
+                                                      Log.v("inside else","okay");
+                                                      selected=true;
 
+                                                  }
+                                                  Log.v("item",item);
+                                                 Log.v("selected item",(String )spinner.getSelectedItem());
                                               }
 
                                               @Override
@@ -323,7 +358,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                               }
                                           }
         );
-
 
 
         spinner_rent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -436,8 +470,22 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     f2=f2+"Weeks,";
                 if(r3.isChecked())
                     f2=f2+"Months";
-                if(images.size()>=2&&images.size()<=5)
-                    new Newaddupload(tags,(String)spinner2.getSelectedItem(),getActivity(),AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images,fragment.getContext(),f1,f2,city.getText().toString()).execute();
+                if(images.size()>=2&&images.size()<=5) {
+                    String spinner1item=(String) spinner.getSelectedItem();
+                    String spinner2item=(String) spinner2.getSelectedItem();
+                    if(!(spinner1item.equals("Select a Category")||(spinner2item.equals("Select a Sub-Category")))) {
+                        new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
+                    }
+                    else
+                    {
+                        TextView errorText = (TextView)spinner.getSelectedView();
+                        errorText.setError("Please select a category!");
+                        errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                        Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+
+                    }
+
+                }
                 else
                     Toast.makeText(getContext(), "Please select proper number of Images!!", Toast.LENGTH_SHORT).show();
             }
@@ -459,6 +507,19 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
 
         return view;
     }
+
+    public void refreshSpiner()
+    {
+        selected=false;
+        dataAdapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categories);
+        dataAdapter4=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categories2);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+        spinner2.setAdapter(dataAdapter4);
+    }
+
     void showall()
     {
         view.findViewById(R.id.weeks).setVisibility(View.VISIBLE);

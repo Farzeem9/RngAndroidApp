@@ -18,7 +18,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -58,7 +61,7 @@ public class HomeFragment extends Fragment {
         final FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         final TextView v=(TextView)rootView.findViewById(R.id.Tv_ad);
         final TextView vs=(TextView)rootView.findViewById(R.id.Tv_serv);
-
+        Picasso.with(getContext()).load(Config.link+"dod.php").into((ImageView)rootView.findViewById(R.id.dod));
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

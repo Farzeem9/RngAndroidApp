@@ -94,6 +94,12 @@
             android:id="@+id/view3"
             android:tag="dis"
             android:background="@color/darkred"/>
+        <ImageView
+            android:layout_below="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dod"
+            />
     </RelativeLayout>
     <ImageView
         android:layout_width="match_parent"
