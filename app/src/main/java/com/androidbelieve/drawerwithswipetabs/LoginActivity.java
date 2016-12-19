@@ -93,6 +93,13 @@ public class LoginActivity extends AppCompatActivity {
             userID= AccessToken.getCurrentAccessToken().getUserId();
             pid=userID;
             profilePictureView.setProfileId(userID);
+            new GenericAsyncTask(this, Config.link + "contact.php?pid=" + pid, "", new AsyncResponse() {
+                @Override
+                public void processFinish(Object output) {
+                    String num = (String) output;
+                    info_phone.setText(num);
+                }
+            }).execute();
 
         }
 
@@ -149,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                     sb.append(line);
 
                 }
+                Log.v("sb",sb.toString());
                 return sb.toString();
 
             }
@@ -194,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
         name=info.getText().toString();
         email=info_mail.getText().toString();
         contact=info_phone.getText().toString();
-        if(contact.equals(""))
+        if(contact.equals("")||contact.length()<10)
         {
             info_phone.setError("Please enter your phone number!");
             info_phone.requestFocus();
