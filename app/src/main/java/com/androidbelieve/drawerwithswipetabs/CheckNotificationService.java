@@ -122,7 +122,7 @@ public class CheckNotificationService extends IntentService {
         builder.setContentTitle("RnG Notification")
                 .setAutoCancel(true)
                 .setColor(getResources().getColor(R.color.darkred))
-                .setContentText("You have new notifications!Enter the app to know more!")
+                .setContentText("You have new notifications. Check them out!")
                 .setSmallIcon(R.drawable.gift);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
