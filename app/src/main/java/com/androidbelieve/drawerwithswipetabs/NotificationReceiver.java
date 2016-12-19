@@ -46,9 +46,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
         Intent serviceIntent = null;
-        if (ACTION_START_NOTIFICATION_SERVICE.equals(action))
+        if (ACTION_START_NOTIFICATION_SERVICE.equals(action)&& gPid!=null)
         {
                 serviceIntent = CheckNotificationService.createIntentStartNotificationService(context);
+            //if(gPid!=null);
                 Log.v("gPID",gPid);
                 serviceIntent.putExtra("pid",gPid);
                 //serviceIntent.putExtra("pid", AccessToken.getCurrentAccessToken().getUserId());
