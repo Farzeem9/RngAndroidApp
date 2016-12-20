@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.androidbelieve.drawerwithswipetabs.SearchAdsFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
@@ -26,6 +26,36 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
- </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:layout_weight="1"
+            android:id="@+id/btn_filter"
+            android:onClick="onFilter"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sort"
+            android:id="@+id/btn_sort"
+            android:layout_weight="1"/>
+    </LinearLayout>
+        <FrameLayout
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:id="@+id/containerView">
+        </FrameLayout>
+    </RelativeLayout>
 
 </FrameLayout>

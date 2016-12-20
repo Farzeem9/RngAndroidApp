@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -293,7 +294,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 projlinks.setText("No Links to Preview");
             else
                 projlinks.setText(allprojlinks);
-
+            Linkify.addLinks(projlinks,Linkify.WEB_URLS);
             JSONArray ilinks=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
             for(int i=0;i<ilinks.length();i++)

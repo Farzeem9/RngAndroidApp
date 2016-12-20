@@ -1,22 +1,18 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Dialog;
+
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -112,13 +108,13 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.MyViewHolder> {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_edit:
-                    Toast.makeText(mContext, "Edit Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Edit Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_delete:
-                    Toast.makeText(mContext, "Delete Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Delete Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_deactivate:
-                    Toast.makeText(mContext, "Deactivate Add", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Deactivate Ad", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

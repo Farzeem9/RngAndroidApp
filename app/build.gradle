@@ -25,7 +25,6 @@ repositories {
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'jp.wasabeef:blurry:2.0.3'
 
     // RecyclerView
 
@@ -36,6 +35,8 @@ dependencies {
 
             ':facebook-android-sdk-4.16.1')
 
+    compile 'jp.wasabeef:blurry:2.0.3'
+    compile 'com.edmodo:rangebar:1.0.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'

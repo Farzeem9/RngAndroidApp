@@ -1,10 +1,13 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,7 +37,8 @@ public class SearchAdsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private Button filter;
+    private Boolean b=false;;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,9 +69,6 @@ public class SearchAdsFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
 
-
-
-
         return fragment;
     }
 
@@ -86,6 +89,29 @@ private View view;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_search_ads, container, false);
+
+        view.findViewById(R.id.btn_sort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            if(b) {
+                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerView);
+                frameLayout.setVisibility(View.VISIBLE);
+                FragmentManager mFragmentManager = getChildFragmentManager();
+                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                mFragmentTransaction.replace(R.id.containerView, new SortFragment());
+                mFragmentTransaction.addToBackStack(null);
+                mFragmentTransaction.commit();
+                b=!b;
+            }
+                else
+            {
+                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerView);
+                frameLayout.setVisibility(View.GONE);
+
+                b=!b;
+            }
+            }
+        });
         albumList=new ArrayList<>();
         adapter=new AlbumsAdapter(getContext(),albumList);
         recyclerView=(RecyclerView) view.findViewById(R.id.recycler_view);
@@ -94,10 +120,15 @@ private View view;
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        filter= (Button) view.findViewById(R.id.btn_filter);
 
-
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getContext(),FilterActivity.class),0);
+            }
+        });
         return view;
-
     }
 
 
