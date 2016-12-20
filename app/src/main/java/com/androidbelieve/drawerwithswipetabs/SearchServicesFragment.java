@@ -111,7 +111,8 @@ public class SearchServicesFragment extends Fragment {
                 String timestamp=ad.getString("TIMESTAMP");
                 String subcat=ad.getString("SUBCATEGORY");
                 String pid=ad.getString("PID");
-                albumListservice.add(new ServiceAlbum(pid,name,amount,R.drawable.broly,sid,timestamp,subcat));
+                String city=ad.getString("CITY");
+                albumListservice.add(new ServiceAlbum(pid,name,amount,R.drawable.broly,sid,timestamp,subcat,city));
             }
             catch(Exception e)
             {

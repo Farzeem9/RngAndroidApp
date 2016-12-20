@@ -96,8 +96,9 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
                 String aid = ad.getString("AID");
                 String cat=ad.getString("CATEGORY");
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
+                String date = ad.getString("DATE");
 
-                Album a=new Album(cat,pid,name,amount,i,aid);
+                Album a=new Album(cat,pid,name,amount,i,aid,date);
                 albumList.add(a);
 
             }
