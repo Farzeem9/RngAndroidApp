@@ -284,6 +284,7 @@
                         android:id="@+id/input_layout_prent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:paddingBottom="10dp">
 
                         <EditText
@@ -291,7 +292,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
-                            android:hint="Product Rent"
+                            android:hint=""
                             android:paddingTop="10dp"
                             android:paddingBottom="15dp"/>
                     </android.support.design.widget.TextInputLayout>
@@ -306,6 +307,7 @@
                         android:id="@+id/input_layout_pdeposit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:paddingTop="10dp"
                         android:paddingBottom="15dp">
 

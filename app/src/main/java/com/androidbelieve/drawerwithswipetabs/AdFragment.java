@@ -490,7 +490,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 */
                 String tags=URLEncoder.encode(inputPtags.getText().toString().replace(","," "));
                 if(r1.isChecked())
-                    f2=f2+"days,";
+                    f2=f2+"Days,";
                 if(r2.isChecked())
                     f2=f2+"Weeks,";
                 if(r3.isChecked())

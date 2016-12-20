@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -115,7 +116,6 @@ public class EditAdActivity extends AppCompatActivity {
             }
         });
 
-
         viewPager.setAdapter(imageFragmentPagerAdapter);
         setasthumb=(Button)findViewById(R.id.thumb_button_1);
         rl=(RelativeLayout)findViewById(R.id.Relativel);
@@ -186,6 +186,33 @@ public class EditAdActivity extends AppCompatActivity {
         r1= (CheckBox) findViewById(R.id.days);
         r2= (CheckBox) findViewById(R.id.weeks);
         r3= (CheckBox) findViewById(R.id.month);
+
+        r1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+        });
+        r2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+
+        });
+        r3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+        });
+
 
         location=(Button)findViewById(R.id.btn_location);
         location.setOnClickListener(new View.OnClickListener() {
@@ -457,6 +484,27 @@ public class EditAdActivity extends AppCompatActivity {
         });
         genericAsyncTask.execute();
     }
+
+    public void refreshrent(){
+        if(r1.isChecked()){
+            rent.setHint("Product Rent per Day");
+            return;
+        }
+        if(r2.isChecked()){
+            rent.setHint("Product Rent per Week");
+            return;
+        }
+        if(r3.isChecked()){
+            rent.setHint("Product Rent per Month");
+            return;
+        }
+        if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){
+            inputLayoutPdeposit.setVisibility(View.GONE);
+            inputLayoutPrent.setVisibility(View.GONE);
+        }
+
+    }
+
     private void submitForm()
     {
         if (!validatePname())
@@ -967,6 +1015,7 @@ public class EditAdActivity extends AppCompatActivity {
             return imagesloaded?images.size():this.links.size();
         }
 
+
         class MyViewHolder extends RecyclerView.ViewHolder {
             Button set;
             ImageView i;
@@ -994,4 +1043,5 @@ public class EditAdActivity extends AppCompatActivity {
         this.progress.dismiss();
         HorizontalAdapter.setImagesloaded();
     }
+
 }

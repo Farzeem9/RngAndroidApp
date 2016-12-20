@@ -356,7 +356,8 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             name.setText(prod_name);
             toolbar.setTitle(prod_name);
             desc.setText(desc_str);
-            rent.setText("₹ "+ rent_name);
+            String[] per=crent[0].split("s");
+            rent.setText("₹ "+ rent_name + "/" + per[0]);
             for(String name : alllinks){
                 //Log.v("");
                 TextSliderView textSliderView = new TextSliderView(this);
