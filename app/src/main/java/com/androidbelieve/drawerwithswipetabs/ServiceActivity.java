@@ -287,16 +287,16 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
             tv_city.setText(city);
             JSONArray links=c.getJSONArray("SLINKS");
+            Linkify.addLinks(projlinks,Linkify.WEB_URLS);
             String allprojlinks="";
             for(int i=0;i<links.length();i++) {
                 this.links.add(links.getJSONObject(i).getString("link"));
-                allprojlinks+=links.getJSONObject(i).getString("link")+"\n";
+                allprojlinks+=links.getJSONObject(i).getString("link")+" \n";
             }
             if(allprojlinks.isEmpty())
                 projlinks.setText("No Links to Preview");
             else
                 projlinks.setText(allprojlinks);
-            Linkify.addLinks(projlinks,Linkify.WEB_URLS);
             JSONArray ilinks=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
             for(int i=0;i<ilinks.length();i++)

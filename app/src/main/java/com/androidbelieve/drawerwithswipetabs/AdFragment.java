@@ -742,8 +742,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 Log.v("MN","Pq");
 
                 image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fileUri);
-                int nh = (int) ( image.getHeight() * (10800.0 / image.getWidth()) );
-                image=Bitmap.createScaledBitmap(image, 1080, nh, true);
+                int nh = (int) ( image.getHeight() * (720.0 / image.getWidth()) );
+                image=Bitmap.createScaledBitmap(image, 720, nh, true);
                 images.add(image);
             } catch (IOException e) {
                 e.printStackTrace();

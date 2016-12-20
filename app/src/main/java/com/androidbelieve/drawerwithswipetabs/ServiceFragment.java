@@ -651,8 +651,8 @@ public class ServiceFragment extends Fragment {
             getActivity().getContentResolver().notifyChange(fileUri, null);
             try {
                 image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fileUri);
-                int nh = (int) ( image.getHeight() * (1080.0 / image.getWidth()) );
-                image=Bitmap.createScaledBitmap(image, 1080, nh, true);
+                int nh = (int) ( image.getHeight() * (720.0 / image.getWidth()) );
+                image=Bitmap.createScaledBitmap(image, 720, nh, true);
                 images.add(image);
             } catch (IOException e) {
                 e.printStackTrace();
