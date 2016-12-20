@@ -706,8 +706,8 @@ public class EditAdActivity extends AppCompatActivity {
                 progress.dismiss();
                 AlertDialog.Builder alertbox = new AlertDialog.Builder(EditAdActivity.this);
                 if (((String) output).contains("success")) {
-                    alertbox.setTitle("Submit Ad");
-                    alertbox.setMessage("Ad posted successfully. Your Service is pending currently and will be activated within 48 hours");
+                    alertbox.setTitle("Ad edited");
+                    alertbox.setMessage("Ad has been edited successfully. Your Ad is pending currently and will be activated within 48 hours");
                     alertbox.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

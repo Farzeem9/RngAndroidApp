@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapter.MyViewHolder> {
@@ -27,7 +29,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
     static int pos=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView status,specs,price,date;
+        public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
 
         public MyViewHolder(View view) {
@@ -38,6 +40,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
             specs = (TextView) view.findViewById(R.id.tv_specs);
             date = (TextView) view.findViewById(R.id.tv_date);
             ads = (ImageView) view.findViewById(R.id.iv_ads);
+            subcat = (TextView) view.findViewById(R.id.tv_subcat);
             overflow = (ImageView) view.findViewById(R.id.overflow);
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -71,8 +74,11 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         holder.status.setText("Pending");
         holder.status.setTextColor(Color.parseColor("#FFEB3B"));
         holder.specs.setText(ad.getSpecs());
+        holder.specs.setTypeface(null, Typeface.BOLD);
         holder.date.setText(ad.getDate());
+        holder.subcat.setText(ad.getSubcat());
         holder.price.setText("₹ " + ad.getPrice() );
+        holder.price.setTextColor(Color.parseColor("#FB6542"));
 
         Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();

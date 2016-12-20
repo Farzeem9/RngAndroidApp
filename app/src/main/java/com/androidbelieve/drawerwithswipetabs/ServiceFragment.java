@@ -454,7 +454,7 @@ public class ServiceFragment extends Fragment {
                             if (output != null) {
                                 String out = (String) output;
                                 AlertDialog.Builder alertbox = new AlertDialog.Builder(getContext());
-                                alertbox.setTitle("Submit Ad");
+                                alertbox.setTitle("Service submitted");
 
                                 if (out.contains("success")) {
                                     alertbox.setMessage("Service posted successfully. Your Service is pending currently and will be activated within 48 hours");

@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +28,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
     static int pos=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView status,specs,price,date;
+        public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
 
         public MyViewHolder(View view) {
@@ -38,6 +39,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
             specs = (TextView) view.findViewById(R.id.tv_specs);
             date = (TextView) view.findViewById(R.id.tv_date);
             ads = (ImageView) view.findViewById(R.id.iv_ads);
+            subcat = (TextView) view.findViewById(R.id.tv_subcat);
             overflow = (ImageView) view.findViewById(R.id.overflow);
 
             view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -72,6 +74,9 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         holder.specs.setText(ad.getSpecs());
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
+        holder.subcat.setText(ad.getSubcat());
+        holder.price.setTextColor(Color.parseColor("#FB6542"));
+        holder.specs.setTypeface(null, Typeface.BOLD);
 
         //new DisplayImage(ad.getLink(),holder.ads).execute();
         Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);

@@ -173,5 +173,8 @@ public class MyAds
     public String getSubcat(){
         return this.subcat;
     }
+    public void setSubcat(String subcat) {
+        this.subcat = subcat;
+    }
 
 }

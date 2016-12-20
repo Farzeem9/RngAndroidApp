@@ -35,7 +35,7 @@
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
-                android:textColor="@color/album_title"
+                android:textColor="@color/black"
                 android:textSize="18dp" />
 
             <TextView

@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -71,8 +72,11 @@ public class MyPendingServiceAdapter extends RecyclerView.Adapter<MyPendingServi
         holder.status.setText("Pending");
         holder.status.setTextColor(Color.parseColor("#FFEB3B"));
         holder.specs.setText(ad.getSpecs());
+
         holder.date.setText(ad.getDate());
         holder.price.setText("₹ " + ad.getPrice() );
+        holder.price.setTextColor(Color.parseColor("#FB6542"));
+        holder.specs.setTypeface(null, Typeface.BOLD);
         holder.subcat.setText(ad.getSubcat());
         Picasso.with(mContext).load(ad.getsLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
 

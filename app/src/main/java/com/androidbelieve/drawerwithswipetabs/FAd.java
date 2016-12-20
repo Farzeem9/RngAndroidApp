@@ -94,7 +94,8 @@ public class FAd extends AsyncTask<String, Void, String> {
                     String aid = ad.getString("AID");
                     String timestamp=ad.getString("DURATION");
                     String amount = ad.getString("RENT");
-                    MyAds a = new MyAds("Active",name, amount, timestamp, aid);
+                    String subcat = ad.getString("SUBCAT");
+                    MyAds a = new MyAds("Active",name, amount, timestamp, aid,subcat);
                     albumList.add(a);
 
                 } catch (Exception e) {

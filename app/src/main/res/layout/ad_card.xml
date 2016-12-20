@@ -78,7 +78,7 @@
                     android:id="@+id/tv_subcat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:ellipsize="end"
                     android:maxLines="1"
