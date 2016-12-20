@@ -57,7 +57,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     private ArrayList<String>links=new ArrayList<>();
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
-    private TextView name,desc,rent,date,subcat,age,projlinks,default_text;
+    private TextView name,desc,rent,date,subcat,age,projlinks,default_text,tv_city;
     private String sid;
     private MenuItem star;
     private Button rating_comments;
@@ -120,6 +120,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         desc=(TextView)findViewById(R.id.tv_desc);
         rent=(TextView)findViewById(R.id.tv_rent);
         subcat=(TextView)findViewById(R.id.tv_subcat);
+        tv_city=(TextView)findViewById(R.id.tv_city);
         //age=(TextView)findViewById(R.id.tv_prod_age);
         projlinks=(TextView)findViewById(R.id.tv_link);
         date=(TextView)findViewById(R.id.tv_date);
@@ -324,6 +325,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
             String city=c.getString("CITY");
             String subcat=c.getString("SUBCAT");
 
+            tv_city.setText(city);
             JSONArray links=c.getJSONArray("SLINKS");
             String allprojlinks="";
             for(int i=0;i<links.length();i++) {

@@ -9,7 +9,9 @@
     android:layout_height="match_parent"
     android:background="#f7f7f7"
     android:id="@+id/abc">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -101,6 +103,7 @@
             android:id="@+id/dod"
             />
     </RelativeLayout>
+    </ScrollView>
     <ImageView
         android:layout_width="match_parent"
         android:id="@+id/blurimage"

@@ -229,6 +229,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/loc"
                         android:text="Location: "
+                        android:layout_marginTop="10dp"
                         android:gravity="center_vertical"
                         android:textSize="18sp" />
                     <TextView
@@ -236,6 +237,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="16sp"
+                        android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/loc"
                         android:layout_marginLeft="10dp"
                         android:id="@+id/tv_city" />

@@ -19,13 +19,15 @@ public class ServiceAlbum {
     private String date;
     private String link;
     private String sid;
+    private String city;
 
-    public ServiceAlbum(String pid,String name, int numOfSongs, int thumbnail, String sid,String timestamp,String cat) throws ParseException {
+    public ServiceAlbum(String pid,String name, int numOfSongs, int thumbnail, String sid,String timestamp,String cat,String city) throws ParseException {
         this.name = name;
         this.pid=pid;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.sid=sid;
+        this.city=city;
         link=Config.link+"imgthumbnail.php?id="+sid;
         this.cat=cat;
         Date today=new Date();
@@ -85,5 +87,12 @@ public class ServiceAlbum {
 
     public String getLink(){
         return this.link;
+    }
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

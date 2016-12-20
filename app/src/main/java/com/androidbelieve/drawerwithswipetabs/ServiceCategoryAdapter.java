@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategoryAdapter.MyViewHolder> {
@@ -27,7 +29,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
     static  ServiceAlbum Ads;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count,date,subcat;
+        public TextView title, count,date,subcat,city;
         public ImageView thumbnail, overflow;
         public View v;
         public MyViewHolder(View view) {
@@ -39,6 +41,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
             overflow = (ImageView) view.findViewById(R.id.overflow);
             date=(TextView)view.findViewById(R.id.tv_date);
             v=view.findViewById(R.id.card_view_ads);
+            city=(TextView) view.findViewById(R.id.tv_subcat);
             subcat=(TextView)view.findViewById(R.id.tv_specs);
         }
     }
@@ -63,6 +66,7 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         final ServiceAlbum album = albumList.get(position);
         Log.v("Holder added" ,"here");
         holder.title.setText(album.getName());
+        holder.city.setText(album.getCity());
         String temp="₹ " + album.getNumOfSongs();
         holder.count.setText(temp );
         holder.date.setText(album.getDate());

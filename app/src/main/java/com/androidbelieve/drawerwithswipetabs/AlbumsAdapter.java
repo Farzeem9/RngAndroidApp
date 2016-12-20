@@ -26,7 +26,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     static Album a;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count,subcat;
+        public TextView title, count,subcat,date;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
@@ -36,6 +36,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
+            date = (TextView) view.findViewById(R.id.tv_date);
         }
     }
 
@@ -59,6 +60,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         final Album album = albumList.get(position);
         holder.title.setText(album.getName());
         holder.subcat.setText(album.getSubcat());
+        holder.date.setText(album.getDate());
         holder.count.setText("₹ " + album.getNumOfSongs() );
         Log.v("link of album",album.getLink());
         Log.v("aid",album.getAid());

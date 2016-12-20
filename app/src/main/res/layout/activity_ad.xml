@@ -65,9 +65,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:id="@+id/tv_name"
-            android:text="Name"
             android:textColor="#000000"
             android:paddingLeft="10dp"
             android:textStyle="bold"
@@ -78,8 +77,7 @@
                 android:textSize="15sp"
                 android:id="@+id/tv_subcat"
                 android:layout_below="@id/tv_name"
-                android:text="Subcat"
-                android:textColor="@color/orange"
+                android:textColor="@color/black"
                 android:paddingLeft="10dp"
                 android:layout_marginTop="5dp"
                 />
@@ -88,11 +86,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_subcat"
             android:id="@+id/tv_rent"
-            android:text="Rent"
-            android:textSize="25sp"
+
+            android:textSize="20sp"
             android:paddingLeft="10dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/red"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
             />
             <TextView
              android:layout_width="wrap_content"
@@ -101,14 +100,14 @@
              android:id="@+id/tv_date"
              android:textColor="#000000"
              android:layout_below="@+id/tv_location"
-             android:textSize="15sp"
+             android:textSize="13sp"
              android:paddingLeft="10dp"
              android:layout_marginTop="5dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="City"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:paddingLeft="10dp"
                 android:textColor="#000000"
                 android:id="@+id/tv_location"
@@ -295,19 +294,19 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:id="@+id/less"
-                android:text="Less than Rent period"/>
+                />
             <RadioButton
                 android:layout_width="match_parent"
                 android:focusable="true"
                 android:layout_height="wrap_content"
                 android:id="@+id/equal"
-                android:text="Same as Rent period"/>
+                />
             <RadioButton
                 android:layout_width="match_parent"
                 android:focusable="true"
                 android:layout_height="wrap_content"
                 android:id="@+id/more"
-                android:text="More than Rent period"/>
+                />
         </RadioGroup>
         <LinearLayout
             android:id="@+id/ll"

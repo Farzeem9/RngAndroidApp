@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void processFinish(Object output) {
                     String num = (String) output;
                     info_phone.setText(num);
+                    info_phone.setEnabled(false);
                 }
             }).execute();
 

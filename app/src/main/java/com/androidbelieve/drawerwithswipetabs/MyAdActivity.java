@@ -33,7 +33,7 @@ import java.util.Date;
 public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
-    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent;
+    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent,subcat;
     private String aid;
     private MenuItem star;
     private Button rating_comments;
@@ -75,6 +75,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
         crent=(TextView)findViewById(R.id.crent);
         maxrent=(TextView)findViewById(R.id.tv_max_rent);
+        subcat = (TextView) findViewById(R.id.tv_subcat);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
@@ -235,8 +236,10 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             String city=c.getString("LOCATION");
             String age=c.getString("AGE");
             String deposit=c.getString("DEPOSIT");
+            String subc = c.getString("SUBCAT");
             canrent=c.getString("CANRATE");
 
+            subcat.setText(subc);
             String[] crent=c.getString("crent").split(",");
             String temp="";
             for(String x:crent)
