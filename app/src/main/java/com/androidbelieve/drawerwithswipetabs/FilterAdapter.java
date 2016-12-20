@@ -58,11 +58,33 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.MyViewHold
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!isradio) {
                     filter.setSelected(isChecked);
+                    notifyDataSetChanged();
                 }
                 else
                 {
                     setSelect(0);
                     filter.setSelected(isChecked);
+                    new GenericAsyncTask(context, Config.link + "findmax.php?type=" + filter.getName(), "", new AsyncResponse() {
+                        @Override
+                        public void processFinish(Object output) {
+                            String[] temp=((String)output).split(";;");
+                            if(temp.length>1)
+                            {
+                                try {
+                                    max = Integer.parseInt(temp[0]);
+                                    deposit = Integer.parseInt(temp[1]);
+                                }
+                                catch(Exception e)
+                                {
+                                    Log.e(getClass().getSimpleName(),"Error no valid int");
+                                    max=5000;
+                                    deposit=6000;
+                                }
+                            }
+                        }
+                    }).execute();
+
+                    notifyDataSetChanged();
                 }
             }
         });

@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ public class SearchViewActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener {
 
     private Toolbar toolbar;
+    private ProgressDialog progress;
     private GenericAsyncTask searchtask;
     private AlbumsAdapter adapter;
     private ArrayList<Album> albumList;
@@ -41,6 +43,18 @@ public class SearchViewActivity extends AppCompatActivity
     TabLayout tabLayout;
     ViewPager viewPager;
     public static int int_items = 2 ;
+    private String searchquery;
+    private String sort="",filter="";
+
+    public void sort(String query)
+    {
+        this.sort=query;
+        if(searchquery!=null)
+        {
+            performSearch();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +83,106 @@ public class SearchViewActivity extends AppCompatActivity
             }
         });
     }
+
+    void performSearch()
+    {
+        if(searchquery!=null)
+        {
+            if(searchtask==null)
+            { progress.show();
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sort)+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
+
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+            else if(searchtask.getStatus()!= AsyncTask.Status.FINISHED)
+            {
+                progress.show();
+                searchtask.cancel(true);
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
+
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+            else
+            {
+                progress.show();
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        String result=(String)output;
+
+                        try {
+                            JSONObject jobj = new JSONObject(result);
+                            adsFragment.prepareAlbum(jobj.getJSONArray("result"));
+                            servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                searchtask.execute();
+            }
+
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data==null)
+            return;
+        if(!data.getStringExtra("data").equals(""))
+        {
+            filter=data.getStringExtra("data");
+            performSearch();
+
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.search_view);
         searchItem.collapseActionView();
+        progress=new ProgressDialog(this);
+        progress.setMessage("Communicating with server..");
+        progress.setIndeterminate(true);
+        progress.setProgress(0);
+        progress.setCancelable(false);
+
+
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -94,9 +203,10 @@ public class SearchViewActivity extends AppCompatActivity
     }
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchquery=query;
             if(searchtask==null)
-            {
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+            { progress.show();
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sort)+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -105,6 +215,7 @@ public class SearchViewActivity extends AppCompatActivity
                             JSONObject jobj = new JSONObject(result);
                             adsFragment.prepareAlbum(jobj.getJSONArray("result"));
                             servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
                         }
                         catch (Exception e)
                         {
@@ -116,8 +227,9 @@ public class SearchViewActivity extends AppCompatActivity
             }
             else if(searchtask.getStatus()!= AsyncTask.Status.FINISHED)
             {
+                progress.show();
                 searchtask.cancel(true);
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -126,6 +238,7 @@ public class SearchViewActivity extends AppCompatActivity
                             JSONObject jobj = new JSONObject(result);
                             adsFragment.prepareAlbum(jobj.getJSONArray("result"));
                             servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
                         }
                         catch (Exception e)
                         {
@@ -137,7 +250,8 @@ public class SearchViewActivity extends AppCompatActivity
             }
             else
             {
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query), "", new AsyncResponse() {
+                progress.show();
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(query)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -146,6 +260,7 @@ public class SearchViewActivity extends AppCompatActivity
                             JSONObject jobj = new JSONObject(result);
                             adsFragment.prepareAlbum(jobj.getJSONArray("result"));
                             servicesFragment.prepareAlbumService(jobj.getJSONArray("resultservice"));
+                            progress.dismiss();
                         }
                         catch (Exception e)
                         {

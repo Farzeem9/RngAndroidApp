@@ -11,7 +11,7 @@ public class Filter {
     Filter(String name)
     {
         this.name=name;
-        isSelected=true;
+        isSelected=false;
     }
 
     public String getName() {

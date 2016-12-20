@@ -1,5 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +22,7 @@ public class FilterActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ArrayList<Filter> subcat=new ArrayList<>(),rent=new ArrayList<>(),rent_price=new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter<FilterAdapter.MyViewHolder> adapter;
+    private FilterAdapter adapter;
     private void fillAds()
     {
         subcat.add(new Filter("Mobile Phone"));
@@ -62,7 +64,6 @@ public class FilterActivity extends AppCompatActivity {
         rent.add(new Filter("Days"));
         rent.add(new Filter("Weeks"));
         rent.add(new Filter("Months"));
-
     }
 
 
@@ -135,8 +136,39 @@ public class FilterActivity extends AppCompatActivity {
             if(x.getSelected())
                 subcats+=x.getName()+"','";
         }
-        String finalsubcatquery="("+subcats+"')";
-        Log.v("final subcats",finalsubcatquery);
+        String finalsubcatquery;
+        if(subcats.equals("'"))
+            finalsubcatquery="";
+        else
+            finalsubcatquery=" and subcat IN ("+subcats+"')";
+
+        String rent="";
+        for(Filter x:this.rent)
+        {
+            if(x.getSelected())
+            {
+                rent=x.getName();
+            }
+        }
+        if(!rent.equals(""))
+            rent="and crent LIKE '%rent%'";
+        /*
+        String rentrange="";
+        if(adapter.max!=5000)
+            rentrange=" and rent < "+Integer.toString(adapter.max);
+        String deposit="";
+        if(adapter.deposit!=6000)
+            deposit=" and PROD_DEPOSIT";
+        */
+
+        String finalfilter=finalsubcatquery+rent;
+        Intent intent=new Intent();
+        // intent.putStringArrayListExtra("im")
+        intent.putExtra("data",finalfilter);
+        setResult(Activity.RESULT_OK,intent);
+        finish();
+
+        Log.v("final subcats",finalfilter);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
