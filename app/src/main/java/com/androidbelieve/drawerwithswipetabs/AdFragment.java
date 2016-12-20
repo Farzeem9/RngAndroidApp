@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -130,6 +131,30 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         rl=(RelativeLayout)view.findViewById(R.id.rel1);
         setasthumb=(Button)view.findViewById(R.id.thumb_button_1);
 
+        r1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+        });
+        r2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+        });
+        r3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                inputLayoutPrent.setVisibility(View.VISIBLE);
+                inputLayoutPdeposit.setVisibility(View.VISIBLE);
+                refreshrent();
+            }
+        });
         btnGal=(ImageButton)view.findViewById(R.id.btn_select);
         btnGal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -869,5 +894,25 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             return true;
         else
             return false;
+    }
+
+    public void refreshrent(){
+        if(r1.isChecked()){
+            inputPrent.setHint("Product Rent per Day");
+            return;
+        }
+        if(r2.isChecked()){
+            inputPrent.setHint("Product Rent per Week");
+            return;
+        }
+        if(r3.isChecked()){
+            inputPrent.setHint("Product Rent per Month");
+            return;
+        }
+        if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){
+            inputLayoutPdeposit.setVisibility(View.GONE);
+            inputLayoutPrent.setVisibility(View.GONE);
+        }
+
     }
 }
