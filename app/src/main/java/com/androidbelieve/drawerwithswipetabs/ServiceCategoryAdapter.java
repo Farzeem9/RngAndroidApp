@@ -2,6 +2,7 @@ package com.androidbelieve.drawerwithswipetabs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -66,12 +67,18 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         final ServiceAlbum album = albumList.get(position);
         Log.v("Holder added" ,"here");
         holder.title.setText(album.getName());
+        holder.title.setTypeface(null, Typeface.BOLD);
+        holder.title.setTextSize(18.0f);
         holder.city.setText(album.getCity());
         String temp="₹ " + album.getNumOfSongs();
         holder.count.setText(temp );
+        holder.count.setTextSize(18.0f);
         holder.date.setText(album.getDate());
         Log.v("cat in holder",album.getsubCat());
         holder.subcat.setText(album.getsubCat());
+        holder.subcat.setTextSize(15.0f);
+        holder.city.setTextSize(15.0f);
+        holder.date.setTextSize(15.0f);
         Drawable errord=mContext.getResources().getDrawable(R.drawable.folder_placeholder);
         //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
         Picasso.with(mContext).load(album.getLink()).placeholder(R.drawable.image_placeholder).fit().error(errord).into(holder.thumbnail);
