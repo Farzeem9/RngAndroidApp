@@ -94,6 +94,7 @@ public class EditServiceActivity extends AppCompatActivity {
     private Button btnSignUp;
     private String subcat;
     private Button setasthumb;
+    private int submit=0;
     View view;
 
     @Override
@@ -115,6 +116,8 @@ public class EditServiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitForm();
+                if(submit!=1)
+                    return;
                 if(inputPtags.getText().equals(""))
                 {
                     inputPtags.setError("Please Enter some tags!");
@@ -510,6 +513,7 @@ public class EditServiceActivity extends AppCompatActivity {
         {
             return;
         }
+        submit=1;
         //Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
     }
 

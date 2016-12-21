@@ -82,6 +82,7 @@ public class ServiceFragment extends Fragment {
     private Button btnSignUp;
     private String subcat;
     private Button setasthumb;
+    private int submit=0;
     public ServiceFragment() {
         // Required empty public constructor
     }
@@ -417,6 +418,8 @@ public class ServiceFragment extends Fragment {
             public void onClick(View view) {
                 //add validation here
                 submitForm();
+                if(submit!=1)
+                    return;
                 if(inputPtags.getText().equals(""))
                 {
                     inputPtags.setError("Please Enter some tags!");
@@ -531,6 +534,7 @@ public class ServiceFragment extends Fragment {
         {
             return;
         }
+        submit=1;
       //  Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
 

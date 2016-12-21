@@ -78,7 +78,7 @@ public class EditAdActivity extends AppCompatActivity {
     private ImageButton btnPhoto,btnGal;
     private ArrayList<Bitmap> images;
     private boolean imageshown=false;
-
+    private int submit=0;
     private final int CITY_SEARCH_REQUEST = 123;
     int work=0;
     int currentpos=0;
@@ -450,6 +450,8 @@ public class EditAdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 submitForm();
+                if(submit!=1)
+                    return;
                 if(tags.getText().equals(""))
                 {
                     tags.setError("Please Enter some tags!");
@@ -529,6 +531,7 @@ public class EditAdActivity extends AppCompatActivity {
         {
             return;
         }
+        submit=1;
         //Toast.makeText(this, "Submitted", Toast.LENGTH_SHORT).show();
     }
 

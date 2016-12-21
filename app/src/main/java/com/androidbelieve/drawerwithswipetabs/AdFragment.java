@@ -1,6 +1,7 @@
 package com.androidbelieve.drawerwithswipetabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -85,6 +86,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private RecyclerView recyclerView;
     private HorizontalAdapter horizontalAdapter;
     private String item,number,f1="",f2="";
+    private int submit=0;
 
     static Boolean b=Boolean.valueOf(false); //To check if spinner has been selected once
     Boolean a=Boolean.valueOf(false);        //Increasing redundancy
@@ -126,6 +128,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(horizontalAdapter);
         r1= (CheckBox) view.findViewById(R.id.days);
+        final AlertDialog.Builder alertbox = new AlertDialog.Builder(getContext());
         r2= (CheckBox) view.findViewById(R.id.weeks);
         r3= (CheckBox) view.findViewById(R.id.month);
         rl=(RelativeLayout)view.findViewById(R.id.rel1);
@@ -466,6 +469,16 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         inputPtags = (EditText) view.findViewById(R.id.input_ptags);
         btnSignUp = (Button) view.findViewById(R.id.btn_signup);
 
+        View.OnClickListener makeError = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView errorText = (TextView)spinner.getSelectedView();
+                errorText.setError("Please select a category!");
+                errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                errorText.requestFocus();
+            }
+        };
+        inputLayoutPtags.setOnClickListener(makeError);
         inputPname.addTextChangedListener(new MyTextWatcher(inputPname));
         inputPdesc.addTextChangedListener(new MyTextWatcher(inputPdesc));
         inputPage.addTextChangedListener(new MyTextWatcher(inputPage));
@@ -476,6 +489,9 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
             @Override
             public void onClick(View view) {
                 submitForm();
+                if(submit!=1){
+                    return;
+                }
                 if(inputPtags.getText().equals(""))
                 {
                     inputPtags.setError("Please Enter some tags!");
@@ -634,6 +650,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         if (!validatePdeposit()) {
             return;
         }
+        if(city.toString().trim().isEmpty())
+        {
+            return;
+        }
+        submit=1;
 
         //Toast.makeText(getContext(), "Submitted", Toast.LENGTH_SHORT).show();
     }
