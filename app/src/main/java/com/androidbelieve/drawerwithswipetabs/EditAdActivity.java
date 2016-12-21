@@ -60,7 +60,7 @@ import java.util.Date;
 import java.util.List;
 
 public class EditAdActivity extends AppCompatActivity {
-    private EditText name,desc,age,rent,deposit,duration,tags;
+    private EditText name,desc,age,inputPdeposit,duration,tags,inputPrentd,inputPrentw,inputPrentm;
     private Toolbar toolbar=null;
     private TextView city;
     private Spinner spinner_rent,spinner_subrent,spinner,spinner2;
@@ -71,7 +71,7 @@ public class EditAdActivity extends AppCompatActivity {
     private Uri fileUri;
     private Button setasthumb,location;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent,inputLayoutPtags;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrentd, inputLayoutPrentw, inputLayoutPrentm,inputLayoutPtags;
     private RelativeLayout rl;
     private ViewPager viewPager;
     private String item,number,f1="",f2="",tagstring;
@@ -97,7 +97,9 @@ public class EditAdActivity extends AppCompatActivity {
         work=2;
         inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
-        inputLayoutPrent = (TextInputLayout) findViewById(R.id.input_layout_prent);
+        inputLayoutPrentd = (TextInputLayout) findViewById(R.id.input_layout_prentd);
+        inputLayoutPrentw = (TextInputLayout) findViewById(R.id.input_layout_prentw);
+        inputLayoutPrentm = (TextInputLayout) findViewById(R.id.input_layout_prentm);
         inputLayoutPage = (TextInputLayout) findViewById(R.id.input_layout_page);
         inputLayoutPdeposit = (TextInputLayout) findViewById(R.id.input_layout_pdeposit);
         inputLayoutPtags = (TextInputLayout) findViewById(R.id.input_layout_ptags);
@@ -105,8 +107,10 @@ public class EditAdActivity extends AppCompatActivity {
         desc = (EditText)findViewById(R.id.input_pdesc);
         age = (EditText)findViewById(R.id.input_page);
         tags = (EditText)findViewById(R.id.input_ptags);
-        rent = (EditText)findViewById(R.id.input_prent);
-        deposit = (EditText)findViewById(R.id.input_pdeposit);
+        inputPrentd = (EditText) findViewById(R.id.input_prentd);
+        inputPrentw = (EditText) findViewById(R.id.input_prentw);
+        inputPrentm = (EditText) findViewById(R.id.input_prentm);
+        inputPdeposit = (EditText)findViewById(R.id.input_pdeposit);
         city=(TextView)findViewById(R.id.tv_city);
         viewPager = (ViewPager) findViewById(R.id.pager);
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager(), images, new View.OnClickListener() {
@@ -190,7 +194,11 @@ public class EditAdActivity extends AppCompatActivity {
         r1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentd.setVisibility(View.VISIBLE);
+                if(r1.isChecked())
+                    inputLayoutPrentd.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentd.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
@@ -198,16 +206,23 @@ public class EditAdActivity extends AppCompatActivity {
         r2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentw.setVisibility(View.VISIBLE);
+                if(r2.isChecked())
+                    inputLayoutPrentw.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentw.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
-
         });
         r3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentm.setVisibility(View.VISIBLE);
+                if(r3.isChecked())
+                    inputLayoutPrentm.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentm.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
@@ -489,20 +504,31 @@ public class EditAdActivity extends AppCompatActivity {
 
     public void refreshrent(){
         if(r1.isChecked()){
-            rent.setHint("Product Rent per Day");
+            inputPdeposit.setHint("Rent Deposit per Day");
+            //inputLayoutPrentd.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+        // inputLayoutPrentd.setVisibility(View.GONE);
         if(r2.isChecked()){
-            rent.setHint("Product Rent per Week");
+            inputPdeposit.setHint("Rent Deposit per Week");
+            // inputLayoutPrentw.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+        //  inputLayoutPrentw.setVisibility(View.GONE);
         if(r3.isChecked()){
-            rent.setHint("Product Rent per Month");
+            inputPdeposit.setHint("Rent Deposit per Month");
+            //inputLayoutPrentm.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+        //inputLayoutPrentm.setVisibility(View.GONE);
         if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){
             inputLayoutPdeposit.setVisibility(View.GONE);
-            inputLayoutPrent.setVisibility(View.GONE);
+            inputLayoutPrentd.setVisibility(View.GONE);
+            inputLayoutPrentw.setVisibility(View.GONE);
+            inputLayoutPrentm.setVisibility(View.GONE);
         }
 
     }
@@ -521,7 +547,13 @@ public class EditAdActivity extends AppCompatActivity {
         if (!validatePage()) {
             return;
         }
-        if (!validatePrent()) {
+        if (!validatePrentd()) {
+            return;
+        }
+        if (!validatePrentw()) {
+            return;
+        }
+        if (!validatePrentm()) {
             return;
         }
         if (!validatePdeposit()) {
@@ -573,28 +605,75 @@ public class EditAdActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validatePrent() {
-        if (rent.getText().toString().trim().isEmpty()) {
-            inputLayoutPrent.setError(getString(R.string.err_msg_rent));
-            requestFocus(rent);
+    private boolean validatePrentd() {
+        if(!r1.isChecked())
+            inputPrentd.setText("0");
+        if (inputPrentd.getText().toString().trim().isEmpty() && r1.isChecked()) {
+            inputLayoutPrentd.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentd);
             return false;
-        } else {
-            inputLayoutPrent.setErrorEnabled(false);
+        }
+        else if (inputPrentd.getText().toString().trim().equals("0") && r1.isChecked()){
+            inputLayoutPrentd.setError("Value cannot be 0");
+            requestFocus(inputPrentd);
+            return false;
+        }
+        else {
+            inputLayoutPrentd.setErrorEnabled(false);
         }
 
         return true;
     }
 
+    private boolean validatePrentw() {
+        if(!r2.isChecked())
+            inputPrentw.setText("0");
+        if (inputPrentw.getText().toString().trim().isEmpty() && r2.isChecked()) {
+            inputLayoutPrentw.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentw);
+            return false;
+        }
+        else if (inputPrentw.getText().toString().trim().equals("0") && r2.isChecked()){
+            inputLayoutPrentw.setError("Value cannot be 0");
+            requestFocus(inputPrentw);
+            return false;
+        }
+        else {
+            inputLayoutPrentw.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+    private boolean validatePrentm() {
+        if(!r3.isChecked())
+            inputPrentm.setText("0");
+        if (inputPrentm.getText().toString().trim().isEmpty()  && r3.isChecked()) {
+            inputLayoutPrentm.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentm);
+            return false;
+        }
+        else if (inputPrentm.getText().toString().trim().equals("0") && r3.isChecked()){
+            inputLayoutPrentm.setError("Value cannot be 0");
+            requestFocus(inputPrentm);
+            return false;
+        }
+        else {
+            inputLayoutPrentm.setErrorEnabled(false);
+        }
+
+        return true;
+    }
     private boolean validatePdeposit() {
-        if (deposit.getText().toString().trim().isEmpty()) {
+        if (inputPdeposit.getText().toString().trim().isEmpty()) {
             inputLayoutPdeposit.setError(getString(R.string.err_msg_deposit));
-            requestFocus(deposit);
+            requestFocus(inputPdeposit);
             return false;
         } else {
             inputLayoutPdeposit.setErrorEnabled(false);
         }
         return true;
     }
+
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -727,7 +806,7 @@ public class EditAdActivity extends AppCompatActivity {
             }
         });
         //g.setPostParams("aid="+aid,"work="+Integer.toString(work),"prod_name="+name.getText(),"description="+desc.getText(),"prod_age="+age.getText(),"category="+"Mobiles","rent="+rent.getText(),"prod_deposit="+deposit.getText());
-        g.setPostParams("aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category",(String)spinner.getSelectedItem(),"rent",inputPrentd.getText().toString(),"prod_deposit",inputPdeposit.getText().toString());
         g.execute();
     }
     void changethumbnail()
@@ -739,7 +818,7 @@ public class EditAdActivity extends AppCompatActivity {
             }
         });
         //g.setPostParams("aid="+aid,"work="+Integer.toString(work),"num="+Integer.toString(HorizontalAdapter.getPostion()),"prod_name="+name.getText(),"description="+desc.getText(),"prod_age="+age.getText(),"category="+"Mobiles","rent="+rent.getText(),"prod_deposit="+deposit.getText());
-        g.setPostParams("aid",aid,"work",Integer.toString(work),"num",Integer.toString(HorizontalAdapter.getPostion()+1),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("aid",aid,"work",Integer.toString(work),"num",Integer.toString(HorizontalAdapter.getPostion()+1),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category",(String)spinner.getSelectedItem(),"rent",inputPrentd.getText().toString(),"prod_deposit",inputPdeposit.getText().toString());
 
         g.execute();
     }
@@ -771,7 +850,7 @@ public class EditAdActivity extends AppCompatActivity {
                 alertbox.show();
             }
         });
-        g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category","Mobiles","rent",rent.getText().toString(),"prod_deposit",deposit.getText().toString());
+        g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category",(String)spinner.getSelectedItem(),"rent",inputPrentd.getText().toString(),"prod_deposit",inputPdeposit.getText().toString(),"rentweek",inputPrentw.getText().toString(),"rentmonth",inputPrentm.getText().toString());
         int i=1;
         g.setImagePost(images,1);
         //g.execute();
@@ -807,6 +886,8 @@ public class EditAdActivity extends AppCompatActivity {
             String prod_age=c.getString("PROD_AGE");
             String sdeposit=c.getString("PROD_DEPOSIT");
             String duration=c.getString("DURATION");
+            String rentweek=c.getString("RENTW");
+            String rentmonth=c.getString("RENTM");
 
 //            String maxrent=c.getString("maxrent");
 //            String crent=c.getString("crent");
@@ -820,9 +901,18 @@ public class EditAdActivity extends AppCompatActivity {
             final int[] length = {links.length()};
             name.setText(prod_name);
             desc.setText(desc_str);
-            rent.setText(rent_name);
+            inputPrentd.setText(rent_name);
+            inputPrentw.setText(rentweek);
+            inputPrentm.setText(rentmonth);
+
+            if(Integer.parseInt(rent_name)!=0)
+                r1.setChecked(true);
+            if(Integer.parseInt(rentweek)!=0)
+                r2.setChecked(true);
+            if(Integer.parseInt(rentmonth)!=0)
+                r3.setChecked(true);
             age.setText(prod_age);
-            deposit.setText(sdeposit);
+            inputPdeposit.setText(sdeposit);
 //            this.duration.setText(duration);
             if(alllinks.size()==0)
                 dismissProgress();

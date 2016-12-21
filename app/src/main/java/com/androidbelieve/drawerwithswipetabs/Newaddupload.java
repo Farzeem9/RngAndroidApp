@@ -28,13 +28,13 @@ import java.util.ArrayList;
 
 class Newaddupload extends AsyncTask<String,Integer,String> {
 
-    String pid,prod_name,description,prod_age,category,rent,prod_deposit,f1,f2,city,tags;
+    String pid,prod_name,description,prod_age,category,rentd,rentw,rentm,prod_deposit,f1,f2,city,tags;
     String subcat;
     private ArrayList<Bitmap> images;
     private Context context;
     ProgressDialog progress;
     Activity a;
-    Newaddupload(String tags,String subcat,Activity a,String pid, String prod_name, String description, String prod_age, String category, String rent, String prod_deposit, ArrayList<Bitmap> images,Context c,String f1,String f2,String city)
+    Newaddupload(String tags,String subcat,Activity a,String pid, String prod_name, String description, String prod_age, String category, String rentd,String rentw,String rentm, String prod_deposit, ArrayList<Bitmap> images,Context c,String f1,String f2,String city)
     {
         this.tags=tags;
         this.a=a;
@@ -44,7 +44,9 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
         this.description= URLEncoder.encode(description);
         this.prod_age=prod_age;
         this.category=URLEncoder.encode(category);
-        this.rent=rent;
+        this.rentd=rentd;
+        this.rentw=rentw;
+        this.rentm=rentm;
         this.prod_deposit=prod_deposit;
         this.images=images;
         this.context=c;
@@ -70,7 +72,7 @@ class Newaddupload extends AsyncTask<String,Integer,String> {
     @Override
     protected String doInBackground(String... strings) {
         try {
-            String link = Config.link+"newad.php?pid="+pid+"&tags="+tags+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rent+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size())+"&crent="+f2+"&maxrent="+f1+"&city="+city;
+            String link = Config.link+"newad.php?pid="+pid+"&tags="+tags+"&prod_name="+prod_name+"&description="+description+"&prod_age="+prod_age+"&category="+category+"&rent="+rentd+"&prod_deposit="+prod_deposit+"&num="+Integer.toString(images.size())+"&crent="+f2+"&maxrent="+f1+"&city="+city+"&rentw="+rentw+"&rentm="+rentm;
             if(this.subcat!="")
                 link+="&subcat="+subcat;
             Log.v("link",link);

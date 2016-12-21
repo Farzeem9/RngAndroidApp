@@ -63,8 +63,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     private List<String> categories;
     private List<String> categories2;
     private Spinner spinner,spinner_rent,spinner_subrent,spinner2;
-    private EditText inputPname, inputPdesc, inputPage, inputPrent, inputPdeposit,inputPtags;
-    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrent,inputLayoutPtags;
+    private EditText inputPname, inputPdesc, inputPage, inputPrentd,inputPrentw,inputPrentm, inputPdeposit,inputPtags;
+    private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrentd, inputLayoutPrentw, inputLayoutPrentm,inputLayoutPtags;
     private TextView city;
     private Fragment fragment;
     private Uri fileUri;
@@ -137,7 +137,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         r1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentd.setVisibility(View.VISIBLE);
+                if(r1.isChecked())
+                    inputLayoutPrentd.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentd.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
@@ -145,7 +149,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         r2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentw.setVisibility(View.VISIBLE);
+                if(r2.isChecked())
+                    inputLayoutPrentw.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentw.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
@@ -153,7 +161,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         r3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inputLayoutPrent.setVisibility(View.VISIBLE);
+                //inputLayoutPrentm.setVisibility(View.VISIBLE);
+                if(r3.isChecked())
+                    inputLayoutPrentm.setVisibility(View.VISIBLE);
+                else
+                    inputLayoutPrentm.setVisibility(View.GONE);
                 inputLayoutPdeposit.setVisibility(View.VISIBLE);
                 refreshrent();
             }
@@ -458,13 +470,17 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         inputLayoutPname = (TextInputLayout) view.findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) view.findViewById(R.id.input_layout_pdesc);
         inputLayoutPage = (TextInputLayout) view.findViewById(R.id.input_layout_page);
-        inputLayoutPrent = (TextInputLayout) view.findViewById(R.id.input_layout_prent);
+        inputLayoutPrentd = (TextInputLayout) view.findViewById(R.id.input_layout_prentd);
+        inputLayoutPrentw = (TextInputLayout) view.findViewById(R.id.input_layout_prentw);
+        inputLayoutPrentm = (TextInputLayout) view.findViewById(R.id.input_layout_prentm);
         inputLayoutPtags = (TextInputLayout) view.findViewById(R.id.input_layout_ptags);
         inputLayoutPdeposit = (TextInputLayout) view.findViewById(R.id.input_layout_pdeposit);
         inputPname = (EditText) view.findViewById(R.id.input_pname);
         inputPdesc = (EditText) view.findViewById(R.id.input_pdesc);
         inputPage = (EditText) view.findViewById(R.id.input_page);
-        inputPrent = (EditText) view.findViewById(R.id.input_prent);
+        inputPrentd = (EditText) view.findViewById(R.id.input_prentd);
+        inputPrentw = (EditText) view.findViewById(R.id.input_prentw);
+        inputPrentm = (EditText) view.findViewById(R.id.input_prentm);
         inputPdeposit = (EditText) view.findViewById(R.id.input_pdeposit);
         inputPtags = (EditText) view.findViewById(R.id.input_ptags);
         btnSignUp = (Button) view.findViewById(R.id.btn_signup);
@@ -515,7 +531,8 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     String spinner1item=(String) spinner.getSelectedItem();
                     String spinner2item=(String) spinner2.getSelectedItem();
                     if(!(spinner1item.equals("Select a Category")||(spinner2item.equals("Select a Sub-Category")))) {
-                        new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrent.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
+                        new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrentd.getText().toString(),inputPrentw.getText().toString(),inputPrentm.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
+                        //new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrentd.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
                     }
                     else
                     {
@@ -644,7 +661,13 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         if (!validatePage()) {
             return;
         }
-        if (!validatePrent()) {
+        if (!validatePrentd()) {
+            return;
+        }
+        if (!validatePrentw()) {
+            return;
+        }
+        if (!validatePrentm()) {
             return;
         }
         if (!validatePdeposit()) {
@@ -697,18 +720,64 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
         return true;
     }
 
-    private boolean validatePrent() {
-        if (inputPrent.getText().toString().trim().isEmpty()) {
-            inputLayoutPrent.setError(getString(R.string.err_msg_rent));
-            requestFocus(inputPrent);
+    private boolean validatePrentd() {
+        if(!r1.isChecked())
+                inputPrentd.setText("0");
+        if (inputPrentd.getText().toString().trim().isEmpty() && r1.isChecked()) {
+            inputLayoutPrentd.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentd);
             return false;
-        } else {
-            inputLayoutPrent.setErrorEnabled(false);
+        }
+        else if (inputPrentd.getText().toString().trim().equals("0") && r1.isChecked()){
+            inputLayoutPrentd.setError("Value cannot be 0");
+            requestFocus(inputPrentd);
+            return false;
+        }
+        else {
+            inputLayoutPrentd.setErrorEnabled(false);
         }
 
         return true;
     }
 
+    private boolean validatePrentw() {
+        if(!r2.isChecked())
+            inputPrentw.setText("0");
+        if (inputPrentw.getText().toString().trim().isEmpty() && r2.isChecked()) {
+            inputLayoutPrentw.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentw);
+            return false;
+        }
+        else if (inputPrentw.getText().toString().trim().equals("0") && r2.isChecked()){
+            inputLayoutPrentw.setError("Value cannot be 0");
+            requestFocus(inputPrentw);
+            return false;
+        }
+        else {
+            inputLayoutPrentw.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+    private boolean validatePrentm() {
+        if(!r3.isChecked())
+            inputPrentm.setText("0");
+        if (inputPrentm.getText().toString().trim().isEmpty()  && r3.isChecked()) {
+            inputLayoutPrentm.setError(getString(R.string.err_msg_rent));
+            requestFocus(inputPrentm);
+            return false;
+        }
+        else if (inputPrentm.getText().toString().trim().equals("0") && r3.isChecked()){
+            inputLayoutPrentm.setError("Value cannot be 0");
+            requestFocus(inputPrentm);
+            return false;
+        }
+        else {
+            inputLayoutPrentm.setErrorEnabled(false);
+        }
+
+        return true;
+    }
     private boolean validatePdeposit() {
         if (inputPdeposit.getText().toString().trim().isEmpty()) {
             inputLayoutPdeposit.setError(getString(R.string.err_msg_deposit));
@@ -753,8 +822,14 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 case R.id.input_page:
                     validatePage();
                     break;
-                case R.id.input_prent:
-                    validatePrent();
+                case R.id.input_prentd:
+                    validatePrentd();
+                    break;
+                case R.id.input_prentw:
+                    validatePrentw();
+                    break;
+                case R.id.input_prentm:
+                    validatePrentm();
                     break;
                 case R.id.input_pdeposit:
                     validatePdeposit();
@@ -919,20 +994,31 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
 
     public void refreshrent(){
         if(r1.isChecked()){
-            inputPrent.setHint("Product Rent per Day");
+            inputPdeposit.setHint("Rent Deposit per Day");
+            //inputLayoutPrentd.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+           // inputLayoutPrentd.setVisibility(View.GONE);
         if(r2.isChecked()){
-            inputPrent.setHint("Product Rent per Week");
+            inputPdeposit.setHint("Rent Deposit per Week");
+           // inputLayoutPrentw.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+          //  inputLayoutPrentw.setVisibility(View.GONE);
         if(r3.isChecked()){
-            inputPrent.setHint("Product Rent per Month");
+            inputPdeposit.setHint("Rent Deposit per Month");
+            //inputLayoutPrentm.setVisibility(View.VISIBLE);
             return;
         }
+        //else
+            //inputLayoutPrentm.setVisibility(View.GONE);
         if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){
             inputLayoutPdeposit.setVisibility(View.GONE);
-            inputLayoutPrent.setVisibility(View.GONE);
+            inputLayoutPrentd.setVisibility(View.GONE);
+            inputLayoutPrentw.setVisibility(View.GONE);
+            inputLayoutPrentm.setVisibility(View.GONE);
         }
 
     }

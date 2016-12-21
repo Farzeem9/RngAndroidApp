@@ -282,20 +282,66 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_prent"
+                        android:id="@+id/input_layout_prentd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:paddingBottom="10dp">
 
                         <EditText
-                            android:id="@+id/input_prent"
+                            android:id="@+id/input_prentd"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:hint=""
+                            android:hint="Product Rent per day"
                             android:paddingTop="10dp"
                             android:paddingBottom="15dp"/>
+                    </android.support.design.widget.TextInputLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_prentw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:visibility="gone"
+                        android:paddingBottom="15dp">
+
+                        <EditText
+                            android:id="@+id/input_prentw"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Product Rent per week"
+                            android:paddingTop="10dp"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_prentm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:visibility="gone"
+                        android:paddingBottom="15dp">
+
+                        <EditText
+                            android:id="@+id/input_prentm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Product Rent per month"
+                            android:paddingTop="10dp"
+                            />
                     </android.support.design.widget.TextInputLayout>
                 </android.support.v7.widget.CardView>
 
@@ -316,7 +362,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:hint="Product Deposit"
+                            android:hint=""
                             android:paddingTop="10dp"
                             />
                     </android.support.design.widget.TextInputLayout>
