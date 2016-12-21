@@ -179,7 +179,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
-                            android:hint="Product Age"
+                            android:hint="Product age (in Months)"
                             android:paddingTop="10dp"
                             android:paddingBottom="15dp"/>
                     </android.support.design.widget.TextInputLayout>
@@ -378,10 +378,11 @@
                             android:id="@+id/input_ptags"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
                             android:paddingTop="10dp"
+                            android:minLines="3"
                             android:paddingBottom="15dp"
-                            android:hint="Tags" />
+                            android:hint="Tags (Add words related to your ad)"/>
                     </android.support.design.widget.TextInputLayout>
                 </android.support.v7.widget.CardView>
 

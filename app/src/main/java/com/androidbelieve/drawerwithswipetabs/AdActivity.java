@@ -346,7 +346,20 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             }
             this.date.setText(ddate);
             this.city.setText(city);
-            this.age.setText(age + " Years");
+            int fage = Integer.parseInt(age);
+            if(fage<12 && fage!=1)
+                this.age.setText(age + " Months");
+            else if(fage==1)
+                this.age.setText(age + " Month");
+            else if(fage>12 && fage%12==0)
+                this.age.setText(Integer.toString(fage/12) + " Years");
+            else if(fage==12)
+                this.age.setText(age + "Year");
+            else{
+                int rage=fage%12;
+                fage=fage/12;
+                this.age.setText(Integer.toString(fage) + " Years & " + Integer.toString(rage) + " Months");
+            }
             this.deposit.setText("₹ "+ deposit);
             JSONArray links=c.getJSONArray("LINKS");
             ArrayList<String> alllinks=new ArrayList<>();
