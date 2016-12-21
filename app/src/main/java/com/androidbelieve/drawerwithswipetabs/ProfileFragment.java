@@ -3,6 +3,7 @@ package com.androidbelieve.drawerwithswipetabs;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -51,10 +53,14 @@ public class ProfileFragment extends Fragment {
                 alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        LoginManager.getInstance().logOut();
+                        sharedPreferences.edit().clear().commit();
+                        NotificationReceiver.cancelAlarm(getActivity().getApplicationContext());
+                        getActivity().finish();
+                        startActivity(new Intent(getContext(),FirstActivity.class));
                     }
                 });
-                alertbox.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -99,6 +105,7 @@ public class ProfileFragment extends Fragment {
                 sharedPreferences.edit().clear().commit();
                 NotificationReceiver.cancelAlarm(getActivity().getApplicationContext());
                 getActivity().finish();
+                startActivity(new Intent(getContext(),FirstActivity.class));
             }
         });
         new GenericAsyncTask(getContext(), Config.link + "contact.php?pid=" + pid, "", new AsyncResponse() {
