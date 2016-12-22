@@ -152,7 +152,9 @@ private View view;
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity(). startActivityForResult(new Intent(getContext(),FilterActivity.class),0);
+                Intent in=new Intent(getContext(),FilterActivity.class);
+                in.putExtra("CAT","Home Appliances");
+                getActivity(). startActivityForResult(in,0);
             }
         });
         return view;

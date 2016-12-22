@@ -321,6 +321,4 @@ public class SearchViewActivity extends AppCompatActivity
         }
     }
 
-
-
 }

@@ -1,1 +1,1 @@
-include ':app', ':facebook-android-sdk-4.16.1'
+include ':app', ':facebook-android-sdk-4.16.1', ':multislider-1.2'

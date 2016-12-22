@@ -1,5 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -16,10 +16,11 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
 public class Category_List extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;
@@ -27,6 +28,8 @@ public class Category_List extends AppCompatActivity {
     private Toolbar toolbar;
     private CollapsingToolbarLayout toolbarLayout;
     private GetJSON getJSON;
+    private Boolean b=true;
+    private Button filter;
     private InfScrollviewListener infScrollviewListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,72 @@ public class Category_List extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         toolbar= (Toolbar) findViewById(R.id.toolbar1);
         toolbar.setTitle(cat);
+        filter= (Button) findViewById(R.id.btn_filter);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 finish();
+            }
+        });
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(getBaseContext(),FilterActivity.class);
+                in.putExtra("CAT","Furniture");
+                startActivityForResult(in,0);
+            }
+        });
+        findViewById(R.id.btn_sort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(b) {
+                    FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
+                    frameLayout.setVisibility(View.VISIBLE);
+                /*FragmentManager mFragmentManager = getChildFragmentManager();
+                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                SortFragment sf=new SortFragment();
+                mFragmentTransaction.replace(R.id.containerView,sf);
+                mFragmentTransaction.addToBackStack(null);
+                mFragmentTransaction.commit();
+                */
+                    b=!b;
+                    findViewById(R.id.rel_lay).setAlpha(0.5f);
+                    frameLayout.setAlpha(1f);
+                }
+                else
+                {
+                    findViewById(R.id.rel_lay).setAlpha(1f);
+                    FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
+                    frameLayout.setVisibility(View.GONE);
+
+                    b=!b;
+                }
+            }
+        });
+        findViewById(R.id.pricehtl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("order+by+rent+desc");
+            }
+        });
+        findViewById(R.id.pricelth).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("+order+by+rent");
+            }
+        });
+        findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("+order+by+PROD_AGE");
+            }
+        });
+        findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("&rating=1");
             }
         });
 
@@ -66,6 +128,16 @@ public class Category_List extends AppCompatActivity {
 
 
 
+    }
+    public void sort(String query)
+    {
+        Activity a=this;
+        if(a instanceof Category_List)
+        {
+            Category_List searchViewActivity=(Category_List) a;
+            searchViewActivity.sort(query);
+
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

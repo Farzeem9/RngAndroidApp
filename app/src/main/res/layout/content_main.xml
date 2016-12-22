@@ -3,18 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/rel_lay"
     android:layout_height="match_parent"
     android:background="@color/background_material_dark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.androidbelieve.drawerwithswipetabs.Category_List"
-    tools:showIn="@layout/activity_main">
-
+    tools:context="com.androidbelieve.drawerwithswipetabs.Category_List">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:layout_below="@+id/tv_ads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+<FrameLayout
+android:orientation="vertical"
+android:layout_centerHorizontal="true"
+android:layout_centerVertical="true"
+android:layout_width="300dp"
+android:layout_height="300dp"
+android:visibility="gone"
+android:id="@+id/containerView">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4"
+    android:padding="10dp"
+    android:background="@drawable/border"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/pricehtl"
+        android:text="Price:high to low"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:id="@+id/pricelth"
+        android:text="Price:low to high"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:text="Rating"
+        android:id="@+id/rating"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:text="Product Age"
+        android:id="@+id/p_age"/>
+</LinearLayout>
+</FrameLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/NBC"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Filter"
+            android:layout_weight="1"
+            android:id="@+id/btn_filter"
+            android:onClick="onFilter"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sort"
+            android:id="@+id/btn_sort"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>
 

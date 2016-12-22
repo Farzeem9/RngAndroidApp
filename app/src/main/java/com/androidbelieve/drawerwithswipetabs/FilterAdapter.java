@@ -12,11 +12,6 @@ import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
-/**
- * Created by karth on 20-12-2016.
- */
-
-
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.MyViewHolder> {
 
     private Context context;
