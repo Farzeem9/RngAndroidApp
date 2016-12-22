@@ -543,7 +543,17 @@ public class EditAdActivity extends AppCompatActivity {
         });
         genericAsyncTask.execute();
     }
+    public void refreshSpiner()
+    {
+        selected=false;
+        dataAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories);
+        dataAdapter4=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories2);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinner.setAdapter(dataAdapter);
+        spinner2.setAdapter(dataAdapter4);
+    }
     public void refreshrent(){
         if(r1.isChecked()){
             inputPdeposit.setHint("Rent Deposit per Day");
@@ -892,22 +902,12 @@ public class EditAdActivity extends AppCompatActivity {
                 alertbox.show();
             }
         });
-        g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category",(String)spinner.getSelectedItem(),"rent",inputPrentd.getText().toString(),"prod_deposit",inputPdeposit.getText().toString(),"rentweek",inputPrentw.getText().toString(),"rentmonth",inputPrentm.getText().toString());
+        g.setPostParams("subcat",(String)spinner2.getSelectedItem(),"tags",tagstring,"aid",aid,"work",Integer.toString(work),"maxrent",f1,"crent",f2,"city",city.getText().toString(),"num",Integer.toString(images.size()),"prod_name",name.getText().toString(),"description",desc.getText().toString(),"prod_age",age.getText().toString(),"category",(String)spinner.getSelectedItem(),"rent",inputPrentd.getText().toString(),"prod_deposit",inputPdeposit.getText().toString(),"rentw",inputPrentw.getText().toString(),"rentm",inputPrentm.getText().toString());
         int i=1;
         g.setImagePost(images,1);
         //g.execute();
     }
-    public void refreshSpiner()
-    {
-        selected=false;
-        dataAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories);
-        dataAdapter4=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories2);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(dataAdapter);
-        spinner2.setAdapter(dataAdapter4);
-    }
     void showall()
     {
         findViewById(R.id.weeks).setVisibility(View.VISIBLE);
