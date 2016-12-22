@@ -39,7 +39,7 @@ import java.util.Date;
 public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout mDemoSlider;
-    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent;
+    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent,tvrentw,tvrentm;
     private String aid;
     private MenuItem star;
     private Button rating_comments;
@@ -83,6 +83,8 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         name=(TextView)findViewById(R.id.tv_name);
         desc=(TextView)findViewById(R.id.tv_desc);
         rent=(TextView)findViewById(R.id.tv_rent);
+        tvrentw=(TextView)findViewById(R.id.tv_rentw);
+        tvrentm=(TextView)findViewById(R.id.tv_rentm);
         city=(TextView)findViewById(R.id.tv_location);
         age=(TextView)findViewById(R.id.tv_prod_age);
         deposit=(TextView)findViewById(R.id.tv_prod_dep);
@@ -306,6 +308,8 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             String deposit=c.getString("DEPOSIT");
             String cat=c.getString("SUBCAT");
             canrent=c.getString("CANRATE");
+            String rentw=c.getString("RENTW");
+            String rentm=c.getString("RENTM");
             String[] crent=c.getString("crent").split(",");
             String temp="";
             for(String x:crent)
@@ -354,7 +358,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             else if(fage>12 && fage%12==0)
                 this.age.setText(Integer.toString(fage/12) + " Years");
             else if(fage==12)
-                this.age.setText(age + "Year");
+                this.age.setText("1 Year");
             else{
                 int rage=fage%12;
                 fage=fage/12;
@@ -369,8 +373,20 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             name.setText(prod_name);
             toolbar.setTitle(prod_name);
             desc.setText(desc_str);
-            String[] per=crent[0].split("s");
-            rent.setText("₹ "+ rent_name + "/" + per[0]);
+            for(String x:crent){
+            String[] per=x.split("s");
+            if(per[0].equals("Day") && !rent_name.equals("0")) {
+                rent.setText("₹ " + rent_name + "/" + per[0].toLowerCase());
+                rent.setVisibility(View.VISIBLE);
+            }
+            if(per[0].equals("Week") && !rentw.equals("0")) {
+                tvrentw.setText("₹ " + rentw + "/" + per[0].toLowerCase());
+                tvrentw.setVisibility(View.VISIBLE);
+            }
+            if(per[0].equals("Month") && !rentm.equals("0")) {
+                tvrentm.setText("₹ " + rentm + "/" + per[0].toLowerCase());
+                tvrentm.setVisibility(View.VISIBLE);
+            }}
             for(String name : alllinks){
                 //Log.v("");
                 TextSliderView textSliderView = new TextSliderView(this);

@@ -61,7 +61,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         holder.title.setText(album.getName());
         holder.subcat.setText(album.getSubcat());
         holder.date.setText(album.getDate());
-        holder.count.setText("₹ " + album.getNumOfSongs() );
+        String per = album.getper();
+        if(per.equals("Days") && album.getNumOfSongs()!=0)
+            holder.count.setText("₹ " + album.getNumOfSongs()+"/day" );
+        else if(per.equals("Weeks") && album.getrentweek()!=0)
+            holder.count.setText("₹ " + album.getrentweek()+"/week" );
+        else if(per.equals("Months") && album.getrentmonth()!=0)
+            holder.count.setText("₹ " + album.getrentmonth()+"/month" );
         Log.v("link of album",album.getLink());
         Log.v("aid",album.getAid());
         //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link

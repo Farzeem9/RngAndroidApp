@@ -16,6 +16,9 @@ public class MyAds
         private String specs;
         private String price;
         private String date;
+        private String rentw;
+        private String rentm;
+        private String per;
         private String aid;
         private String link;
         private int image_ads;
@@ -62,11 +65,11 @@ public class MyAds
         this.image_ads=image_ads;
         this.subcat=subcat;
     }
-        public MyAds(String status, String specs, String price, String timestamp, String aid)throws ParseException {
+        public MyAds(String status, String specs, String price, String timestamp, String aid,String subcat)throws ParseException {
             this.status = status;
             this.specs = specs;
             this.price = price;
-
+            this.subcat=subcat;
             this.aid=aid;
             link=Config.link+"viewthumb.php?aid="+aid;
             Date today=new Date();
@@ -89,12 +92,15 @@ public class MyAds
             Log.v("Date written",this.date);
 
         }
-    public MyAds(String status, String specs, String price, String timestamp, String aid,String subcat)throws ParseException {
+    public MyAds(String status, String specs, String price, String timestamp, String aid,String subcat, String rentw, String rentm, String per)throws ParseException {
         this.status = status;
         this.specs = specs;
         this.price = price;
         this.subcat=subcat;
         this.aid=aid;
+        this.rentw = rentw;
+        this.rentm = rentm;
+        this.per = per;
         slink=Config.link+"imgthumbnail.php?id="+aid;
 
         Date today=new Date();
@@ -175,6 +181,30 @@ public class MyAds
     }
     public void setSubcat(String subcat) {
         this.subcat = subcat;
+    }
+
+    public String getrentweek() {
+        return rentw;
+    }
+
+    public void setrentweek(String rentw) {
+        this.rentw = rentw;
+    }
+
+    public String getrentmonth() {
+        return rentm;
+    }
+
+    public void setrentmonth(String rentm) {
+        this.rentm = rentm;
+    }
+
+    public String getper() {
+        return per;
+    }
+
+    public void setper(String per) {
+        this.per = per;
     }
 
 }
