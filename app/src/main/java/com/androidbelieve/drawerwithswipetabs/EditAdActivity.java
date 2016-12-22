@@ -251,8 +251,8 @@ public class EditAdActivity extends AppCompatActivity {
         spinner_rent = (Spinner) findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) findViewById(R.id.sp_rent_subtypes);
         spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
-        final List<String> categories = new ArrayList<String>();
-        final List<String> categories2 = new ArrayList<String>();
+        categories = new ArrayList<String>();
+        categories2 = new ArrayList<String>();
         categories.add("Select a Category");
         categories.add("Electronics & Appliances");
         categories.add("Cars");
