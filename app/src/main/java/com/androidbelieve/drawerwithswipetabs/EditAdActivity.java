@@ -62,6 +62,8 @@ import java.util.List;
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,inputPdeposit,duration,tags,inputPrentd,inputPrentw,inputPrentm;
     private Toolbar toolbar=null;
+    private List<String> categories;
+    private List<String> categories2;
     private TextView city;
     private Spinner spinner_rent,spinner_subrent,spinner,spinner2;
     private String aid;
@@ -69,6 +71,8 @@ public class EditAdActivity extends AppCompatActivity {
     private RecyclerView rr;
     private HorizontalAdapter HorizontalAdapter;
     private Uri fileUri;
+    private ArrayAdapter<String> dataAdapter;
+    private ArrayAdapter<String> dataAdapter4;
     private Button setasthumb,location;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrentd, inputLayoutPrentw, inputLayoutPrentm,inputLayoutPtags;
@@ -83,7 +87,9 @@ public class EditAdActivity extends AppCompatActivity {
     int work=0;
     int currentpos=0;
     View view;
-
+    static Boolean b=Boolean.valueOf(false);
+    Boolean a=Boolean.valueOf(false);
+    boolean selected=false;
     ProgressDialog progress;
 
     private int CAMERA_PIC_REQUEST = 10;
@@ -291,6 +297,25 @@ public class EditAdActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                   String item = parent.getItemAtPosition(position).toString();
+                                                  if(item.equals("Electronics & Appliances")&&!b)
+                                                  {
+                                                      categories.remove("Select a Category");
+                                                      categories2.remove("Select a Sub-Category");
+                                                      categories.clear();
+                                                      categories.add("Electronics & Appliances");
+                                                      categories.add("Cars");
+                                                      categories.add("Bikes");
+                                                      categories.add("Furniture");
+                                                      categories.add("Books, Sports & Hobbies");
+                                                      categories.add("Fashion");
+                                                      categories.add("Real Estate");
+                                                      categories.add("Tools & Equipments");
+                                                      a=true;
+                                                      Log.v("Inside outer if","okay");
+                                                  }
+
+                                                  Log.v("item",item);
+                                                  Log.v("selected item",(String )spinner.getSelectedItem());
                                                   if(item=="Electronics & Appliances"){
                                                       categories2.clear();
                                                       categories2.add("Mobile Phone");
@@ -306,6 +331,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Projectors");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Cars"){
                                                       categories2.clear();
@@ -313,6 +339,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Commerical Vehicle");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Bikes"){
                                                       categories2.clear();
@@ -321,6 +348,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Bicycle");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Furniture"){
                                                       categories2.clear();
@@ -331,6 +359,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Home Décor & Garden");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Books, Sports & Hobbies"){
                                                       categories2.clear();
@@ -342,6 +371,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Party Equipment");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Fashion"){
                                                       categories2.clear();
@@ -349,6 +379,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Women");
                                                       categories2.add("Kids");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Real Estate"){
                                                       categories2.clear();
@@ -356,20 +387,31 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.add("Commercial");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
+                                                      //categories2.remove("Select a Sub-Category");
                                                   }
                                                   else if(item=="Tools & Equipments"){
                                                       categories2.clear();
                                                       categories2.add("Power tool");
                                                       categories2.add("Spanner");
                                                       categories2.add("Others");
-                                                      categories.remove("Select a Category");
+                                                  }
+                                                  if(selected&&!(item.equals("Select a Category"))) {
+
+                                                      refreshSpiner();
+                                                      if(!b)
+                                                      {position--;
+                                                      }
+                                                      spinner.setSelection(position);
+                                                      b=true;
+                                                  }
+                                                  else
+                                                  {
+                                                      Log.v("inside else","okay");
+                                                      selected=true;
 
                                                   }
-                                                  spinner2.setSelection(1,true);
-                                                  spinner2.setSelection(0,true);
-
-                                                  ///        spinner2.setSelection(1,true);
-
+                                                  Log.v("item",item);
+                                                  Log.v("selected item",(String )spinner.getSelectedItem());
                                               }
 
                                               @Override
@@ -855,7 +897,17 @@ public class EditAdActivity extends AppCompatActivity {
         g.setImagePost(images,1);
         //g.execute();
     }
+    public void refreshSpiner()
+    {
+        selected=false;
+        dataAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories);
+        dataAdapter4=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories2);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinner.setAdapter(dataAdapter);
+        spinner2.setAdapter(dataAdapter4);
+    }
     void showall()
     {
         findViewById(R.id.weeks).setVisibility(View.VISIBLE);
