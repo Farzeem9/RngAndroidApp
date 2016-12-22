@@ -95,7 +95,11 @@ public class FAd extends AsyncTask<String, Void, String> {
                     String timestamp=ad.getString("DURATION");
                     String amount = ad.getString("RENT");
                     String subcat = ad.getString("SUBCAT");
-                    MyAds a = new MyAds("Active",name, amount, timestamp, aid,subcat);
+                    String rentw = ad.getString("RENTW");
+                    String rentm = ad.getString("RENTM");
+                    String crent = ad.getString("crent");
+                    String[] temp = crent.split(",");
+                    MyAds a = new MyAds("Active",name, amount, timestamp, aid,subcat,rentw,rentm,temp[0]);
                     albumList.add(a);
 
                 } catch (Exception e) {

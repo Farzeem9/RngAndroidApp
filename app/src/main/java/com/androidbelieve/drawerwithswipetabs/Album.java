@@ -8,18 +8,21 @@ import java.util.Date;
 
 public class Album {
     private String name;
-    private int numOfSongs;
+    private int numOfSongs,rentw,rentm;
     private int thumbnail;
     private String link;
-    private String aid,pid,subcat,date;
+    private String aid,pid,subcat,date,per;
 
-    public Album(String subcat,String pid,String name, int numOfSongs, int thumbnail,String aid,String timestamp) throws ParseException {
+    public Album(String subcat,String pid,String name, int numOfSongs, int thumbnail,String aid,String timestamp,int rentw, int rentm,String per) throws ParseException {
         this.pid=pid;
         this.subcat=subcat;
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
         this.aid=aid;
+        this.rentw=rentw;
+        this.rentm=rentm;
+        this.per=per;
         link=Config.link+"viewthumb.php?aid="+aid;
         Log.v("link in album",link);
         Date today=new Date();
@@ -89,5 +92,28 @@ public class Album {
 
     public void setDate(String date) {
         this.date = date;
+    }
+    public int getrentweek() {
+        return rentw;
+    }
+
+    public void setrentweek(int rentw) {
+        this.rentw = rentw;
+    }
+
+    public int getrentmonth() {
+        return rentm;
+    }
+
+    public void setrentmonth(int rentm) {
+        this.rentm = rentm;
+    }
+
+    public String getper() {
+        return per;
+    }
+
+    public void setper(String per) {
+        this.per = per;
     }
 }

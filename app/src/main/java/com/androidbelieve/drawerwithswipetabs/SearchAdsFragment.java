@@ -187,7 +187,11 @@ private View view;
                 String subcat=ad.getString("CATEGORY");
                 int amount = Integer.parseInt(ad.getString("AMOUNT"));
                 String date = ad.getString("DATE");
-                Album a=new Album(subcat,pid,name,amount,i,aid,date);
+                int rentw =  Integer.parseInt(ad.getString("RENTW"));
+                int rentm =  Integer.parseInt(ad.getString("RENTM"));
+                String crent = ad.getString("crent");
+                String[] temp = crent.split(",");
+                Album a=new Album(subcat,pid,name,amount,i,aid,date,rentw,rentm,temp[0]);
                 albumList.add(a);
 
             }
