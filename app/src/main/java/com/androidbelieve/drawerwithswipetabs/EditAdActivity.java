@@ -248,9 +248,9 @@ public class EditAdActivity extends AppCompatActivity {
 
 
         spinner = (Spinner) findViewById(R.id.sp_types);
+        spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
         spinner_rent = (Spinner) findViewById(R.id.sp_rent_types);
         spinner_subrent = (Spinner) findViewById(R.id.sp_rent_subtypes);
-        spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
         categories = new ArrayList<String>();
         categories2 = new ArrayList<String>();
         categories.add("Select a Category");
@@ -546,11 +546,12 @@ public class EditAdActivity extends AppCompatActivity {
     public void refreshSpiner()
     {
         selected=false;
+        spinner = (Spinner) findViewById(R.id.sp_types);
+        spinner2 = (Spinner) findViewById(R.id.sp_subtypes);
         dataAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories);
         dataAdapter4=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories2);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinner.setAdapter(dataAdapter);
         spinner2.setAdapter(dataAdapter4);
     }
@@ -876,6 +877,13 @@ public class EditAdActivity extends AppCompatActivity {
     }
     void uploadfullad()
     {
+        if(r1.isChecked())
+            f2=f2+"Days,";
+        if(r2.isChecked())
+            f2=f2+"Weeks,";
+        if(r3.isChecked())
+            f2=f2+"Months";
+
         progress = new ProgressDialog(this);
         progress.setMessage("Saving changes...");
         progress.setIndeterminate(true);

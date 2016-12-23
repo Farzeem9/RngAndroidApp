@@ -251,8 +251,10 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
             this.crent.setText(temp);
 
             String maxrent=c.getString("maxrent");
+            maxrent = maxrent.trim();
             Log.v("maxrent",maxrent);
             int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
+            Log.v("maxrent",Integer.toString(num));
             //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
             String temp2=new String(Integer.toString(num)+" "+maxrent.substring(0,maxrent.length()-1));
             Log.v("maxrent",temp2);

@@ -318,7 +318,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
             String maxrent=c.getString("maxrent");
             Log.v("maxrent",maxrent);
+            maxrent=maxrent.trim();
             int num=Character.digit(maxrent.charAt(maxrent.length()-1),10);
+            Log.v("maxrent",Integer.toString(num));
             //maxrent="Around "+Integer.toString(num)+maxrent.substring(0,maxrent.length()-1);
             String temp2=new String(Integer.toString(num)+" "+maxrent.substring(0,maxrent.length()-1));
             Log.v("maxrent",temp2);
