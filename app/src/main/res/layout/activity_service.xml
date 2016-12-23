@@ -161,6 +161,8 @@
                             android:textSize="15sp"
                             android:id="@+id/tv_link"
                             android:paddingLeft="10dp"
+                            android:linksClickable="true"
+                            android:autoLink="web"
                             />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
