@@ -143,7 +143,6 @@
     <orderEntry type="library" exported="" name="design-24.2.1" level="project" />
     <orderEntry type="module" module-name="multislider-1.2" exported="" />
     <orderEntry type="module" module-name="facebook-android-sdk-4.16.1" exported="" />
-    <orderEntry type="library" exported="" name="android-android-23" level="project" />
     <orderEntry type="library" exported="" name="multislider-1.2-unspecified" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-4.16.1-unspecified" level="project" />
   </component>
