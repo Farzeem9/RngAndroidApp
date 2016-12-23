@@ -77,6 +77,11 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
         holder.subcat.setText(ad.getSubcat());
         holder.price.setTextColor(Color.parseColor("#FB6542"));
         holder.specs.setTypeface(null, Typeface.BOLD);
+        holder.status.setTextSize(17.0f);
+        holder.specs.setTextSize(18.0f);
+        holder.price.setTextSize(18.0f);
+        holder.subcat.setTextSize(15.0f);
+        holder.date.setTextSize(15.0f);
 
         //new DisplayImage(ad.getLink(),holder.ads).execute();
         Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);

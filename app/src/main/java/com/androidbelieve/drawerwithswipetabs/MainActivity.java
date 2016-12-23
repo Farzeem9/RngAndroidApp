@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
                 else if (menuItem.getItemId() == R.id.nav_profile) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      toolbar.setTitle("Profile");
-                     xfragmentTransaction.replace(R.id.containerView,new MultiSliderFragmentRange()).commit();
+                     xfragmentTransaction.replace(R.id.containerView,new ProfileFragment()).commit();
                      home=false;
                  }
                  else if (menuItem.getItemId() == R.id.nav_wishlist) {

@@ -79,6 +79,11 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         holder.subcat.setText(ad.getSubcat());
         holder.price.setText("₹ " + ad.getPrice() );
         holder.price.setTextColor(Color.parseColor("#FB6542"));
+        holder.status.setTextSize(17.0f);
+        holder.specs.setTextSize(18.0f);
+        holder.price.setTextSize(18.0f);
+        holder.subcat.setTextSize(15.0f);
+        holder.date.setTextSize(15.0f);
 
         Picasso.with(mContext).load(ad.getLink()).placeholder(R.drawable.image_placeholder).into(holder.ads);
         final String aid=ad.getAid();
