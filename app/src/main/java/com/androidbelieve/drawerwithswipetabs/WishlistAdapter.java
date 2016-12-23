@@ -144,7 +144,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
                     g.execute();
                     return true;
                 case R.id.action_share:
-                    Toast.makeText(mContext, "Share Add", Toast.LENGTH_SHORT).show();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi. Sending this from RnG");
+                    sendIntent.setType("text/plain");
+                    mContext.startActivity(Intent.createChooser(sendIntent, "Hello"));
                     return true;
                 default:
             }

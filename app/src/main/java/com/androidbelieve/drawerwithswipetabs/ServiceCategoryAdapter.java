@@ -110,7 +110,10 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
+        if(Ads.getPid().equals(AccessToken.getCurrentAccessToken().getUserId()))
+            inflater.inflate(R.menu.menu_my_ad, popup.getMenu());
+        else
+            inflater.inflate(R.menu.menu_album, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
     }
@@ -127,7 +130,11 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_share:
-                    Toast.makeText(mContext, "Shared", Toast.LENGTH_SHORT).show();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi. Sending this from RnG");
+                    sendIntent.setType("text/plain");
+                    mContext.startActivity(Intent.createChooser(sendIntent, "Hello"));
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();
