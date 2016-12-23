@@ -43,7 +43,7 @@ public class Category_List extends AppCompatActivity {
         toolbar.setTitle(cat);
         filter= (Button) findViewById(R.id.btn_filter);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

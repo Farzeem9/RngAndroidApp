@@ -57,7 +57,7 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
