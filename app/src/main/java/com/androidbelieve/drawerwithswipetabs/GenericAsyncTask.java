@@ -34,7 +34,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
     {
         this.context=context;
         this.link=link;
-        this.message=message;
+        this.message=messsage;
         delegate=asyncResponse;
     }
     void setPostParams(String...Params)
@@ -153,7 +153,7 @@ public class GenericAsyncTask extends AsyncTask<String,String,String> {
             URLConnection con= url.openConnection();
             if(hasPost)
             {
-         //       Log.v("Postdata",postdata);
+                Log.v("Postdata",postdata);
                 con.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
                 wr.write(postdata);

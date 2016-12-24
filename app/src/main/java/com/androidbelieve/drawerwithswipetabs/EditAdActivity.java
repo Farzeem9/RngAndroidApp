@@ -512,6 +512,7 @@ public class EditAdActivity extends AppCompatActivity {
                 if(tags.getText().equals(""))
                 {
                     tags.setError("Please Enter some tags!");
+                    tags.requestFocus();
                     inputLayoutPtags.setError("Enter space separated values!");
                     return;
                 }
