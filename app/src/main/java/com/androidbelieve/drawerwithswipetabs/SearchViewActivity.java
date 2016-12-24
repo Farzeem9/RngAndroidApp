@@ -44,11 +44,19 @@ public class SearchViewActivity extends AppCompatActivity
     ViewPager viewPager;
     public static int int_items = 2 ;
     private String searchquery;
-    private String sort="",filter="";
+    private String sort="",sortservice="",filter="",filterservice="";
 
     public void sort(String query)
     {
         this.sort=query;
+        if(searchquery!=null)
+        {
+            performSearch();
+        }
+    }
+    public void sortservice(String query)
+    {
+        this.sortservice=query;
         if(searchquery!=null)
         {
             performSearch();
@@ -90,7 +98,7 @@ public class SearchViewActivity extends AppCompatActivity
         {
             if(searchtask==null)
             { progress.show();
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sort)+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sortservice)+"&filterservice="+URLEncoder.encode(filterservice), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -113,7 +121,7 @@ public class SearchViewActivity extends AppCompatActivity
             {
                 progress.show();
                 searchtask.cancel(true);
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sortservice)+"&filterservice="+URLEncoder.encode(filterservice), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -135,7 +143,7 @@ public class SearchViewActivity extends AppCompatActivity
             else
             {
                 progress.show();
-                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter), "", new AsyncResponse() {
+                searchtask=new GenericAsyncTask(this, Config.link + "search.php?search=" + URLEncoder.encode(searchquery)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+URLEncoder.encode(filter)+"&orderservice="+URLEncoder.encode(sortservice)+"&filterservice="+URLEncoder.encode(filterservice), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String result=(String)output;
@@ -163,12 +171,19 @@ public class SearchViewActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data==null)
             return;
-        if(!data.getStringExtra("data").equals(""))
+        if(!data.getStringExtra("data").equals("")&& requestCode==0)
         {
             filter=data.getStringExtra("data");
             performSearch();
 
         }
+        if(!data.getStringExtra("data").equals("")&& requestCode==1)
+        {
+            filterservice=data.getStringExtra("data");
+            performSearch();
+
+        }
+
     }
 
     @Override

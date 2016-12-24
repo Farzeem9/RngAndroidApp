@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
     HomeAdapter ha;
     HomeAdapter homeAdapter;
     private ArrayList<String> cats;
+    private boolean x=true;
     private ArrayList<String> servicecats;
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewservice;
@@ -64,26 +65,153 @@ public class HomeFragment extends Fragment {
         final TextView vs=(TextView)rootView.findViewById(R.id.Tv_serv);
         rl_main= (RelativeLayout) rootView.findViewById(R.id.rl_main);
         Picasso.with(getContext()).load(Config.link+"dod.php").into((ImageView)rootView.findViewById(R.id.dod));
+        rootView.findViewById(R.id.blurimage).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view){
+                if(!shown) {
+                    final View content = rootView.findViewById(R.id.rl_main);
+                    Blur.blur(rootView,getContext(),x);
+                    x=false;
+                    Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
+                    fab.startAnimation(cross);
+                    v.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            v.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+                    vs.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            vs.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+                    Animation fabad_show = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_show);
+                    fabad.startAnimation(fabad_show);
+                    fabad.setVisibility(View.VISIBLE);
+                    fabservice.startAnimation(fabad_show);
+                    fabservice.setVisibility(View.VISIBLE);
+                    shown=true;
+                    fabad.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(getActivity(), NewAdActivity.class);
+                            i.putExtra("fragment", "newad");
+                            startActivity(i);
+                        }
+                    });
+                    fabservice.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(getActivity(), NewAdActivity.class);
+                            i.putExtra("fragment", "service");
+                            startActivity(i);
+                        }
+                    });
+
+                }
+                else
+                {
+
+                    final View content = rootView;
+                    rootView.findViewById(R.id.rl_main).setVisibility(View.VISIBLE);
+                    Blur.unBlur(content);
+                    Animation anticross=AnimationUtils.loadAnimation(getContext(),R.anim.anticross);
+                    fab.startAnimation(anticross);
+                    v.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            v.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+                    vs.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            vs.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+
+
+                    Animation fabad_hide = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_hide);
+                    fabad.startAnimation(fabad_hide);
+                    fabad.setVisibility(View.INVISIBLE);
+                    fabservice.startAnimation(fabad_hide);
+                    fabservice.setVisibility(View.INVISIBLE);
+                    shown=false;
+
+                }
+
+
+            }
+        });
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
         if(!shown) {
             final View content = rootView.findViewById(R.id.rl_main);
-            rootView.setClickable(false);
-
-            Blur.blur(rootView,getContext());
-            /*Animation hide= new AlphaAnimation(1f,0f);
-            hide.setDuration(500);
-            rootView.findViewById(R.id.view1).startAnimation(hide);
-            rootView.findViewById(R.id.view2).startAnimation(hide);
-            rootView.findViewById(R.id.view3).startAnimation(hide);
-
-            rootView.findViewById(R.id.view1).setVisibility(View.INVISIBLE);
-            rootView.findViewById(R.id.view2).setVisibility(View.INVISIBLE);
-            rootView.findViewById(R.id.view3).setVisibility(View.INVISIBLE);
-            */
-            //Blur.unBlur(rootView.findViewById(R.id.relfab));
+            Blur.blur(rootView,getContext(),x);
+            x=false;
             Animation cross=AnimationUtils.loadAnimation(getContext(),R.anim.cross);
             fab.startAnimation(cross);
             v.animate().alpha(1f).setDuration(500).setInterpolator(new DecelerateInterpolator()).setListener(new Animator.AnimatorListener() {
@@ -128,9 +256,6 @@ public class HomeFragment extends Fragment {
 
                 }
             }).start();
-
-
-
             Animation fabad_show = AnimationUtils.loadAnimation(getContext(), R.anim.fabad_show);
             fabad.startAnimation(fabad_show);
             fabad.setVisibility(View.VISIBLE);
@@ -157,21 +282,12 @@ public class HomeFragment extends Fragment {
         }
         else
         {
-            rootView.setClickable(true);
+
             final View content = rootView;
+            rootView.findViewById(R.id.rl_main).setVisibility(View.VISIBLE);
             Blur.unBlur(content);
-            /*Animation hide=new AlphaAnimation(0f,1f);
-            hide.setDuration(500);
-            rootView.findViewById(R.id.view1).startAnimation(hide);
-            rootView.findViewById(R.id.view2).startAnimation(hide);
-            rootView.findViewById(R.id.view3).startAnimation(hide);
-            rootView.findViewById(R.id.view1).setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.view2).setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.view3).setVisibility(View.VISIBLE);
-            */
             Animation anticross=AnimationUtils.loadAnimation(getContext(),R.anim.anticross);
             fab.startAnimation(anticross);
-
             v.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {

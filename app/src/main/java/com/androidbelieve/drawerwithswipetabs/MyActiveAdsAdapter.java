@@ -94,7 +94,7 @@ public class MyActiveAdsAdapter extends RecyclerView.Adapter<MyActiveAdsAdapter.
                 showPopupMenu(holder.overflow);
             }
         });
-        holder.ads.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
           Intent i=new Intent(mContext,MyAdActivity.class);

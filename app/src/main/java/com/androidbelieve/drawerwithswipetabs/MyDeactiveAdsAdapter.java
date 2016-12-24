@@ -30,9 +30,11 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
         public CardView cardView;
         public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
+        private View v;
 
         public MyViewHolder(View view) {
             super(view);
+            v=view.findViewById(R.id.card_view_ads);
             cardView = (CardView) view.findViewById(R.id.card_view_ads);
             status = (TextView) view.findViewById(R.id.tv_status);
             price = (TextView) view.findViewById(R.id.tv_price);
@@ -93,7 +95,7 @@ public class MyDeactiveAdsAdapter extends RecyclerView.Adapter<MyDeactiveAdsAdap
                 showPopupMenu(holder.overflow);
             }
         });
-        holder.ads.setOnClickListener(new View.OnClickListener() {
+        holder.v.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
           Intent i=new Intent(mContext,MyAdActivity.class);

@@ -80,6 +80,8 @@ public class FirstActivity extends AppCompatActivity {
                 {
                     Log.v("ogging out","okay"+this.getClass().getSimpleName());
                     LoginManager.getInstance().logOut();
+                    final SharedPreferences tempSp= getSharedPreferences("NOTI",MODE_PRIVATE);
+                    tempSp.edit().clear().apply();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

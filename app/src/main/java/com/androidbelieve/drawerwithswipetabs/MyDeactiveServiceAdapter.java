@@ -89,7 +89,7 @@ public class MyDeactiveServiceAdapter extends RecyclerView.Adapter<MyDeactiveSer
                 showPopupMenu(holder.overflow);
             }
         });
-        holder.ads.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
           Intent i=new Intent(mContext,MyServiceActivity.class);

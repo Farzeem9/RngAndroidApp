@@ -29,6 +29,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private int unreadMessageCount;
     private LinkedList<Notification> notificationList;
 
+    void clear()
+    {
+        notificationList.clear();
+        unreadMessageCount=0;
+        this.notifyDataSetChanged();
+    }
+
     public class MyHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
         public TextView notification,date;

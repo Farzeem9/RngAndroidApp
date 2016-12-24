@@ -171,8 +171,8 @@ public class Blur  {
     }
 
 
-    public static void blur(View rooot, Context c) {
-        if(rootView==null) {
+    public static void blur(View rooot, Context c,boolean x) {
+        if(rootView==null||x) {
             rootView = rooot;
             Log.v("bulrring", "okay");
             Blur.with(c)
@@ -186,9 +186,27 @@ public class Blur  {
             rootView.findViewById(R.id.blurimage).setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.blurimage).setAlpha(1f);
             Animation show=new AlphaAnimation(0f,1f);
+            show.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    rootView.findViewById(R.id.rl_main).setVisibility(View.GONE);           //Lol can there be a more jugaadu way?xx
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
             show.setDuration(500);
             rootView.findViewById(R.id.blurimage).startAnimation(show);
         }
+
+
     }
 
         //Blur.with(c).async().capture(v).into((ImageView)v.findViewById(R.id.blurimage));
@@ -208,6 +226,25 @@ public class Blur  {
         alpha.setDuration(500);
         ((ImageView)rootView.findViewById(R.id.blurimage)).findViewById(R.id.blurimage).startAnimation(alpha);
         ((ImageView)rootView.findViewById(R.id.blurimage)).setAlpha(0f);
+        rootView.findViewById(R.id.blurimage).setVisibility(View.GONE);
+        alpha.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                rootView.findViewById(R.id.rl_main).setVisibility(View.VISIBLE);           //Lol can there be a more jugaadu way?xx
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
     }
     private static Bitmap getScreenshot(View v) {
         Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);

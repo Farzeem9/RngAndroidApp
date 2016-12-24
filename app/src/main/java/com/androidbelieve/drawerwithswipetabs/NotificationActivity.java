@@ -86,6 +86,7 @@ public class NotificationActivity extends AppCompatActivity {
     void clearNotis()
     {
         sharedPref.edit().putString("jsondata","").commit();
+        c.clear();
 
     }
     void removeButton(String nid)

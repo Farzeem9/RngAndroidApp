@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapter.MyViewHolder> {
@@ -31,9 +30,11 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
         public CardView cardView;
         public TextView status,specs,price,date,subcat;
         public ImageView ads,overflow;
+        private View v;
 
         public MyViewHolder(View view) {
             super(view);
+            v=view.findViewById(R.id.card_view_ads);
             cardView = (CardView) view.findViewById(R.id.card_view_ads);
             status = (TextView) view.findViewById(R.id.tv_status);
             price = (TextView) view.findViewById(R.id.tv_price);
@@ -43,6 +44,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
             subcat = (TextView) view.findViewById(R.id.tv_subcat);
             overflow = (ImageView) view.findViewById(R.id.overflow);
 
+            //Really manny?
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -95,7 +97,7 @@ public class MyPendingAdsAdapter extends RecyclerView.Adapter<MyPendingAdsAdapte
                 showPopupMenu(holder.overflow);
             }
         });
-        holder.ads.setOnClickListener(new View.OnClickListener() {
+        holder.v.setOnClickListener(new View.OnClickListener() {
          @Override
           public void onClick(View view) {
           Intent i=new Intent(mContext,MyAdActivity.class);
