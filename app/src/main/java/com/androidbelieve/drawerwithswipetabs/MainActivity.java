@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity{
         FacebookSdk.sdkInitialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+            x=1;
              mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
              mNavigationView = (NavigationView) findViewById(R.id.shitstuff) ;
              toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -62,30 +62,48 @@ public class MainActivity extends AppCompatActivity{
                     toolbar.setTitle("My Services");
                     xfragmentTransaction.replace(R.id.containerView,new ServiceTabFragment()).commit();
                      home=false;
+                     x=1;
                 }
                  else if (menuItem.getItemId() == R.id.nav_myads) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      toolbar.setTitle("My Ads");
                      xfragmentTransaction.replace(R.id.containerView,new TabFragment()).commit();
                      home=false;
+                     x=1;
                  }
                 else if (menuItem.getItemId() == R.id.nav_profile) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      toolbar.setTitle("Profile");
                      xfragmentTransaction.replace(R.id.containerView,new ProfileFragment()).commit();
                      home=false;
+                     x=1;
                  }
                  else if (menuItem.getItemId() == R.id.nav_wishlist) {
                      FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                      toolbar.setTitle("Wishlist");
                      xfragmentTransaction.replace(R.id.containerView,new WishlistFragment()).commit();
                      home=false;
+                     x=1;
                  }
                  else if (menuItem.getItemId() == R.id.nav_tandc)
                  {
                      Intent intent=new Intent(Intent.ACTION_VIEW);
-                     intent.setData(Uri.parse("http://google.com"));
+                     intent.setData(Uri.parse("http://rentnget.co.in/"));
                      startActivityForResult(intent,0);
+                 }
+                 else if (menuItem.getItemId() == R.id.nav_faq)
+                 {
+                     Intent intent=new Intent(Intent.ACTION_VIEW);
+                     intent.setData(Uri.parse("http://rentnget.co.in/"));
+                     startActivityForResult(intent,0);
+                 }
+                 else if (menuItem.getItemId() == R.id.nav_share)
+                 {
+                     Intent sendIntent = new Intent();
+                     sendIntent.setAction(Intent.ACTION_SEND);
+                     sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi. Sending this from RnG");
+                     sendIntent.setType("text/plain");
+                     startActivity(Intent.createChooser(sendIntent, "Rent'N Get"));
                  }
                  return false;
             }
