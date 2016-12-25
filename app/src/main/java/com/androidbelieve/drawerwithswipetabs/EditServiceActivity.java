@@ -70,7 +70,7 @@ public class EditServiceActivity extends AppCompatActivity {
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private ViewPager viewPager;
     private Uri fileUri;
-    private Toolbar toolbar=null;
+    private Toolbar toolbar;
     private TextView tel;
     final Activity a=this;
     private Spinner spinner;
@@ -112,6 +112,15 @@ public class EditServiceActivity extends AppCompatActivity {
         inputPrent = (EditText) findViewById(R.id.input_prent);
         inputPtags = (EditText) findViewById(R.id.input_ptags);
         btnSignUp=(Button)findViewById(R.id.submit);
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

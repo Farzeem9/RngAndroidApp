@@ -61,7 +61,7 @@ import java.util.List;
 
 public class EditAdActivity extends AppCompatActivity {
     private EditText name,desc,age,inputPdeposit,duration,tags,inputPrentd,inputPrentw,inputPrentm;
-    private Toolbar toolbar=null;
+    private Toolbar toolbar;
     private List<String> categories;
     private List<String> categories2;
     private TextView city;
@@ -76,7 +76,6 @@ public class EditAdActivity extends AppCompatActivity {
     private Button setasthumb,location;
     private ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     private TextInputLayout inputLayoutPname, inputLayoutPdesc, inputLayoutPage, inputLayoutPdeposit, inputLayoutPrentd, inputLayoutPrentw, inputLayoutPrentm,inputLayoutPtags;
-    private RelativeLayout rl;
     private ViewPager viewPager;
     private String item,number,f1="",f2="",tagstring;
     private ImageButton btnPhoto,btnGal;
@@ -100,6 +99,15 @@ public class EditAdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_ad);
         images=new ArrayList<>();
         aid=getIntent().getStringExtra("AID");
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         work=2;
         inputLayoutPname = (TextInputLayout) findViewById(R.id.input_layout_pname);
         inputLayoutPdesc = (TextInputLayout) findViewById(R.id.input_layout_pdesc);
@@ -128,7 +136,6 @@ public class EditAdActivity extends AppCompatActivity {
 
         viewPager.setAdapter(imageFragmentPagerAdapter);
         setasthumb=(Button)findViewById(R.id.thumb_button_1);
-        rl=(RelativeLayout)findViewById(R.id.Relativel);
         rr=(RecyclerView)findViewById(R.id.rr);
         btnGal=(ImageButton)findViewById(R.id.btn_select);
         btnPhoto = (ImageButton)findViewById(R.id.btn_capture);
@@ -557,7 +564,7 @@ public class EditAdActivity extends AppCompatActivity {
         spinner2.setAdapter(dataAdapter4);
     }
     public void refreshrent(){
-        if(r1.isChecked()){
+        /*if(r1.isChecked()){
             inputPdeposit.setHint("Rent Deposit per Day");
             //inputLayoutPrentd.setVisibility(View.VISIBLE);
             return;
@@ -575,7 +582,7 @@ public class EditAdActivity extends AppCompatActivity {
             inputPdeposit.setHint("Rent Deposit per Month");
             //inputLayoutPrentm.setVisibility(View.VISIBLE);
             return;
-        }
+        }*/
         //else
         //inputLayoutPrentm.setVisibility(View.GONE);
         if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){

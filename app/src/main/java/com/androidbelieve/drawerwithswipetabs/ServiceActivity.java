@@ -66,7 +66,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private String canrent;
     private boolean set=false;
     private Toolbar toolbar;
-    private boolean selected=false;
     private String rentperiod;
     private GenericAsyncTask genericAsyncTask;
     private HorizontalAdapter HorizontalAdapter;
@@ -188,7 +187,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public void onRent(final String message)
     {
         AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
-            String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message)+"%20for%20"+URLEncoder.encode(rentperiod);
+            String link=Config.link+"reqNoti.php?message="+ URLEncoder.encode(message);
             @Override
             protected String doInBackground(String... params) {
                 try {
@@ -461,13 +460,13 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
     }
     public void onUrgentRent(View view){
-        if(!selected) {
+        /*if(!selected) {
             RadioButton rb=(RadioButton)findViewById(R.id.less);
             rb.setFocusableInTouchMode(true);
             rb.setError("Please select at least one option!");
             rb.requestFocus();
             return;
-        }
+        }*/
 
         AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 

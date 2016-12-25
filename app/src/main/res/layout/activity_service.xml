@@ -274,32 +274,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/darker_gray"/>
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rg_period"
-                    android:focusable="true"
-                    android:layout_marginTop="5dp">
-
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:id="@+id/less"
-                        android:text="Less than Rent period"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:focusable="true"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/equal"
-                        android:text="Same as Rent period"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:focusable="true"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/more"
-                        android:text="More than Rent period"/>
-                </RadioGroup>
 
                 <LinearLayout
                     android:id="@+id/ll"

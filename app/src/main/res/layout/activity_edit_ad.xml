@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,26 +6,31 @@
     android:background="#f7f7f7"
     android:id="@+id/container"
     tools:context=".EditAdActivity">
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    android:id="@+id/noimage"/>
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="RnG"
+        android:layout_alignParentTop="true"/>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrolv"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Relativel"
-            >
-            <LinearLayout
+        android:background="#f7f7f7"
+        tools:context="com.androidbelieve.drawerwithswipetabs.AdActivity"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
+                android:layout_below="@+id/toolbar"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="15dp">
@@ -362,7 +367,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:hint=""
+                            android:hint="Rent Deposit"
                             android:paddingTop="10dp"
                             />
                     </android.support.design.widget.TextInputLayout>
@@ -442,8 +447,9 @@
                     android:textColor="@android:color/white"/>
 
             </LinearLayout>
-        </RelativeLayout>
     </ScrollView>
+
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -471,4 +477,4 @@
             android:hapticFeedbackEnabled="true"
             />
     </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

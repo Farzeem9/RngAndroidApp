@@ -993,25 +993,25 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
     }
 
     public void refreshrent(){
-        if(r1.isChecked()){
-            inputPdeposit.setHint("Rent Deposit per Day");
+        /*if(r1.isChecked()){
+            //inputPdeposit.setHint("Rent Deposit per Day");
             //inputLayoutPrentd.setVisibility(View.VISIBLE);
             return;
         }
         //else
            // inputLayoutPrentd.setVisibility(View.GONE);
         if(r2.isChecked()){
-            inputPdeposit.setHint("Rent Deposit per Week");
+            //inputPdeposit.setHint("Rent Deposit per Week");
            // inputLayoutPrentw.setVisibility(View.VISIBLE);
             return;
         }
         //else
           //  inputLayoutPrentw.setVisibility(View.GONE);
         if(r3.isChecked()){
-            inputPdeposit.setHint("Rent Deposit per Month");
+            //inputPdeposit.setHint("Rent Deposit per Month");
             //inputLayoutPrentm.setVisibility(View.VISIBLE);
             return;
-        }
+        }*/
         //else
             //inputLayoutPrentm.setVisibility(View.GONE);
         if(!r1.isChecked()&&!r2.isChecked()&&!r3.isChecked()){
