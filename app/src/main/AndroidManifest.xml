@@ -11,10 +11,10 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:hardwareAccelerated="false"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="android.app.default_searchable"
@@ -77,7 +77,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterActivity" />
+        <activity android:name=".FilterServiceActivity"></activity>
     </application>
 
 </manifest>

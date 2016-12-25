@@ -1,5 +1,6 @@
 package com.androidbelieve.drawerwithswipetabs;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -15,6 +16,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
@@ -32,12 +35,15 @@ public class Service_Category extends AppCompatActivity {
     private ArrayList<ServiceAlbum> albumList;
     private String cat;
     private Toolbar toolbar;
+    private Boolean b=true;
+    private Button filter;
     private GenericAsyncTask genericAsyncTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service__category);
         cat=getIntent().getStringExtra("Category");
+        filter= (Button) findViewById(R.id.btn_filter);
         //TextView textView=(TextView)findViewById(R.id.cat_name);
         //textView.setText(cat);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -59,6 +65,67 @@ public class Service_Category extends AppCompatActivity {
         recyclerView.addItemDecoration(new Service_Category.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(getBaseContext(),FilterServiceActivity.class);
+                in.putExtra("CAT","Furniture");
+                startActivityForResult(in,0);
+            }
+        });
+        findViewById(R.id.btn_sort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(b) {
+                    FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
+                    frameLayout.setVisibility(View.VISIBLE);
+                /*FragmentManager mFragmentManager = getChildFragmentManager();
+                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                SortFragment sf=new SortFragment();
+                mFragmentTransaction.replace(R.id.containerView,sf);
+                mFragmentTransaction.addToBackStack(null);
+                mFragmentTransaction.commit();
+                */
+                    b=!b;
+                    findViewById(R.id.rel_lay).setAlpha(0.5f);
+                    frameLayout.setAlpha(1f);
+                }
+                else
+                {
+                    findViewById(R.id.rel_lay).setAlpha(1f);
+                    FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
+                    frameLayout.setVisibility(View.GONE);
+
+                    b=!b;
+                }
+            }
+        });
+        findViewById(R.id.pricehtl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("order+by+rent+desc");
+            }
+        });
+        findViewById(R.id.pricelth).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("+order+by+rent");
+            }
+        });
+        findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("+order+by+PROD_AGE");
+            }
+        });
+        findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("&rating=1");
+            }
+        });
 
         genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + URLEncoder.encode(cat), "", new AsyncResponse() {
             @Override
@@ -178,5 +245,16 @@ public class Service_Category extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FacebookSdk.sdkInitialize(this);
+    }
+
+    public void sort(String query)
+    {
+        Activity a=this;
+        if(a instanceof Category_List)
+        {
+            Category_List searchViewActivity=(Category_List) a;
+            searchViewActivity.sort(query);
+
+        }
     }
 }

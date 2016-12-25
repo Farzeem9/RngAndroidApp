@@ -53,7 +53,7 @@ public class Category_List extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(getBaseContext(),FilterActivity.class);
+                Intent in=new Intent(getBaseContext(),FilterServiceActivity.class);
                 in.putExtra("CAT","Furniture");
                 startActivityForResult(in,0);
             }
