@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -147,6 +148,11 @@ public class MainActivity extends AppCompatActivity{
     int x=1;
     @Override
     public void onBackPressed() {
+
+            if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                this.mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+
         if(home&&x==0) {
             super.onBackPressed();
             finish();
