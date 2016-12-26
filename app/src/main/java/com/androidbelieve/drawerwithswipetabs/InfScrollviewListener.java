@@ -8,6 +8,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -26,13 +27,19 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
     private String category;
     private GenericAsyncTask genericAsyncTask;
     private boolean listend=false;
-
+    private String sort="",filter="";
     public InfScrollviewListener(AlbumsAdapter adapter, List<Album> albumList,String category)
     {
 
         this.adapter=adapter;
         this.albumList=albumList;
         this.category=category;
+    }
+
+    void updateSortandFilter(String sort,String filter)
+    {
+        this.sort=sort;
+        this.filter=filter;
     }
 
 
@@ -51,7 +58,7 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
             if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
                 Log.v("Checking","check"+Integer.toString(lastVisibleItem + 1));
                 //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();
-                GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"viewads.php?category=" + category + "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
+                GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"viewads.php?category="+ URLEncoder.encode(category)+"&order="+sort+"&filter="+URLEncoder.encode(filter)+"&OFF="+ Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
                     @Override
                     public void processFinish(Object output) {
                         String out=(String)output;

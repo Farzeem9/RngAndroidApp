@@ -116,7 +116,7 @@ public class FilterServiceActivity extends AppCompatActivity {
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Filter By");
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_keyboard_backspace_black_24dp));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,26 +180,7 @@ public class FilterServiceActivity extends AppCompatActivity {
         else
             finalsubcatquery=" and subcat IN ("+subcats+"')";
 
-        String rent="";
-        for(Filter x:this.rent)
-        {
-            if(x.getSelected())
-            {
-                rent=x.getName();
-            }
-        }
-        if(!rent.equals(""))
-            rent="and crent LIKE '%rent%'";
-        /*
-        String rentrange="";
-        if(adapter.max!=5000)
-            rentrange=" and rent < "+Integer.toString(adapter.max);
-        String deposit="";
-        if(adapter.deposit!=6000)
-            deposit=" and PROD_DEPOSIT";
-        */
-
-        String finalfilter=finalsubcatquery+rent;
+        String finalfilter=finalsubcatquery;
         Intent intent=new Intent();
         // intent.putStringArrayListExtra("im")
         intent.putExtra("data",finalfilter);

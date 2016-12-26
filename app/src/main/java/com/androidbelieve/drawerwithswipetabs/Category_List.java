@@ -1,5 +1,4 @@
 package com.androidbelieve.drawerwithswipetabs;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -31,11 +30,13 @@ public class Category_List extends AppCompatActivity {
     private Boolean b=true;
     private Button filter;
     private InfScrollviewListener infScrollviewListener;
+    private String sort="",filters="",cat="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category__list);
-        String cat=getIntent().getStringExtra("Category");
+        cat=getIntent().getStringExtra("Category");
         //TextView textView=(TextView)findViewById(R.id.cat_name);
         //textView.setText(cat);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -53,8 +54,8 @@ public class Category_List extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(getBaseContext(),FilterServiceActivity.class);
-                in.putExtra("CAT","Furniture");
+                Intent in=new Intent(getBaseContext(),FilterActivity.class);
+                in.putExtra("CAT",cat);
                 startActivityForResult(in,0);
             }
         });
@@ -64,13 +65,6 @@ public class Category_List extends AppCompatActivity {
                 if(b) {
                     FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
                     frameLayout.setVisibility(View.VISIBLE);
-                /*FragmentManager mFragmentManager = getChildFragmentManager();
-                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                SortFragment sf=new SortFragment();
-                mFragmentTransaction.replace(R.id.containerView,sf);
-                mFragmentTransaction.addToBackStack(null);
-                mFragmentTransaction.commit();
-                */
                     b=!b;
                     findViewById(R.id.rel_lay).setAlpha(0.5f);
                     frameLayout.setAlpha(1f);
@@ -122,23 +116,50 @@ public class Category_List extends AppCompatActivity {
         recyclerView.setOnScrollListener(infScrollviewListener);
 
 
-        getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat),adapter,albumList);
+        getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters),adapter,albumList);
         getJSON.execute();
 
 
-
-
     }
-    public void sort(String query)
-    {
-        Activity a=this;
-        if(a instanceof Category_List)
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data==null||resultCode!=RESULT_OK)
         {
-            Category_List searchViewActivity=(Category_List) a;
-            searchViewActivity.sort(query);
+            return;
+        }
+        if(!data.getStringExtra("data").equals("")&& requestCode==0)
+        {
+            filters=data.getStringExtra("data");
+            sort(sort);
 
         }
+
     }
+
+    public void sort(String query)
+    {
+        this.sort=query;
+        try
+        {
+            getJSON.cancel(true);
+        }
+        catch (Exception e)
+        {
+
+        }
+        infScrollviewListener.stopAsyncTask();
+        albumList.clear();
+        infScrollviewListener=new InfScrollviewListener(adapter,albumList,cat);
+        infScrollviewListener.updateSortandFilter(sort,filters);
+        recyclerView.setOnScrollListener(infScrollviewListener);
+        Log.v("link",Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters));
+        getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters),adapter,albumList);
+        getJSON.execute();
+
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

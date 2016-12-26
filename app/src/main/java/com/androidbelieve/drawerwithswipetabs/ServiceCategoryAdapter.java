@@ -19,8 +19,6 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategoryAdapter.MyViewHolder> {
@@ -137,7 +135,8 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
                     mContext.startActivity(Intent.createChooser(sendIntent, "Hello"));
                     return true;
                 case R.id.action_play_next:
-                    Toast.makeText(mContext, "Report", Toast.LENGTH_SHORT).show();
+                    
+                    Toast.makeText(mContext, "Reported", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }

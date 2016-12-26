@@ -74,6 +74,9 @@ public class NotificationActivity extends AppCompatActivity {
             {
                 e.printStackTrace();
             }
+            l1.setAdapter(c);
+            n= new NotificationUpdater(AccessToken.getCurrentAccessToken().getUserId());
+            n.execute();
         }
         else
         {
@@ -99,7 +102,7 @@ public class NotificationActivity extends AppCompatActivity {
         JSONObject js;
         JSONArray jarray=new JSONArray();
         try {
-            if (!strJson.equals("0")) {
+            if (!strJson.equals("0")&&strJson.length()>10) {
                 js = new JSONObject(strJson);
                 jarray = js.getJSONArray("result");
                 JSONArray finaljarray = new JSONArray();
@@ -204,7 +207,7 @@ public class NotificationActivity extends AppCompatActivity {
             if (result[0] != null) {
                 try {
                     String strJson = sharedPref.getString("jsondata","0");
-                    if(!strJson.equals("0")) {
+                    if(!strJson.equals("0")&&strJson.length()>10) {
                         js = new JSONObject(strJson);
                         jarray = js.getJSONArray("result");
                     }

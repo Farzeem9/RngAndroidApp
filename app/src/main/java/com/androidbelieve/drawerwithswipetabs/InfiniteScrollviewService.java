@@ -27,7 +27,9 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
         private List<ServiceAlbum> albumList;
         private String category;
         private GenericAsyncTask genericAsyncTask;
-        private boolean listend=false;
+        private String sort="",filter="";
+
+    private boolean listend=false;
 
         public InfiniteScrollviewService(ServiceCategoryAdapter adapter, List<ServiceAlbum> albumList,String category)
         {
@@ -37,6 +39,11 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
             this.category=category;
         }
 
+    void updateSortandFilter(String sort,String filter)
+    {
+        this.sort=sort;
+        this.filter=filter;
+    }
 
 
         @Override
@@ -52,7 +59,7 @@ public class InfiniteScrollviewService extends RecyclerView.OnScrollListener {
                         .findLastVisibleItemPosition();
                 if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
                     //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();
-                    GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"showservice.php?category=" + URLEncoder.encode(category)+ "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
+                    GenericAsyncTask genericAsyncTask=new GenericAsyncTask(null, Config.link+"showservice.php?category="+"&order="+sort+"&filter="+URLEncoder.encode(filter)+ URLEncoder.encode(category)+ "&OFF=" + Integer.toString(lastVisibleItem + 1), "", new AsyncResponse() {
                         @Override
                         public void processFinish(Object output) {
                             String out=(String)output;

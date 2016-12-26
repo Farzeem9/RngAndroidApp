@@ -87,7 +87,7 @@ public class CheckNotificationService extends IntentService {
     public void noNoti()
     {
         Log.v("Current nonoticount",Integer.toString(nonoticount));
-        if(nonoticount++%6==0)
+        if(nonoticount++%12==0)
         {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setContentTitle("RnG Notification")

@@ -30,6 +30,7 @@ public class FilterActivity extends AppCompatActivity {
     private String cat;
     private void fillAds(String cat)
     {
+        subcat.clear();
         if(cat.equals("Electronics & Applications"))
         {
             subcat.add(new Filter("Mobile Phone"));
@@ -128,6 +129,7 @@ public class FilterActivity extends AppCompatActivity {
             if(position==0)
             {
                 recyclerView.setVisibility(View.VISIBLE);
+                fillAds(cat);
                 adapter=new FilterAdapter(FilterActivity.this,subcat,false);
                 recyclerView.setAdapter(adapter);
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
@@ -227,17 +229,16 @@ public class FilterActivity extends AppCompatActivity {
             }
         }
         if(!rent.equals(""))
-            rent="and crent LIKE '%rent%'";
-        /*
-        String rentrange="";
-        if(adapter.max!=5000)
-            rentrange=" and rent < "+Integer.toString(adapter.max);
-        String deposit="";
-        if(adapter.deposit!=6000)
-            deposit=" and PROD_DEPOSIT";
-        */
+            rent="and crent LIKE '%"+rent+"%'";
 
-        String finalfilter=finalsubcatquery+rent;
+        String rentrange="";
+
+            rentrange=" and rent > "+((TextView)findViewById(R.id.minValue1)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue1)).getText().toString();
+        String deposit="";
+            deposit=" and PROD_DEPOSIT > "+((TextView)findViewById(R.id.minValue2)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue2)).getText().toString();;
+
+
+        String finalfilter=finalsubcatquery+rent+rentrange+deposit;
         Intent intent=new Intent();
         // intent.putStringArrayListExtra("im")
         intent.putExtra("data",finalfilter);

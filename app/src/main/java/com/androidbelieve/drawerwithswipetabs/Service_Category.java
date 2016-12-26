@@ -1,6 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 
@@ -33,11 +31,13 @@ public class Service_Category extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ServiceCategoryAdapter adapter;
     private ArrayList<ServiceAlbum> albumList;
-    private String cat;
     private Toolbar toolbar;
     private Boolean b=true;
     private Button filter;
     private GenericAsyncTask genericAsyncTask;
+    private String sort="",filters="",cat="";
+    private InfiniteScrollviewService infScrollviewListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,7 @@ public class Service_Category extends AppCompatActivity {
         });
         albumList = new ArrayList<>();
         adapter = new ServiceCategoryAdapter(this, albumList);
-
+        infScrollviewListener=new InfiniteScrollviewService(adapter,albumList,cat);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new Service_Category.GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -71,7 +71,7 @@ public class Service_Category extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in=new Intent(getBaseContext(),FilterServiceActivity.class);
-                in.putExtra("CAT","Furniture");
+                in.putExtra("CAT",cat);
                 startActivityForResult(in,0);
             }
         });
@@ -105,19 +105,13 @@ public class Service_Category extends AppCompatActivity {
         findViewById(R.id.pricehtl).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sort("order+by+rent+desc");
+                sort("order+by+STARTRANGE+desc");
             }
         });
         findViewById(R.id.pricelth).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sort("+order+by+rent");
-            }
-        });
-        findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort("+order+by+PROD_AGE");
+                sort("+order+by+STARTRANGE");
             }
         });
         findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {
@@ -127,7 +121,7 @@ public class Service_Category extends AppCompatActivity {
             }
         });
 
-        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + URLEncoder.encode(cat), "", new AsyncResponse() {
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters), "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 try {
@@ -142,8 +136,44 @@ public class Service_Category extends AppCompatActivity {
             }
         });
         genericAsyncTask.execute();
-        recyclerView.setOnScrollListener(new InfiniteScrollviewService(adapter,albumList,cat));
+        recyclerView.setOnScrollListener(infScrollviewListener);
     }
+
+    public void sort(String query)
+    {
+        this.sort=query;
+        try
+        {
+           genericAsyncTask.cancel(true);
+        }
+        catch (Exception e)
+        {
+
+        }
+        infScrollviewListener.stopAsyncTask();
+        albumList.clear();
+        infScrollviewListener=new InfiniteScrollviewService(adapter,albumList,cat);
+        infScrollviewListener.updateSortandFilter(sort,filters);
+        recyclerView.setOnScrollListener(infScrollviewListener);
+        Log.v("link",Config.link+"showservice.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters));
+        genericAsyncTask=new GenericAsyncTask(this, Config.link+"showservice.php?category=" + URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters), "", new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                try {
+                    prepareAlbum(new JSONObject((String)output).getJSONArray("result"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                catch (NullPointerException e)
+                {
+                    Log.v("nullpointer","maybe asynctask cancelled?");
+                }
+            }
+        });
+        genericAsyncTask.execute();
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -247,14 +277,20 @@ public class Service_Category extends AppCompatActivity {
         FacebookSdk.sdkInitialize(this);
     }
 
-    public void sort(String query)
-    {
-        Activity a=this;
-        if(a instanceof Category_List)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data==null||resultCode!=RESULT_OK)
         {
-            Category_List searchViewActivity=(Category_List) a;
-            searchViewActivity.sort(query);
+            return;
+        }
+        if(!data.getStringExtra("data").equals("")&& requestCode==0)
+        {
+            filters=data.getStringExtra("data");
+            sort(sort);
 
         }
+
     }
+
+
 }
