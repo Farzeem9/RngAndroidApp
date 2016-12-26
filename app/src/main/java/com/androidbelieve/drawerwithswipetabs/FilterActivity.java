@@ -155,6 +155,8 @@ public class FilterActivity extends AppCompatActivity {
                 final TextView min1 = (TextView) findViewById(R.id.minValue1);
                 final TextView max1 = (TextView) findViewById(R.id.maxValue1);
                 MultiSlider multiSlider1 = (MultiSlider) findViewById(R.id.range_slider1);
+                multiSlider1.setMin(0);
+                multiSlider1.setMax(500000);
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
                 ll.setVisibility(View.VISIBLE);
                 LinearLayout ll2= (LinearLayout) findViewById(R.id.ll_slider2);
@@ -179,6 +181,9 @@ public class FilterActivity extends AppCompatActivity {
                 final TextView max2 = (TextView) findViewById(R.id.maxValue2);
                 MultiSlider multiSlider2 = (MultiSlider) findViewById(R.id.range_slider2);
                 multiSlider2.setVisibility(View.VISIBLE);
+                multiSlider2.setMin(0);
+                multiSlider2.setMax(500000);
+
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
                 ll.setVisibility(View.GONE);
                 LinearLayout ll2= (LinearLayout) findViewById(R.id.ll_slider2);

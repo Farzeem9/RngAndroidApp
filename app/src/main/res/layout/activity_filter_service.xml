@@ -75,7 +75,7 @@
                         android:id="@+id/minValue1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="min"
+                        android:text="0"
                         android:paddingLeft="10dp"
                         />
                     <TextView
@@ -86,7 +86,7 @@
                         android:id="@+id/maxValue1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="max" />
+                        android:text="500000" />
                 </LinearLayout>
 
                 <io.apptik.widget.MultiSlider

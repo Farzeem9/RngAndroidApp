@@ -242,6 +242,8 @@ public class FilterServiceActivity extends AppCompatActivity {
                     MultiSlider multiSlider1 = (MultiSlider) findViewById(R.id.range_slider1);
                     LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
                     ll.setVisibility(View.VISIBLE);
+                    multiSlider1.setMin(0);
+                    multiSlider1.setMax(500000);
                     recyclerView.setVisibility(View.GONE);
                     min1.setText(String.valueOf(multiSlider1.getThumb(0).getValue()));
                     max1.setText(String.valueOf(multiSlider1.getThumb(1).getValue()));
