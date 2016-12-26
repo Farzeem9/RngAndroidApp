@@ -33,6 +33,18 @@ android:id="@+id/containerView">
     android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:text="None"
+        android:id="@+id/p_age"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+    <TextView
+        android:layout_width="match_parent"
         android:id="@+id/pricehtl"
         android:text="Price:high to low"
         android:gravity="center"
@@ -65,18 +77,7 @@ android:id="@+id/containerView">
         android:text="Rating"
         android:id="@+id/rating"
         />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="23sp"
-        android:text="Product Age"
-        android:id="@+id/p_age"/>
+
 </LinearLayout>
 </FrameLayout>
 <LinearLayout

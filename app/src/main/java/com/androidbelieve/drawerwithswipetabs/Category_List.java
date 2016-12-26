@@ -66,7 +66,7 @@ public class Category_List extends AppCompatActivity {
                     FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
                     frameLayout.setVisibility(View.VISIBLE);
                     b=!b;
-                    findViewById(R.id.rel_lay).setAlpha(0.5f);
+           //         findViewById(R.id.rel_lay).setAlpha(0.5f);
                     frameLayout.setAlpha(1f);
                 }
                 else
@@ -94,7 +94,7 @@ public class Category_List extends AppCompatActivity {
         findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sort("+order+by+PROD_AGE");
+                sort("+order+by+AID");
             }
         });
         findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {

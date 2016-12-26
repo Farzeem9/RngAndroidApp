@@ -89,7 +89,7 @@ public class Service_Category extends AppCompatActivity {
                 mFragmentTransaction.commit();
                 */
                     b=!b;
-                    findViewById(R.id.rel_lay).setAlpha(0.5f);
+                    //findViewById(R.id.rel_lay).setAlpha(0.5f);
                     frameLayout.setAlpha(1f);
                 }
                 else
@@ -114,6 +114,14 @@ public class Service_Category extends AppCompatActivity {
                 sort("+order+by+STARTRANGE");
             }
         });
+
+        findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sort("+order+by+SID");
+            }
+        });
+
         findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
