@@ -16,6 +16,7 @@
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 <FrameLayout
+android:background="@color/white"
 android:orientation="vertical"
 android:layout_centerHorizontal="true"
 android:layout_centerVertical="true"
