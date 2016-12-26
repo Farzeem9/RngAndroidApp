@@ -183,7 +183,6 @@ public class FilterActivity extends AppCompatActivity {
                 multiSlider2.setVisibility(View.VISIBLE);
                 multiSlider2.setMin(0);
                 multiSlider2.setMax(500000);
-
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
                 ll.setVisibility(View.GONE);
                 LinearLayout ll2= (LinearLayout) findViewById(R.id.ll_slider2);

@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -281,6 +280,11 @@ public class FilterServiceActivity extends AppCompatActivity {
             finalsubcatquery="";
         else
             finalsubcatquery=" and subcat IN ("+subcats+"')";
+
+
+        String rentrange="";
+        rentrange=" and startrange >= "+((TextView)findViewById(R.id.minValue1)).getText().toString()+" and startrange <= "+((TextView)findViewById(R.id.maxValue1)).getText().toString();
+
 
         String finalfilter=finalsubcatquery;
         Intent intent=new Intent();

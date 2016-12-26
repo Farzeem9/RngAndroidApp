@@ -120,6 +120,9 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+
+
+
     void getMenu(Menu menu)
     {
         noti=menu.findItem(R.id.action_notification);
@@ -164,6 +167,8 @@ public class MainActivity extends AppCompatActivity{
         }
     }
     int x=1;
+
+
     @Override
     public void onBackPressed() {
 
@@ -179,6 +184,18 @@ public class MainActivity extends AppCompatActivity{
         {
          x=0;
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_SHORT).show();
+            Thread t = new Thread(){
+                @Override
+                public void run() {
+                    try{
+                        Thread.sleep(3000);
+                        x=1;
+                    }
+                    catch(Exception E){};
+
+                }
+            };
+            t.start();
         }
         else    {
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -187,4 +204,5 @@ public class MainActivity extends AppCompatActivity{
             home=true;
         }
     }
+
 }

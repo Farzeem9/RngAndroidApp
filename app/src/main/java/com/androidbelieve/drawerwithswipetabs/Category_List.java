@@ -156,6 +156,10 @@ public class Category_List extends AppCompatActivity {
         Log.v("link",Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters));
         getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters),adapter,albumList);
         getJSON.execute();
+        findViewById(R.id.rel_lay).setAlpha(1f);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.containerView);
+        frameLayout.setVisibility(View.GONE);
+        b=!b;
 
     }
 
