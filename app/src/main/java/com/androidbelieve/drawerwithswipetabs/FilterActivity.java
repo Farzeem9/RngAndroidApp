@@ -31,7 +31,7 @@ public class FilterActivity extends AppCompatActivity {
     private void fillAds(String cat)
     {
         subcat.clear();
-        if(cat.equals("Electronics & Applications"))
+        if(cat.equals("Electronics & Appliances"))
         {
             subcat.add(new Filter("Mobile Phone"));
             subcat.add(new Filter("Tablet"));
@@ -103,6 +103,7 @@ public class FilterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         cat=getIntent().getStringExtra("CAT");
+        Log.v("CAT",cat);
         fillAds(cat);
         adapter=new FilterAdapter(FilterActivity.this,subcat,false);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);

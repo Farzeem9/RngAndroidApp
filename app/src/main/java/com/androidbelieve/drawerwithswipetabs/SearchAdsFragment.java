@@ -86,59 +86,6 @@ private View view;
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_search_ads, container, false);
 
-        view.findViewById(R.id.btn_sort).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            if(b) {
-                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerView);
-                frameLayout.setVisibility(View.VISIBLE);
-                /*FragmentManager mFragmentManager = getChildFragmentManager();
-                FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                SortFragment sf=new SortFragment();
-                mFragmentTransaction.replace(R.id.containerView,sf);
-                mFragmentTransaction.addToBackStack(null);
-                mFragmentTransaction.commit();
-                */
-                b=!b;
-                view.findViewById(R.id.rel_lay).setAlpha(0.5f);
-                frameLayout.setAlpha(1f);
-            }
-                else
-            {
-                view.findViewById(R.id.rel_lay).setAlpha(1f);
-                FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerView);
-                frameLayout.setVisibility(View.GONE);
-
-                b=!b;
-            }
-            }
-        });
-        view.findViewById(R.id.pricehtl).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort("order+by+rent+desc");
-            }
-        });
-        view.findViewById(R.id.pricelth).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort("+order+by+rent");
-            }
-        });
-        view.findViewById(R.id.p_age).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort("+order+by+PROD_AGE");
-            }
-        });
-        view.findViewById(R.id.rating).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sort("&rating=1");
-            }
-        });
-
-
         albumList=new ArrayList<>();
         adapter=new AlbumsAdapter(getContext(),albumList);
         recyclerView=(RecyclerView) view.findViewById(R.id.recycler_view);
@@ -147,16 +94,7 @@ private View view;
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        filter= (Button) view.findViewById(R.id.btn_filter);
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in=new Intent(getContext(),FilterActivity.class);
-                in.putExtra("CAT","Home Appliances");
-                getActivity(). startActivityForResult(in,0);
-            }
-        });
         return view;
     }
     public void sort(String query)
