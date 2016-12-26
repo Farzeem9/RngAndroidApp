@@ -86,7 +86,7 @@
                     android:id="@+id/maxValue1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100" />
+                    android:text="50000" />
             </LinearLayout>
 
             <io.apptik.widget.MultiSlider
@@ -130,7 +130,7 @@
                     android:id="@+id/maxValue2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100" />
+                    android:text="50000" />
             </LinearLayout>
 
             <io.apptik.widget.MultiSlider
