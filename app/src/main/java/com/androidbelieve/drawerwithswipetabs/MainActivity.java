@@ -176,11 +176,11 @@ public class MainActivity extends AppCompatActivity{
                 this.mDrawerLayout.closeDrawer(GravityCompat.START);
             }
 
-        if(home&&x==0) {
+        if(home&&x==0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             super.onBackPressed();
             finish();
         }
-        else if(home&&x!=0)
+        else if(home&&x!=0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START))
         {
          x=0;
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_SHORT).show();
