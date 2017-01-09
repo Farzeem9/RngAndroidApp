@@ -218,6 +218,7 @@ public class FilterActivity extends AppCompatActivity {
         {
             if(x.getSelected()) {
 
+                subcats +=x.getName()  + "','";
             }
         }
         String finalsubcatquery;
