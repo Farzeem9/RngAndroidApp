@@ -278,7 +278,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                         if(item.equals("Electronics & Appliances")&&!b)
                                         {
                                                   categories.remove("Select a Category");
-                                                  categories2.remove("Select a Sub-Category");
                                                   categories.clear();
                                                   categories.add("Electronics & Appliances");
                                                   categories.add("Cars");
@@ -296,6 +295,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   Log.v("selected item",(String )spinner.getSelectedItem());
                                                   if(item=="Electronics & Appliances"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Mobile Phone");
                                                       categories2.add("Tablet");
                                                       categories2.add("Accessories");
@@ -309,10 +309,11 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                       categories2.add("Projectors");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
-                                                      //categories2.remove("Select a Sub-Category");
+
                                                   }
                                                   else if(item=="Cars"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Cars");
                                                       categories2.add("Commerical Vehicle");
                                                       categories2.add("Others");
@@ -321,6 +322,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Bikes"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Bike");
                                                       categories2.add("Scooter");
                                                       categories2.add("Bicycle");
@@ -330,6 +332,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Furniture"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Sofa");
                                                       categories2.add("Dining");
                                                       categories2.add("Bed");
@@ -341,6 +344,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Books, Sports & Hobbies"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Book");
                                                       categories2.add("Musical Instrument");
                                                       categories2.add("Sports Equipment");
@@ -353,6 +357,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Fashion"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Men");
                                                       categories2.add("Women");
                                                       categories2.add("Kids");
@@ -361,6 +366,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Real Estate"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Residential");
                                                       categories2.add("Commercial");
                                                       categories2.add("Others");
@@ -369,6 +375,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                                   }
                                                   else if(item=="Tools & Equipments"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Power tool");
                                                       categories2.add("Spanner");
                                                       categories2.add("Others");
@@ -399,7 +406,6 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                                           }
         );
 
-
         spinner_rent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -407,6 +413,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 //f1=f1+item;
                 if (item == "Days") {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -418,6 +425,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                     //rent_subtypes.remove("Select a sub-category");
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -427,6 +435,7 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 } else if (item == "Months")
                 {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -530,17 +539,41 @@ public class AdFragment extends Fragment implements AdapterView.OnItemClickListe
                 if(images.size()>=2&&images.size()<=5) {
                     String spinner1item=(String) spinner.getSelectedItem();
                     String spinner2item=(String) spinner2.getSelectedItem();
-                    if(!(spinner1item.equals("Select a Category")||(spinner2item.equals("Select a Sub-Category")))) {
+                    String spinner3item=(String) spinner_rent.getSelectedItem();
+                    String spinner4item=(String) spinner_subrent.getSelectedItem();
+                    if(!(spinner1item.equals("Select a Category")||(spinner2item.equals("Select a Sub-Category"))||(spinner3item.equals("Select Rent Period"))||(spinner4item.equals("Select Time for Rent Period")))) {
                         new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrentd.getText().toString(),inputPrentw.getText().toString(),inputPrentm.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
                         //new Newaddupload(tags, (String) spinner2.getSelectedItem(), getActivity(), AccessToken.getCurrentAccessToken().getUserId(), inputPname.getText().toString(), inputPdesc.getText().toString(), inputPage.getText().toString(), spinner.getSelectedItem().toString(), inputPrentd.getText().toString(), inputPdeposit.getText().toString(), images, fragment.getContext(), f1, f2, city.getText().toString()).execute();
                     }
                     else
                     {
+                        if(spinner1item.equals("Select a Category")){
                         TextView errorText = (TextView)spinner.getSelectedView();
                         errorText.setError("Please select a category!");
                         errorText.setTextColor(Color.RED);//just to highlight that this is an error
-                        errorText.requestFocus();
-                        Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+                        requestFocus(spinner);
+                        Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT).show();}
+                        else if(spinner2item.equals("Select a Sub-Category")){
+                            TextView errorText = (TextView)spinner2.getSelectedView();
+                            errorText.setError("Please select a sub-category!");
+                            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                            requestFocus(spinner2);
+                            Toast.makeText(getContext(),"Please select a proper sub-category!!",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(spinner4item.equals("Select Time for Rent Period")){
+                            TextView errorText = (TextView)spinner_subrent.getSelectedView();
+                            errorText.setError("Please select a time for rent period!");
+                            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                            requestFocus(spinner_subrent);
+                            Toast.makeText(getContext(),"Please select a proper time!!",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(spinner3item.equals("Select Rent Period")){
+                            TextView errorText = (TextView)spinner_rent.getSelectedView();
+                            errorText.setError("Please select a rent period!");
+                            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                            requestFocus(spinner_rent);
+                            Toast.makeText(getContext(),"Please select a proper rent period!!",Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 

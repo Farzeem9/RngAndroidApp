@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -325,6 +326,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   Log.v("selected item",(String )spinner.getSelectedItem());
                                                   if(item=="Electronics & Appliances"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Mobile Phone");
                                                       categories2.add("Tablet");
                                                       categories2.add("Accessories");
@@ -342,6 +344,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Cars"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Cars");
                                                       categories2.add("Commerical Vehicle");
                                                       categories2.add("Others");
@@ -350,6 +353,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Bikes"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Bike");
                                                       categories2.add("Scooter");
                                                       categories2.add("Bicycle");
@@ -359,6 +363,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Furniture"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Sofa");
                                                       categories2.add("Dining");
                                                       categories2.add("Bed");
@@ -370,6 +375,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Books, Sports & Hobbies"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Book");
                                                       categories2.add("Musical Instrument");
                                                       categories2.add("Sports Equipment");
@@ -382,6 +388,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Fashion"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Men");
                                                       categories2.add("Women");
                                                       categories2.add("Kids");
@@ -390,6 +397,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Real Estate"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Residential");
                                                       categories2.add("Commercial");
                                                       categories2.add("Others");
@@ -398,6 +406,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                   }
                                                   else if(item=="Tools & Equipments"){
                                                       categories2.clear();
+                                                      categories2.add("Select a Sub-Category");
                                                       categories2.add("Power tool");
                                                       categories2.add("Spanner");
                                                       categories2.add("Others");
@@ -437,6 +446,7 @@ public class EditAdActivity extends AppCompatActivity {
                 //f1=f1+item;
                 if (item == "Days") {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -449,6 +459,7 @@ public class EditAdActivity extends AppCompatActivity {
                     //rent_subtypes.remove("Select a sub-category");
                 } else if (item == "Weeks") {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -459,6 +470,7 @@ public class EditAdActivity extends AppCompatActivity {
                 } else if (item == "Months")
                 {
                     rent_subtypes.clear();
+                    rent_subtypes.add("Select Time for Rent Period");
                     rent_subtypes.add("1");
                     rent_subtypes.add("2");
                     rent_subtypes.add("3");
@@ -521,6 +533,42 @@ public class EditAdActivity extends AppCompatActivity {
                     tags.setError("Please Enter some tags!");
                     tags.requestFocus();
                     inputLayoutPtags.setError("Enter space separated values!");
+                    return;
+                }
+                String spinner1item=(String) spinner.getSelectedItem();
+                String spinner2item=(String) spinner2.getSelectedItem();
+                String spinner3item=(String) spinner_rent.getSelectedItem();
+                String spinner4item=(String) spinner_subrent.getSelectedItem();
+                if(spinner1item.equals("Select a Category")){
+                    TextView errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("Please select a category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    requestFocus(spinner);
+                    Toast.makeText(EditAdActivity.this,"Please select a proper category!!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(spinner2item.equals("Select a Sub-Category")){
+                    TextView errorText = (TextView)spinner2.getSelectedView();
+                    errorText.setError("Please select a sub-category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    requestFocus(spinner2);
+                    Toast.makeText(EditAdActivity.this,"Please select a proper sub-category!!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(spinner4item.equals("Select Time for Rent Period")){
+                    TextView errorText = (TextView)spinner_subrent.getSelectedView();
+                    errorText.setError("Please select a time for rent period!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    requestFocus(spinner_subrent);
+                    Toast.makeText(EditAdActivity.this,"Please select a proper time!!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(spinner3item.equals("Select Rent Period")){
+                    TextView errorText = (TextView)spinner_rent.getSelectedView();
+                    errorText.setError("Please select a rent period!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    requestFocus(spinner_rent);
+                    Toast.makeText(EditAdActivity.this,"Please select a proper rent period!!",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 /*String[] temp=tags.getText().toString().split(" ");
