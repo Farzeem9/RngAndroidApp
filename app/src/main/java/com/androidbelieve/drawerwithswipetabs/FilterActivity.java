@@ -216,8 +216,9 @@ public class FilterActivity extends AppCompatActivity {
         String subcats="'";
         for(Filter x:subcat)
         {
-            if(x.getSelected())
-                subcats+=x.getName()+"','";
+            if(x.getSelected()) {
+
+            }
         }
         String finalsubcatquery;
         if(subcats.equals("'"))
@@ -240,7 +241,7 @@ public class FilterActivity extends AppCompatActivity {
 
             rentrange=" and rent > "+((TextView)findViewById(R.id.minValue1)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue1)).getText().toString();
         String deposit="";
-            deposit=" and PROD_DEPOSIT > "+((TextView)findViewById(R.id.minValue2)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue2)).getText().toString();;
+            deposit=" and PROD_DEPOSIT > "+((TextView)findViewById(R.id.minValue2)).getText().toString()+" and PROD_DESC < "+((TextView)findViewById(R.id.maxValue2)).getText().toString();;
 
 
         String finalfilter=finalsubcatquery+rent+rentrange+deposit;
