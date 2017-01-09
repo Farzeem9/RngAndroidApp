@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity{
     android.support.v7.widget.Toolbar toolbar;
     private boolean home=true;
     private MenuItem noti;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this);
@@ -174,6 +173,7 @@ public class MainActivity extends AppCompatActivity{
 
             if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 this.mDrawerLayout.closeDrawer(GravityCompat.START);
+                return;
             }
 
         if(home&&x==0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {

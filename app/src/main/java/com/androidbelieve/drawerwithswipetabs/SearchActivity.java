@@ -1,8 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -30,7 +29,140 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         // Listview Data
-        String products[] = {"Amravathi","Patna","Raipur","Chandigarh","Shimla","Gandhinagar","Srinagar","Bangalore","Mumbai","Goa"};
+        String products[] = {
+                "AIROLI",
+                "AMAN LODGE",
+                "AMBERNATH",
+                "AMBIVLI",
+                "ANDHERI",
+                "APTA",
+                "ASANGAON",
+                "ATGAON",
+                "BADLAPUR",
+                "BANDRA",
+                "BELAPUR CBD",
+                "BHANDUP",
+                "BHAYANDER",
+                "BHIVPURI ROAD",
+                "BHIWANDI ROAD",
+                "BOISAR",
+                "BORIVALI",
+                "BYCULLA",
+                "CST",
+                "CHARNI ROAD",
+                "CHEMBUR",
+                "CHINCHPOKLI",
+                "CHUNABHATTI",
+                "CHURCHGATE",
+                "COTTON GREEN",
+                "CURREY ROAD",
+                "DADAR",
+                "DAHANU ROAD",
+                "DAHISAR",
+                "DATIVALI",
+                "DIVA Jn",
+                "DOCKYARD ROAD",
+                "DOLAVLI",
+                "DOMBIVLI",
+                "ELPHINSTONE ROAD",
+                "GTB NAGAR",
+                "GHANSOLI",
+                "GHATKOPAR",
+                "GOREGAON",
+                "GOVANDI",
+                "GRANT ROAD",
+                "HAMARAPUR",
+                "JITE",
+                "JOGESHWARI",
+                "JUCHANDRA ROAD",
+                "JUINAGAR",
+                "KALAMBOLI",
+                "KALVA",
+                "KALYAN",
+                "KAMAN ROAD",
+                "KANDIVALI",
+                "KANJUR MARG",
+                "KARJAT",
+                "KASARA",
+                "KASU",
+                "KELAVLI",
+                "KELVA ROAD",
+                "KHADAVLI",
+                "KHANDESHWAR",
+                "KHAR ROAD",
+                "KHARBAO",
+                "KHARDI",
+                "KHARGHAR",
+                "KHOPOLI",
+                "KINGS CIRCLE",
+                "KOPAR",
+                "KOPARKHAIRNE",
+                "KURLA",
+                "LOWER PAREL",
+                "LOWJEE",
+                "MAHALAKSHMI",
+                "MAHIM JN",
+                "MALAD",
+                "MANASAROVAR",
+                "MANKHURD",
+                "MARINE LINES",
+                "MASJID",
+                "MATHERAN",
+                "MATUNGA",
+                "MATUNGA ROAD",
+                "MIRA ROAD",
+                "MULUND",
+                "MUMBAI CENTRAL",
+                "MUMBRA",
+                "NAGOTHANE",
+                "NAHUR",
+                "NAIGAON",
+                "NALLA SOPARA",
+                "NAVADE ROAD",
+                "NERAL",
+                "NERUL",
+                "NIDI",
+                "NILJE",
+                "PALASDHARI",
+                "PALGHAR",
+                "PANVEL",
+                "PAREL",
+                "PEN",
+                "RABALE",
+                "RASAYANI",
+                "REAY ROAD",
+                "ROHA",
+                "SANDHURST ROAD",
+                "SANPADA",
+                "SANTA CRUZ",
+                "SAPHALE",
+                "SEAWOOD DARAVE",
+                "SEWRI",
+                "SHAHAD",
+                "SHELU",
+                "SION",
+                "SOMTANE",
+                "TALOJA PANCHANAND",
+                "THAKURLI",
+                "THANE",
+                "TILAKNAGAR",
+                "TITWALA",
+                "TURBHE",
+                "ULHAS NAGAR",
+                "UMROLI ROAD",
+                "VADALA ROAD",
+                "VAITARANA",
+                "VANGANI",
+                "VANGAON",
+                "VASAI ROAD",
+                "VASHI",
+                "VASIND",
+                "VIDYAVIHAR",
+                "VIKHROLI",
+                "VILE PARLE",
+                "VIRAR",
+                "VITHALWADI"
+        };
 
         lv = (ListView) findViewById(R.id.list_view);
         inputSearch = (EditText) findViewById(R.id.inputSearch);
@@ -62,9 +194,6 @@ public class SearchActivity extends AppCompatActivity {
 
         // selected item
         String selected = ((TextView) view.findViewById(R.id.product_name)).getText().toString();
-
-        Toast toast = Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT);
-        toast.show();
             Intent intent=new Intent();
            // intent.putStringArrayListExtra("im")
             intent.putExtra("data",selected);

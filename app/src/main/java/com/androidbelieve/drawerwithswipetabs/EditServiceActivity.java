@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -133,6 +134,43 @@ public class EditServiceActivity extends AppCompatActivity {
                     inputLayoutPtags.setError("Enter space separated values!");
                     return;
                 }
+                if(item==null)
+                {
+                    TextView errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("Please select a category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(EditServiceActivity.this,"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    return;
+                }
+                else if(item.equals("Select a Category"))
+                {
+                    TextView errorText = (TextView)spinner.getSelectedView();
+                    errorText.setError("Please select a category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(EditServiceActivity.this,"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    return;
+                }
+                else if (subcat==null)
+                {
+                    TextView errorText = (TextView)spinner2.getSelectedView();
+                    errorText.setError("Please select a sub category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(EditServiceActivity.this,"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    return;
+                }
+                else if (subcat.equals("Select a Sub-Category"))
+                {
+                    TextView errorText = (TextView)spinner2.getSelectedView();
+                    errorText.setError("Please select a sub category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(EditServiceActivity.this,"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    return;
+                }
+
                 /*String[] temp=inputPtags.getText().toString().split(" ");
                 StringBuffer sbuff=new StringBuffer("");
                 for(String x:temp)

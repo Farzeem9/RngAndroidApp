@@ -217,6 +217,7 @@ public class ServiceFragment extends Fragment {
                 if (item == "Graphics and Design") {
                  //   Toast.makeText(getContext(), "Graphics and Design", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Logo Design");
                     categories2.add("Business Card & Strategies");
                     categories2.add("Illustration");
@@ -240,7 +241,8 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Digital Marketing") {
                     Toast.makeText(getContext(), "Digital Marketing", Toast.LENGTH_SHORT).show();
                     categories2.clear();
-                    //spinner2.
+                    categories2.add("Select a Sub-Category");
+
                     categories2.add("Social Media Marketing");
                     categories2.add("SEO");
                     categories2.add("Web Traffic");
@@ -262,6 +264,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Writing and Translation") {
                     Toast.makeText(getContext(), "Writing and Translation", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Resumes & Cover Letters");
                     categories2.add("ProofReading & Editing");
                     categories2.add("Translation");
@@ -279,6 +282,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Video and Animation") {
                    // Toast.makeText(getContext(), "Video and Animation", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Whiteboard & Explainer Videos");
                     categories2.add("Intros & Animated Logos");
                     categories2.add("Promotional & Brand Videos");
@@ -294,6 +298,7 @@ public class ServiceFragment extends Fragment {
                 if (item == "Music and Audio") {
                     Toast.makeText(getContext(), "Music and Audio", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Voice Over");
                     categories2.add("Mixing & Mastering");
                     categories2.add("Producers & Consumers");
@@ -308,6 +313,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Programming and Tech") {
                    // Toast.makeText(getContext(), "Programming and Tech", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Wordpress");
                     categories2.add("Website Builder & CMS");
                     categories2.add("Website Programming");
@@ -327,6 +333,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Advertising") {
                     //Toast.makeText(getContext(), "Advertising", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Music Promotion");
                     categories2.add("Radio");
                     categories2.add("Banner Advertising");
@@ -342,6 +349,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Business") {
                     //Toast.makeText(getContext(), "Business", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Virtual Assistant");
                     categories2.add("Market Research");
                     categories2.add("Business Plans");
@@ -358,6 +366,7 @@ public class ServiceFragment extends Fragment {
                 else if (item == "Lifestyle") {
                 //    Toast.makeText(getContext(), "Lifestyle", Toast.LENGTH_SHORT).show();
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Animal Care & Pets");
                     categories2.add("Relationship Advice");
                     categories2.add("Diet & Weight Loss");
@@ -378,6 +387,7 @@ public class ServiceFragment extends Fragment {
                   //  Toast.makeText(getContext(), "Gifts", Toast.LENGTH_SHORT).show();
 
                     categories2.clear();
+                    categories2.add("Select a Sub-Category");
                     categories2.add("Greeting Cards");
                     categories2.add("Unusual Cards");
                     categories2.add("Arts and Crafts");
@@ -437,7 +447,7 @@ public class ServiceFragment extends Fragment {
                     errorText.setError("Please select a category!");
                     errorText.setTextColor(Color.RED);//just to highlight that this is an error
                     errorText.requestFocus();
-                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT).show();
 
                 }
                 else if(item.equals("Select a Category"))
@@ -446,7 +456,25 @@ public class ServiceFragment extends Fragment {
                     errorText.setError("Please select a category!");
                     errorText.setTextColor(Color.RED);//just to highlight that this is an error
                     errorText.requestFocus();
-                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT).show();
+
+                }
+                else if (subcat==null)
+                {
+                    TextView errorText = (TextView)spinner2.getSelectedView();
+                    errorText.setError("Please select a sub category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT).show();
+
+                }
+                else if (subcat.equals("Select a Sub-Category"))
+                {
+                    TextView errorText = (TextView)spinner2.getSelectedView();
+                    errorText.setError("Please select a sub category!");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.requestFocus();
+                    Toast.makeText(getContext(),"Please select a proper category!!",Toast.LENGTH_SHORT).show();
 
                 }
                 else {
