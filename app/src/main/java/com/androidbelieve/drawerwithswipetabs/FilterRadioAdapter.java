@@ -80,7 +80,7 @@ public class FilterRadioAdapter extends RecyclerView.Adapter<FilterRadioAdapter.
         public RadioButton checkBox;
         public MyViewHolder(View view) {
             super(view);
-            checkBox= (RadioButton) view.findViewById(R.id.radio);
+            //checkBox= (RadioButton) view.findViewById(R.id.radio);
         }
     }
     public FilterRadioAdapter(Context context, ArrayList<Filter> list) {
