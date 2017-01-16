@@ -148,11 +148,12 @@ public class Category_List extends AppCompatActivity {
         {
 
         }
-        infScrollviewListener.stopAsyncTask();
         albumList.clear();
+        infScrollviewListener.stopAsyncTask();
         infScrollviewListener=new InfScrollviewListener(adapter,albumList,cat);
         infScrollviewListener.updateSortandFilter(sort,filters);
         recyclerView.setOnScrollListener(infScrollviewListener);
+
         Log.v("link",Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters));
         getJSON=new GetJSON(Config.link+"viewads.php?category="+ URLEncoder.encode(cat)+"&order="+sort+"&filter="+URLEncoder.encode(filters),adapter,albumList);
         getJSON.execute();

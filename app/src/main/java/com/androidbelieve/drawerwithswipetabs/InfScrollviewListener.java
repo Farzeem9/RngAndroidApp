@@ -55,6 +55,8 @@ public class InfScrollviewListener extends RecyclerView.OnScrollListener {
             totalItemCount = linearLayoutManager.getItemCount();
             lastVisibleItem = linearLayoutManager
                     .findLastVisibleItemPosition();
+            if(lastVisibleItem==0||totalItemCount==0)
+                return;
             if (!loading&& totalItemCount <= (lastVisibleItem + visibleThreshold)&&!listend) {
                 Log.v("Checking","check"+Integer.toString(lastVisibleItem + 1));
                 //new GetJSON("http://rng.000webhostapp.com/viewads.php?category", lastVisibleItem+1, adapter, albumList).execute();

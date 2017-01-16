@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
@@ -135,8 +135,30 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
                     mContext.startActivity(Intent.createChooser(sendIntent, "Hello"));
                     return true;
                 case R.id.action_play_next:
-                    
-                    Toast.makeText(mContext, "Reported", Toast.LENGTH_SHORT).show();
+                    GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"reportservice.php?sid=" + Ads.getSid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
+                        @Override
+                        public void processFinish(Object output) {
+                            String out=(String)output;
+                            if(out.equals("1"))
+                            {
+
+                                AlertDialog.Builder alertbox = new AlertDialog.Builder(mContext);
+                                alertbox.setTitle("Report");
+                                alertbox.setMessage("Reported successfully");
+                                alertbox.show();
+
+                            }
+                            else
+                            {
+                                AlertDialog.Builder alertbox = new AlertDialog.Builder(mContext);
+                                alertbox.setTitle("Report");
+                                alertbox.setMessage("You have already reported this ad!");
+                                alertbox.show();
+                                Log.v("output of async",out);
+                            }
+                        }
+                    });
+                    g.execute();
                     return true;
                 default:
             }

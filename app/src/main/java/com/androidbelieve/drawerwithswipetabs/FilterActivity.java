@@ -30,7 +30,7 @@ public class FilterActivity extends AppCompatActivity {
     private String cat;
     private void fillAds(String cat)
     {
-        subcat.clear();
+
         if(cat.equals("Electronics & Appliances"))
         {
             subcat.add(new Filter("Mobile Phone"));
@@ -130,7 +130,7 @@ public class FilterActivity extends AppCompatActivity {
             if(position==0)
             {
                 recyclerView.setVisibility(View.VISIBLE);
-                fillAds(cat);
+       //         fillAds(cat);
                 adapter=new FilterAdapter(FilterActivity.this,subcat,false);
                 recyclerView.setAdapter(adapter);
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);

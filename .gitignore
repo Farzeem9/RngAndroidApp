@@ -7,5 +7,5 @@
 /captures
 /app/app.iml
 *.iml
-app/app.iml
+/app/app.iml
 *.log

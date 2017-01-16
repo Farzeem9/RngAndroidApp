@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -113,6 +112,7 @@ public class Blur  {
                 ((ImageView)rootView.findViewById(R.id.blurimage)).setImageDrawable(drawable);
                 AlphaAnimation alpha = new AlphaAnimation(0f, 1f);
                 alpha.setDuration(500);
+                rootView.findViewById(R.id.blurimage).setVisibility(View.VISIBLE);
                 rootView.findViewById(R.id.blurimage).startAnimation(alpha);
                 //((ImageView)target.findViewById(R.id.blurimage)).setBackgroundColor(100);
                 //addView(target, drawable);
@@ -174,87 +174,17 @@ public class Blur  {
 
 
     public static void blur(View rooot, Context c,boolean x) {
-        if(rootView==null||x) {
+
             rootView = rooot;
             Log.v("bulrring", "okay");
             Blur.with(c)
                     .radius(15)
                     .sampling(5)
-                    .animate(10)
+                    .animate(500)
                     .onto((ViewGroup) rooot);
-        }
-        {
-            /*Animation show=new AlphaAnimation(0f,1f);
-            show.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    rootView.findViewById(R.id.rl_main).setVisibility(View.GONE);           //Lol can there be a more jugaadu way?xx
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            show.setDuration(500);
-            rootView.findViewById(R.id.blurimage).startAnimation(show);
-            */
-            rootView.findViewById(R.id.blurimage).setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.blurimage).setAlpha(1f);
-            Animation show=new AlphaAnimation(0f,1f);
-            show.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-            //        rootView.findViewById(R.id.rl_main).setVisibility(View.GONE);           //Lol can there be a more jugaadu way?xx
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            show.setDuration(500);
-            rootView.findViewById(R.id.blurimage).startAnimation(show);
-
-
-            /* rootView.findViewById(R.id.blurimage).animate().alpha(1f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).start();
-*/
-        }
-
 
     }
 
-        //Blur.with(c).async().capture(v).into((ImageView)v.findViewById(R.id.blurimage));
 
 
     public static void unBlur(View vi)
@@ -267,28 +197,7 @@ public class Blur  {
             Log.v("view not null","okay");
         }
         Log.v("antibulrring","okay");
-/*        AlphaAnimation alpha = new AlphaAnimation(1f, 0f);
-        alpha.setDuration(500);
-        ((ImageView)rootView.findViewById(R.id.blurimage)).findViewById(R.id.blurimage).startAnimation(alpha);
-        ((ImageView)rootView.findViewById(R.id.blurimage)).setAlpha(0f);
-        rootView.findViewById(R.id.blurimage).setVisibility(View.GONE);
-        alpha.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                rootView.findViewById(R.id.rl_main).setVisibility(View.VISIBLE);           //Lol can there be a more jugaadu way?xx
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-*/
         final View v=rootView.findViewById(R.id.blurimage);
         v.setVisibility(View.GONE);
         v.animate().alpha(0f).setDuration(500).setInterpolator(new LinearInterpolator()).setListener(new Animator.AnimatorListener() {

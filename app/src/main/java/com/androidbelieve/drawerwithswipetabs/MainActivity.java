@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -177,12 +178,18 @@ public class MainActivity extends AppCompatActivity{
             }
 
         if(home&&x==0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            Fragment fragment=mFragmentManager.findFragmentById(R.id.containerView);
+            HomeFragment f=(HomeFragment)fragment;
+            f.onBackPressed();
             super.onBackPressed();
             finish();
         }
         else if(home&&x!=0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START))
         {
-         x=0;
+            Fragment fragment=mFragmentManager.findFragmentById(R.id.containerView);
+            HomeFragment f=(HomeFragment)fragment;
+            f.onBackPressed();
+             x=0;
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_SHORT).show();
             Thread t = new Thread(){
                 @Override

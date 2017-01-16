@@ -184,6 +184,15 @@ public class HomeFragment extends Fragment {
 
         }
     }
+
+    public void onBackPressed()
+    {
+        if(shown)
+        {
+            Blurring();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
