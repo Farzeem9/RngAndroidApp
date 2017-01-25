@@ -1,4 +1,5 @@
 package com.androidbelieve.drawerwithswipetabs;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -20,6 +21,7 @@ import android.widget.FrameLayout;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
 public class Category_List extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AlbumsAdapter adapter;

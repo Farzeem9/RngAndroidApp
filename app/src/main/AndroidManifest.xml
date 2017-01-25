@@ -30,7 +30,16 @@
         <activity android:name=".ServiceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".EditAdActivity" />
-        <activity android:name=".AdActivity" />
+        <activity android:name=".AdActivity" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:host="www.rentandget.co.in" />
+            </intent-filter>
+            </activity>
         <activity android:name=".Category_List" />
         <activity android:name=".EditServiceActivity" />
         <activity android:name=".FirstActivity">

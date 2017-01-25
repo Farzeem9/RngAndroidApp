@@ -26,7 +26,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -80,6 +79,19 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             hidePager();
         }
     }
+    private void Error()
+    {
+        android.app.AlertDialog.Builder alertBox =new android.app.AlertDialog.Builder(this);
+        alertBox.setTitle("Error");
+        alertBox.setMessage("Invalid link");
+        alertBox.setPositiveButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ServiceActivity.this.finishAffinity();
+            }
+        });
+        alertBox.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +136,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         //age=(TextView)findViewById(R.id.tv_prod_age);
 
         projlinks=(TextView)findViewById(R.id.tv_link);
-        //lvlinks=(ListView)findViewById(R.id.lv_links);
-        //setListViewHeightBasedOnChildren(lvlinks);
-        //linksAdapter=new ServiceFragment.LinksAdapter();
 
         date=(TextView)findViewById(R.id.tv_date);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
@@ -147,9 +156,15 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             @Override
             public void processFinish(Object output) {
                 try {
+                    if(((String)output).equals("{\"result\":[]}")||((String)output).equals(""))
+                    {
+                        Error();
+                        return;
+                    }
                     fillAdd(new JSONObject((String)output).getJSONArray("result"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Error();
                 }
             }
         });
@@ -165,9 +180,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
        genericAsyncTask.execute();
-
-
-
     }
 
     @Override
@@ -202,7 +214,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
                     Log.v("Result",sb.toString());
                     return sb.toString();
-
                 }
                 catch (Exception e)
                 {

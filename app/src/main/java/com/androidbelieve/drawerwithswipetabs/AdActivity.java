@@ -54,12 +54,86 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
 
+
+    class CustomException extends Exception
+    {
+        String message;
+        CustomException(String message)
+        {
+            this.message=message;
+        }
+
+        @Override
+        public String getMessage() {
+            return this.message;
+        }
+
+    }
+
+
+    void linkParser(String uri) throws CustomException
+    {
+       try {
+           if (uri.contains("/ads/")) {
+               String[] temp = uri.split("/ads/");
+               aid = temp[1];
+               Integer.parseInt(aid);
+           } else if (uri.contains("/service/")) {
+               String[] temp = uri.split("/service/");
+               String sid = temp[1];
+               Integer.parseInt(sid);
+               Intent i = new Intent(this, ServiceActivity.class);
+               i.putExtra("sid", sid);
+               startActivity(i);
+               this.finish();
+           } else {
+               throw new CustomException("Fake URL");
+           }
+       }
+       catch (Exception e)
+       {
+           throw  new CustomException("Invalid link");
+       }
+
+    }
+
+    private void Error()
+    {
+        android.app.AlertDialog.Builder alertBox =new android.app.AlertDialog.Builder(this);
+        alertBox.setTitle("Error");
+        alertBox.setMessage("Invalid link");
+        alertBox.setPositiveButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AdActivity.this.finishAffinity();
+            }
+        });
+        alertBox.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
         Config.GenTime(this);
+        aid = getIntent().getStringExtra("AID");
+        if(aid==null)           //Open by link
+        {
+            Log.v("aid is null","okay");
+            Intent i=getIntent();
+            String link=i.getData().toString();
+            try {
+                linkParser(link);
+            }
+            catch (CustomException e)
+            {
+                Error();
+                Log.v("error","okay");
+                return;
+            }
+        }
+
         radioGroup= (RadioGroup) findViewById(R.id.rg_period);
         less= (RadioButton) findViewById(R.id.less);
         equal= (RadioButton) findViewById(R.id.equal);
@@ -79,7 +153,6 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 finish();
             }
         });
-        aid = getIntent().getStringExtra("AID");
         name=(TextView)findViewById(R.id.tv_name);
         desc=(TextView)findViewById(R.id.tv_desc);
         rent=(TextView)findViewById(R.id.tv_rent);
@@ -135,15 +208,22 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
         super.onStop();
-        if(getAd!=null)
-        if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
+try {
+    mDemoSlider.stopAutoCycle();
+    super.onStop();
+    if (getAd != null)
+        if (!(getAd.getStatus() == AsyncTask.Status.FINISHED))
             getAd.cancel(true);
-        if(genericAsyncTask!=null)
-        if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+    if (genericAsyncTask != null)
+        if (!(genericAsyncTask.getStatus() == AsyncTask.Status.FINISHED))
             genericAsyncTask.cancel(true);
-    }
+}
+catch (Exception e)
+{
+    Log.e(getClass().getSimpleName(),"Maybe activity was closed");
+}
+}
 
 /*
     @Override
@@ -263,7 +343,14 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         @Override
         protected void onPostExecute(String result) {
             try {
+               if(result.equals("{\"result\":[]}"))
+               {
+                   Error();
+                   return;
+               }
+
                 JSONObject jobj = new JSONObject(result);
+
                 fillAdd(jobj.getJSONArray("result"));
             } catch (Exception e)
             {
@@ -409,10 +496,11 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         }
 
     }
-    public void onShare(View view){
+    public void onShare(/*View view*/){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+        intent.putExtra(Intent.EXTRA_TEXT,"http://rentandget.co.in/ads/"+aid);
+
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }
     public void onRateAndComment(View view){
@@ -455,6 +543,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+            {
+                onShare();
+            }
                 return true;
             case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
