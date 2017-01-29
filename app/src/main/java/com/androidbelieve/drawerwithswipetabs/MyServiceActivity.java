@@ -414,12 +414,14 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
         }
 
     }
-    public void onShare(View view){
+    public void onShare(/*View view*/){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+        intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/service/"+sid);
+
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }
+
     public void onRateAndComment(View view){
         Intent i=new Intent(this,RateActivity.class);
         i.putExtra("sid",sid);
@@ -460,6 +462,7 @@ public class MyServiceActivity extends AppCompatActivity implements ViewPagerEx.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+                onShare();
                 return true;
            /* case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?aid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {

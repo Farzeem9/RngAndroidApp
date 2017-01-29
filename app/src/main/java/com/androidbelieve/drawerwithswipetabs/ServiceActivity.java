@@ -67,7 +67,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private Toolbar toolbar;
     private String rentperiod;
     private GenericAsyncTask genericAsyncTask;
-    private HorizontalAdapter HorizontalAdapter;
+    private HorizontalAdapter horizontalAdapter;
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
     @Override
@@ -98,6 +98,12 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_service);
+        if(AccessToken.getCurrentAccessToken()==null)
+        {
+            Intent i=new Intent(this,LoginActivity.class);
+            i.putExtra("AdActivity","AdActivity");
+            startActivity(i);
+        }
         String sid=getIntent().getStringExtra("sid");
         this.sid=sid;
         default_text = (TextView) findViewById(R.id.default_text);
@@ -112,9 +118,9 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
         recyclerView=(RecyclerView)findViewById(R.id.rr);
-        HorizontalAdapter=new ServiceActivity.HorizontalAdapter(getApplicationContext(),images);
+        horizontalAdapter =new ServiceActivity.HorizontalAdapter(getApplicationContext(),images);
         recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setAdapter(HorizontalAdapter);
+        recyclerView.setAdapter(horizontalAdapter);
 
         viewPager.setAdapter(imageFragmentPagerAdapter);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -359,7 +365,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                         }
                         Log.v("new Bitmap loaded","okay");
                         images.add(bitmap);
-                        HorizontalAdapter.notifyDataSetChanged();
+                        horizontalAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -375,7 +381,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 Log.v("link in picasso",x);
             }
 */
-            HorizontalAdapter.addLinks(alllinks);
+            horizontalAdapter.addLinks(alllinks);
             progressDialog.dismiss();
         }
         catch(Exception e) {
@@ -383,12 +389,14 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         }
 
     }
-    public void onShare(View view){
-        Intent intent= new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
-        startActivity(Intent.createChooser(intent,"Sharing Option"));
-    }
+        public void onShare(/*View view*/){
+            Intent intent= new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/service/"+sid);
+
+            startActivity(Intent.createChooser(intent,"Sharing Option"));
+        }
+
     public void onRateAndComment(View view){
         Intent i=new Intent(this,RateActivity.class);
         i.putExtra("sid",sid);
@@ -429,6 +437,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+                onShare();
                 return true;
             case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"servicewishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
@@ -676,7 +685,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         {
             this.links.addAll(newLinks);
             Log.v("links added","okay");
-            HorizontalAdapter.notifyDataSetChanged();
+            horizontalAdapter.notifyDataSetChanged();
         }
     }
 

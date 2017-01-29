@@ -117,33 +117,38 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
         Config.GenTime(this);
+        if (AccessToken.getCurrentAccessToken() == null) {
+            Log.v("Was null", "okay");
+            Intent i = new Intent(this, FirstActivity.class);
+            i.putExtra("AdActivity", "AdActivity");
+            startActivityForResult(i, 100);
+        }
+
         aid = getIntent().getStringExtra("AID");
-        if(aid==null)           //Open by link
+        if (aid == null)           //Open by link
         {
-            Log.v("aid is null","okay");
-            Intent i=getIntent();
-            String link=i.getData().toString();
+            Log.v("aid is null", "okay");
+            Intent i = getIntent();
+            String link = i.getData().toString();
             try {
                 linkParser(link);
-            }
-            catch (CustomException e)
-            {
+            } catch (CustomException e) {
                 Error();
-                Log.v("error","okay");
+                Log.v("error", "okay");
                 return;
             }
         }
 
-        radioGroup= (RadioGroup) findViewById(R.id.rg_period);
-        less= (RadioButton) findViewById(R.id.less);
-        equal= (RadioButton) findViewById(R.id.equal);
-        more= (RadioButton) findViewById(R.id.more);
+        radioGroup = (RadioGroup) findViewById(R.id.rg_period);
+        less = (RadioButton) findViewById(R.id.less);
+        equal = (RadioButton) findViewById(R.id.equal);
+        more = (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        rating_comments= (Button) findViewById(R.id.btn_rate_comment);
+        rating_comments = (Button) findViewById(R.id.btn_rate_comment);
         less = (RadioButton) findViewById(R.id.less);
         more = (RadioButton) findViewById(R.id.more);
         equal = (RadioButton) findViewById(R.id.equal);
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
@@ -153,41 +158,47 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 finish();
             }
         });
-        name=(TextView)findViewById(R.id.tv_name);
-        desc=(TextView)findViewById(R.id.tv_desc);
-        rent=(TextView)findViewById(R.id.tv_rent);
-        tvrentw=(TextView)findViewById(R.id.tv_rentw);
-        tvrentm=(TextView)findViewById(R.id.tv_rentm);
-        city=(TextView)findViewById(R.id.tv_location);
-        age=(TextView)findViewById(R.id.tv_prod_age);
-        deposit=(TextView)findViewById(R.id.tv_prod_dep);
-        date=(TextView)findViewById(R.id.tv_date);
-        crent=(TextView)findViewById(R.id.crent);
-        maxrent=(TextView)findViewById(R.id.tv_max_rent);
-        ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
+        name = (TextView) findViewById(R.id.tv_name);
+        desc = (TextView) findViewById(R.id.tv_desc);
+        rent = (TextView) findViewById(R.id.tv_rent);
+        tvrentw = (TextView) findViewById(R.id.tv_rentw);
+        tvrentm = (TextView) findViewById(R.id.tv_rentm);
+        city = (TextView) findViewById(R.id.tv_location);
+        age = (TextView) findViewById(R.id.tv_prod_age);
+        deposit = (TextView) findViewById(R.id.tv_prod_dep);
+        date = (TextView) findViewById(R.id.tv_date);
+        crent = (TextView) findViewById(R.id.crent);
+        maxrent = (TextView) findViewById(R.id.tv_max_rent);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
 
         rating_comments.setClickable(false);
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+        try {
+            getAd = new GetAd(aid, AccessToken.getCurrentAccessToken().getUserId());
 
-        getAd=new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId());
         getAd.execute();
-        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendrating.php?aid=" + aid, "", new AsyncResponse() {
+        genericAsyncTask = new GenericAsyncTask(this, Config.link + "sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
-                int i=Integer.parseInt((String)output);
+                int i = Integer.parseInt((String) output);
                 ratingBar.setProgress(i);
                 rating_comments.setClickable(true);
                 progressDialog.dismiss();
             }
         });
         genericAsyncTask.execute();
+
+    }        catch(Exception e)
+        {
+            Log.e("Login null","okay");
+        }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -359,6 +370,23 @@ catch (Exception e)
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==100)
+        {
+            try {
+                getAd = new GetAd(aid, AccessToken.getCurrentAccessToken().getUserId());
+                getAd.execute();
+            }
+            catch(Exception e)
+            {
+                Log.e("Login null","okay");
+                finish();
+            }
+        }
+    }
+
     static String Month(Date d)
     {
         int i=d.getMonth();
@@ -499,7 +527,7 @@ catch (Exception e)
     public void onShare(/*View view*/){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT,"http://rentandget.co.in/ads/"+aid);
+        intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/ads/"+aid);
 
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }

@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private String userID;
     private String pid,name,email,contact;
     private SharedPreferences sharedPreferences;
+    String fromAd;
     private boolean enteredApp=false;
 
     @Override
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         info_mail=(TextView)findViewById(R.id.info_mail);
         info_phone=(EditText)findViewById(R.id.info_contact);
         sharedPreferences=getSharedPreferences("LOG",MODE_PRIVATE);
-
+        fromAd = getIntent().getStringExtra("AdActivity");
         if(isLogin())
         {
             GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
@@ -125,15 +126,17 @@ public class LoginActivity extends AppCompatActivity {
 
     class NewAd extends AsyncTask<String,String,String> {
 
-        String pid,name,email,contact;
+        String pid,name,email,contact,from;
+
         LoginActivity thisac;
-        NewAd(String pid, String name, String email, String contact,LoginActivity thisac)
+        NewAd(String pid, String name, String email, String contact,LoginActivity thisac,String from)
         {
             this.pid=pid;
             this.name=name;
             this.email=email;
             this.contact=contact;
             this.thisac=thisac;
+            this.from=from;
         }
 
 
@@ -182,7 +185,8 @@ public class LoginActivity extends AppCompatActivity {
                         String temp = encryptDecrypt.encrypt(pid);
                         sharedPreferences.edit().putString("abcxyz",temp).commit();
                         LoginActivity.this.enteredApp=true;
-                        startActivity(new Intent(thisac, MainActivity.class));
+                        if(from==null)
+                            startActivity(new Intent(thisac, MainActivity.class));
                         finish();
                     }
                     catch (Exception e)
@@ -210,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         info_phone.setError(null);
-        new NewAd(userID,name,email,contact,this).execute();
+        new NewAd(userID,name,email,contact,this,fromAd).execute();
     }
     public boolean isLogin()
     {
