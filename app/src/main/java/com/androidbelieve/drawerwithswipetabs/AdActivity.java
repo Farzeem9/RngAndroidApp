@@ -54,22 +54,101 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     private GetAd getAd;
     private GenericAsyncTask genericAsyncTask;
 
+
+    class CustomException extends Exception
+    {
+        String message;
+        CustomException(String message)
+        {
+            this.message=message;
+        }
+
+        @Override
+        public String getMessage() {
+            return this.message;
+        }
+
+    }
+
+
+    void linkParser(String uri) throws CustomException
+    {
+       try {
+           if (uri.contains("/ads/")) {
+               String[] temp = uri.split("/ads/");
+               aid = temp[1];
+               Integer.parseInt(aid);
+           } else if (uri.contains("/service/")) {
+               String[] temp = uri.split("/service/");
+               String sid = temp[1];
+               Integer.parseInt(sid);
+               Intent i = new Intent(this, ServiceActivity.class);
+               i.putExtra("sid", sid);
+               startActivity(i);
+               this.finish();
+           } else {
+               throw new CustomException("Fake URL");
+           }
+       }
+       catch (Exception e)
+       {
+           throw  new CustomException("Invalid link");
+       }
+
+    }
+
+    private void Error()
+    {
+        android.app.AlertDialog.Builder alertBox =new android.app.AlertDialog.Builder(this);
+        alertBox.setTitle("Error");
+        alertBox.setMessage("Invalid link");
+        alertBox.setPositiveButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AdActivity.this.finishAffinity();
+            }
+        });
+        alertBox.show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
         Config.GenTime(this);
-        radioGroup= (RadioGroup) findViewById(R.id.rg_period);
-        less= (RadioButton) findViewById(R.id.less);
-        equal= (RadioButton) findViewById(R.id.equal);
-        more= (RadioButton) findViewById(R.id.more);
+        if (AccessToken.getCurrentAccessToken() == null) {
+            Log.v("Was null", "okay");
+            Intent i = new Intent(this, FirstActivity.class);
+            i.putExtra("AdActivity", "AdActivity");
+            startActivityForResult(i, 100);
+        }
+
+        aid = getIntent().getStringExtra("AID");
+        if (aid == null)           //Open by link
+        {
+            Log.v("aid is null", "okay");
+            Intent i = getIntent();
+            String link = i.getData().toString();
+            try {
+                linkParser(link);
+            } catch (CustomException e) {
+                Error();
+                Log.v("error", "okay");
+                return;
+            }
+        }
+
+        radioGroup = (RadioGroup) findViewById(R.id.rg_period);
+        less = (RadioButton) findViewById(R.id.less);
+        equal = (RadioButton) findViewById(R.id.equal);
+        more = (RadioButton) findViewById(R.id.more);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        rating_comments= (Button) findViewById(R.id.btn_rate_comment);
+        rating_comments = (Button) findViewById(R.id.btn_rate_comment);
         less = (RadioButton) findViewById(R.id.less);
         more = (RadioButton) findViewById(R.id.more);
         equal = (RadioButton) findViewById(R.id.equal);
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setTitle("MANNNNNYNYYYYYY");
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_name));
@@ -79,42 +158,47 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
                 finish();
             }
         });
-        aid = getIntent().getStringExtra("AID");
-        name=(TextView)findViewById(R.id.tv_name);
-        desc=(TextView)findViewById(R.id.tv_desc);
-        rent=(TextView)findViewById(R.id.tv_rent);
-        tvrentw=(TextView)findViewById(R.id.tv_rentw);
-        tvrentm=(TextView)findViewById(R.id.tv_rentm);
-        city=(TextView)findViewById(R.id.tv_location);
-        age=(TextView)findViewById(R.id.tv_prod_age);
-        deposit=(TextView)findViewById(R.id.tv_prod_dep);
-        date=(TextView)findViewById(R.id.tv_date);
-        crent=(TextView)findViewById(R.id.crent);
-        maxrent=(TextView)findViewById(R.id.tv_max_rent);
-        ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
+        name = (TextView) findViewById(R.id.tv_name);
+        desc = (TextView) findViewById(R.id.tv_desc);
+        rent = (TextView) findViewById(R.id.tv_rent);
+        tvrentw = (TextView) findViewById(R.id.tv_rentw);
+        tvrentm = (TextView) findViewById(R.id.tv_rentm);
+        city = (TextView) findViewById(R.id.tv_location);
+        age = (TextView) findViewById(R.id.tv_prod_age);
+        deposit = (TextView) findViewById(R.id.tv_prod_dep);
+        date = (TextView) findViewById(R.id.tv_date);
+        crent = (TextView) findViewById(R.id.crent);
+        maxrent = (TextView) findViewById(R.id.tv_max_rent);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar1);
         ratingBar.setMax(5);
         ratingBar.setFocusable(false);
         ratingBar.setFocusableInTouchMode(false);
         ratingBar.setClickable(false);
 
         rating_comments.setClickable(false);
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching ad Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+        try {
+            getAd = new GetAd(aid, AccessToken.getCurrentAccessToken().getUserId());
 
-        getAd=new GetAd(aid,AccessToken.getCurrentAccessToken().getUserId());
         getAd.execute();
-        genericAsyncTask=new GenericAsyncTask(this, Config.link+"sendrating.php?aid=" + aid, "", new AsyncResponse() {
+        genericAsyncTask = new GenericAsyncTask(this, Config.link + "sendrating.php?aid=" + aid, "", new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
-                int i=Integer.parseInt((String)output);
+                int i = Integer.parseInt((String) output);
                 ratingBar.setProgress(i);
                 rating_comments.setClickable(true);
                 progressDialog.dismiss();
             }
         });
         genericAsyncTask.execute();
+
+    }        catch(Exception e)
+        {
+            Log.e("Login null","okay");
+        }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -135,15 +219,22 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
         super.onStop();
-        if(getAd!=null)
-        if(!(getAd.getStatus()== AsyncTask.Status.FINISHED))
+try {
+    mDemoSlider.stopAutoCycle();
+    super.onStop();
+    if (getAd != null)
+        if (!(getAd.getStatus() == AsyncTask.Status.FINISHED))
             getAd.cancel(true);
-        if(genericAsyncTask!=null)
-        if(!(genericAsyncTask.getStatus()== AsyncTask.Status.FINISHED))
+    if (genericAsyncTask != null)
+        if (!(genericAsyncTask.getStatus() == AsyncTask.Status.FINISHED))
             genericAsyncTask.cancel(true);
-    }
+}
+catch (Exception e)
+{
+    Log.e(getClass().getSimpleName(),"Maybe activity was closed");
+}
+}
 
 /*
     @Override
@@ -263,7 +354,14 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         @Override
         protected void onPostExecute(String result) {
             try {
+               if(result.equals("{\"result\":[]}"))
+               {
+                   Error();
+                   return;
+               }
+
                 JSONObject jobj = new JSONObject(result);
+
                 fillAdd(jobj.getJSONArray("result"));
             } catch (Exception e)
             {
@@ -272,6 +370,23 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==100)
+        {
+            try {
+                getAd = new GetAd(aid, AccessToken.getCurrentAccessToken().getUserId());
+                getAd.execute();
+            }
+            catch(Exception e)
+            {
+                Log.e("Login null","okay");
+                finish();
+            }
+        }
+    }
+
     static String Month(Date d)
     {
         int i=d.getMonth();
@@ -409,10 +524,11 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         }
 
     }
-    public void onShare(View view){
+    public void onShare(/*View view*/){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+        intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/ads/"+aid);
+
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }
     public void onRateAndComment(View view){
@@ -455,6 +571,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+            {
+                onShare();
+            }
                 return true;
             case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {

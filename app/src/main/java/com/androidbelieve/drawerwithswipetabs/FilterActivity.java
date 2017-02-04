@@ -30,7 +30,7 @@ public class FilterActivity extends AppCompatActivity {
     private String cat;
     private void fillAds(String cat)
     {
-        subcat.clear();
+
         if(cat.equals("Electronics & Appliances"))
         {
             subcat.add(new Filter("Mobile Phone"));
@@ -80,7 +80,7 @@ public class FilterActivity extends AppCompatActivity {
         }
         if(cat.equals("Cars")) {
             subcat.add(new Filter("Cars"));
-            subcat.add(new Filter("Commercial vehicle"));
+            subcat.add(new Filter("Commercial Vehicle"));
             subcat.add(new Filter("Others"));
         }
         if(cat.equals("Bike")){
@@ -130,7 +130,7 @@ public class FilterActivity extends AppCompatActivity {
             if(position==0)
             {
                 recyclerView.setVisibility(View.VISIBLE);
-                fillAds(cat);
+       //         fillAds(cat);
                 adapter=new FilterAdapter(FilterActivity.this,subcat,false);
                 recyclerView.setAdapter(adapter);
                 LinearLayout ll= (LinearLayout) findViewById(R.id.ll_slider);
@@ -216,8 +216,10 @@ public class FilterActivity extends AppCompatActivity {
         String subcats="'";
         for(Filter x:subcat)
         {
-            if(x.getSelected())
-                subcats+=x.getName()+"','";
+            if(x.getSelected()) {
+
+                subcats +=x.getName()  + "','";
+            }
         }
         String finalsubcatquery;
         if(subcats.equals("'"))
@@ -238,9 +240,9 @@ public class FilterActivity extends AppCompatActivity {
 
         String rentrange="";
 
-            rentrange=" and rent > "+((TextView)findViewById(R.id.minValue1)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue1)).getText().toString();
+            rentrange=" and rent >= "+((TextView)findViewById(R.id.minValue1)).getText().toString()+" and rent <= "+((TextView)findViewById(R.id.maxValue1)).getText().toString();
         String deposit="";
-            deposit=" and PROD_DEPOSIT > "+((TextView)findViewById(R.id.minValue2)).getText().toString()+" and rent < "+((TextView)findViewById(R.id.maxValue2)).getText().toString();;
+            deposit=" and PROD_DEPOSIT >= "+((TextView)findViewById(R.id.minValue2)).getText().toString()+" and PROD_DEPOSIT <= "+((TextView)findViewById(R.id.maxValue2)).getText().toString();;
 
 
         String finalfilter=finalsubcatquery+rent+rentrange+deposit;

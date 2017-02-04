@@ -346,7 +346,7 @@ public class EditAdActivity extends AppCompatActivity {
                                                       categories2.clear();
                                                       categories2.add("Select a Sub-Category");
                                                       categories2.add("Cars");
-                                                      categories2.add("Commerical Vehicle");
+                                                      categories2.add("Commercial Vehicle");
                                                       categories2.add("Others");
                                                       categories.remove("Select a Category");
                                                       //categories2.remove("Select a Sub-Category");

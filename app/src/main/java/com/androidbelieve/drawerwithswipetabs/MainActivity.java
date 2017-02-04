@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity{
     android.support.v7.widget.Toolbar toolbar;
     private boolean home=true;
     private MenuItem noti;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this);
@@ -174,15 +174,22 @@ public class MainActivity extends AppCompatActivity{
 
             if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 this.mDrawerLayout.closeDrawer(GravityCompat.START);
+                return;
             }
 
         if(home&&x==0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            Fragment fragment=mFragmentManager.findFragmentById(R.id.containerView);
+            HomeFragment f=(HomeFragment)fragment;
+            f.onBackPressed();
             super.onBackPressed();
             finish();
         }
         else if(home&&x!=0&&!this.mDrawerLayout.isDrawerOpen(GravityCompat.START))
         {
-         x=0;
+            Fragment fragment=mFragmentManager.findFragmentById(R.id.containerView);
+            HomeFragment f=(HomeFragment)fragment;
+            f.onBackPressed();
+             x=0;
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_SHORT).show();
             Thread t = new Thread(){
                 @Override

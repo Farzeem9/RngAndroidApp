@@ -26,7 +26,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -68,7 +67,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     private Toolbar toolbar;
     private String rentperiod;
     private GenericAsyncTask genericAsyncTask;
-    private HorizontalAdapter HorizontalAdapter;
+    private HorizontalAdapter horizontalAdapter;
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
     @Override
@@ -80,12 +79,31 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             hidePager();
         }
     }
+    private void Error()
+    {
+        android.app.AlertDialog.Builder alertBox =new android.app.AlertDialog.Builder(this);
+        alertBox.setTitle("Error");
+        alertBox.setMessage("Invalid link");
+        alertBox.setPositiveButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ServiceActivity.this.finishAffinity();
+            }
+        });
+        alertBox.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_service);
+        if(AccessToken.getCurrentAccessToken()==null)
+        {
+            Intent i=new Intent(this,LoginActivity.class);
+            i.putExtra("AdActivity","AdActivity");
+            startActivity(i);
+        }
         String sid=getIntent().getStringExtra("sid");
         this.sid=sid;
         default_text = (TextView) findViewById(R.id.default_text);
@@ -100,9 +118,9 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
         recyclerView=(RecyclerView)findViewById(R.id.rr);
-        HorizontalAdapter=new ServiceActivity.HorizontalAdapter(getApplicationContext(),images);
+        horizontalAdapter =new ServiceActivity.HorizontalAdapter(getApplicationContext(),images);
         recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setAdapter(HorizontalAdapter);
+        recyclerView.setAdapter(horizontalAdapter);
 
         viewPager.setAdapter(imageFragmentPagerAdapter);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -124,9 +142,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         //age=(TextView)findViewById(R.id.tv_prod_age);
 
         projlinks=(TextView)findViewById(R.id.tv_link);
-        //lvlinks=(ListView)findViewById(R.id.lv_links);
-        //setListViewHeightBasedOnChildren(lvlinks);
-        //linksAdapter=new ServiceFragment.LinksAdapter();
 
         date=(TextView)findViewById(R.id.tv_date);
         ratingBar=(RatingBar)findViewById(R.id.ratingBar1);
@@ -147,9 +162,15 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             @Override
             public void processFinish(Object output) {
                 try {
+                    if(((String)output).equals("{\"result\":[]}")||((String)output).equals(""))
+                    {
+                        Error();
+                        return;
+                    }
                     fillAdd(new JSONObject((String)output).getJSONArray("result"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Error();
                 }
             }
         });
@@ -165,9 +186,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
             }
         });
        genericAsyncTask.execute();
-
-
-
     }
 
     @Override
@@ -202,7 +220,6 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
 
                     Log.v("Result",sb.toString());
                     return sb.toString();
-
                 }
                 catch (Exception e)
                 {
@@ -348,7 +365,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                         }
                         Log.v("new Bitmap loaded","okay");
                         images.add(bitmap);
-                        HorizontalAdapter.notifyDataSetChanged();
+                        horizontalAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -364,7 +381,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
                 Log.v("link in picasso",x);
             }
 */
-            HorizontalAdapter.addLinks(alllinks);
+            horizontalAdapter.addLinks(alllinks);
             progressDialog.dismiss();
         }
         catch(Exception e) {
@@ -372,12 +389,14 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         }
 
     }
-    public void onShare(View view){
-        Intent intent= new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
-        startActivity(Intent.createChooser(intent,"Sharing Option"));
-    }
+        public void onShare(/*View view*/){
+            Intent intent= new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/service/"+sid);
+
+            startActivity(Intent.createChooser(intent,"Sharing Option"));
+        }
+
     public void onRateAndComment(View view){
         Intent i=new Intent(this,RateActivity.class);
         i.putExtra("sid",sid);
@@ -418,6 +437,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+                onShare();
                 return true;
             case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, Config.link+"servicewishlist.php?sid=" + sid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
@@ -665,7 +685,7 @@ public class ServiceActivity extends AppCompatActivity implements ViewPagerEx.On
         {
             this.links.addAll(newLinks);
             Log.v("links added","okay");
-            HorizontalAdapter.notifyDataSetChanged();
+            horizontalAdapter.notifyDataSetChanged();
         }
     }
 

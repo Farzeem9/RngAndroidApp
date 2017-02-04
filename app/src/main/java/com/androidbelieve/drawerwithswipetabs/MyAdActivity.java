@@ -342,10 +342,10 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
         }
 
     }
-    public void onShare(View view){
+    public void onShare(){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
+        intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/ads/"+aid);
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }
     public void onRateAndComment(View view){
@@ -387,7 +387,9 @@ public class MyAdActivity extends AppCompatActivity implements ViewPagerEx.OnPag
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_share:
+                onShare();
                 return true;
            /* case R.id.action_wishlist:
                 GenericAsyncTask g=new GenericAsyncTask(this, "http://rng.000webhostapp.com/wishlist.php?aid=" + aid + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {
