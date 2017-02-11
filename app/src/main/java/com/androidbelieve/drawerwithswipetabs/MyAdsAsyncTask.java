@@ -12,21 +12,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by karthik on 12/10/16.
  */
 
-public class FAd extends AsyncTask<String, Void, String> {
+public class MyAdsAsyncTask extends AsyncTask<String, Void, String> {
 
     String link;
     int i;
     RecyclerView.Adapter adapter;
     private ArrayList<MyAds> albumList;
-    FAd(String link, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
+    MyAdsAsyncTask(String link, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
     {
         this.link=link;
         this.adapter=adapter;
@@ -34,7 +32,7 @@ public class FAd extends AsyncTask<String, Void, String> {
         i=0;
 
     }
-    FAd(String link, int i, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
+    MyAdsAsyncTask(String link, int i, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
     {
         this.link=link;
         this.adapter=adapter;

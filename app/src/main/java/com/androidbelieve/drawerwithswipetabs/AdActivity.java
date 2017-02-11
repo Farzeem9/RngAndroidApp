@@ -38,23 +38,25 @@ import java.util.Date;
 
 public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageChangeListener {
 
-    private SliderLayout mDemoSlider;
-    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent,tvrentw,tvrentm;
-    private String aid;
-    private MenuItem star;
-    private Button rating_comments;
-    private RatingBar ratingBar;
-    private String canrent;
-    private boolean set=false;
-    private Toolbar toolbar;
-    private RadioGroup radioGroup;
-    private RadioButton less,more,equal;
-    private boolean selected=false;
-    private String rentperiod;
-    private GetAd getAd;
-    private GenericAsyncTask genericAsyncTask;
+    private SliderLayout mDemoSlider;                                                               //ImageSlider
+    private TextView name,desc,rent,date,city,age,deposit,crent,maxrent,tvrentw,tvrentm;            //All textviews
+    private String aid;                                                                             //AID of the ad
+    private MenuItem star;                                                                          //MenuItem for wishlist
+    private Button rating_comments;                                                                 //Button for rating_comments
+    private RatingBar ratingBar;                                                                    //Rating Bar
+    private String canrent;                                                                         //String which will be 0 or 1 based on whether the current user can rate the Ad or not
+    private boolean set=false;                                                                      //Boolean to check if wishlist is set or not
+    private Toolbar toolbar;                                                                        //Toolbar
+    private RadioGroup radioGroup;                                                                  //RadioGourp for the radiobuttons in Ad
+    private RadioButton less,more,equal;                                                            //Radio Buttons for less,more and equal
+    private boolean selected=false;                                                                 //boolean to check if a radiobutton was selected or not
+    private String rentperiod;                                                                      //String which holds the desired rent period from selection of radio button
+    private GetAd getAd;                                                                            //Instance of get Ad class to load the ad from server
+    private GenericAsyncTask genericAsyncTask;                                                      //Instance of GenericAsyncTask class to load Users rating to the server
 
-
+    /**
+     * Exception created to be thrown if link is not correct
+     */
     class CustomException extends Exception
     {
         String message;
@@ -70,7 +72,11 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
     }
 
-
+    /**
+     * Method used to parse link received from external broadcast (from sharing). Parses link to check if link is valid
+     * @param uri link received from intent
+     * @throws CustomException
+     */
     void linkParser(String uri) throws CustomException
     {
        try {
@@ -97,10 +103,13 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
     }
 
-    private void Error()
+    /**
+     *Method called whenever link received from intent is improper. Creates a new AlertBox to inform user that the link is invalid
+     */
+    private void error()
     {
         android.app.AlertDialog.Builder alertBox =new android.app.AlertDialog.Builder(this);
-        alertBox.setTitle("Error");
+        alertBox.setTitle("error");
         alertBox.setMessage("Invalid link");
         alertBox.setPositiveButton("Exit App", new DialogInterface.OnClickListener() {
             @Override
@@ -111,12 +120,17 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
         alertBox.show();
     }
 
+    /**
+     *Method overriden from parent class. Used to initialise all variables and start other methods.
+     *starts GetAd to load all Ad data from the server
+     *starts genericAsyncTask to load rating from server
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_ad);
-        Config.GenTime(this);
         if (AccessToken.getCurrentAccessToken() == null) {
             Log.v("Was null", "okay");
             Intent i = new Intent(this, FirstActivity.class);
@@ -133,7 +147,7 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
             try {
                 linkParser(link);
             } catch (CustomException e) {
-                Error();
+                error();
                 Log.v("error", "okay");
                 return;
             }
@@ -216,6 +230,9 @@ public class AdActivity extends AppCompatActivity implements ViewPagerEx.OnPageC
 
     }
 
+    /**
+     *Method called whenever activity is closed
+     */
     @Override
     protected void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
@@ -250,6 +267,11 @@ catch (Exception e)
 
     }
 
+    /**
+     * Method called to request the product. String message is passed which stores whether user wants to rent urgently or not.
+     * Called by the onClickListeners of the rent now button.
+     * @param message
+     */
     public void onRent(final String message)
     {
             AsyncTask<String,String,String> s=new AsyncTask<String, String, String>() {
@@ -356,7 +378,7 @@ catch (Exception e)
             try {
                if(result.equals("{\"result\":[]}"))
                {
-                   Error();
+                   error();
                    return;
                }
 
@@ -409,7 +431,10 @@ catch (Exception e)
 
     }
 
-
+    /**
+     * function to fill the ad details received from server in the textviews of the Activity. Called by GetAd class.
+     * @param jarray JSONArray received from GetAd class
+     */
     void fillAdd(JSONArray jarray)
     {
         try {
@@ -524,6 +549,10 @@ catch (Exception e)
         }
 
     }
+
+    /**
+     * function called when share button is clicked
+     */
     public void onShare(/*View view*/){
         Intent intent= new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -531,6 +560,11 @@ catch (Exception e)
 
         startActivity(Intent.createChooser(intent,"Sharing Option"));
     }
+
+    /**
+     *method to start the RateActivity class. Called when rate button is clicked
+     *
+     */
     public void onRateAndComment(View view){
         Intent i=new Intent(this,RateActivity.class);
         i.putExtra("aid",aid);
@@ -538,6 +572,10 @@ catch (Exception e)
         startActivity(i);
     }
 
+    /**
+     *
+     * @param menu
+     */
     void getMenus(Menu menu)
     {
         star=menu.findItem(R.id.action_wishlist);

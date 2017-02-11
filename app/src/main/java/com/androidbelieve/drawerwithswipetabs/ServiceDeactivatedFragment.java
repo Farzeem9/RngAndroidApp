@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class ServiceDeactivatedFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         list_service = new ArrayList<>();
         serviceAdapter=new MyDeactiveServiceAdapter(getContext(),list_service);
-        new fService(Config.link+"myservices.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=DEACTIVATED",serviceAdapter,list_service).execute();
+        new ServiceAsyncTask(Config.link+"myservices.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=DEACTIVATED",serviceAdapter,list_service).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(serviceAdapter);

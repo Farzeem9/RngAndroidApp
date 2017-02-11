@@ -16,8 +16,13 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class Config {
-    //public static final String link="http://sample-env.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
     public static final String link="http://custom-env-1.ryuh8maccm.us-east-1.elasticbeanstalk.com/PHPFILES/";
+
+    /**
+     * Method to generate hash key of the package to be used for facebook
+     * call in any class to get log of hash key
+     * @param c
+     */
     public static void GenTime(Context c){
         try {
             PackageInfo info = c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES);

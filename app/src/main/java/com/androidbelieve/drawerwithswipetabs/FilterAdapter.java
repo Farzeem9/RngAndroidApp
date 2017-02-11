@@ -19,6 +19,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.MyViewHold
     int max=5000,deposit=6000;
     public void setSelect(int position)
     {
+        position=-1;
         for(int i=0;i<list.size();i++)
         {
             if(i!=position)

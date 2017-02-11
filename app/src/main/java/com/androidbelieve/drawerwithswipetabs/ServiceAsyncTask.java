@@ -17,13 +17,13 @@ import java.util.ArrayList;
 /**
  * Created by Manohar on 23-11-2016.
  */
-public class fService extends AsyncTask<String, Void, String>{
+public class ServiceAsyncTask extends AsyncTask<String, Void, String>{
 
         String link;
         int i;
         RecyclerView.Adapter adapter;
         private ArrayList<MyAds> albumList;
-        fService(String link, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
+        ServiceAsyncTask(String link, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
         {
             this.link=link;
             this.adapter=adapter;
@@ -31,7 +31,7 @@ public class fService extends AsyncTask<String, Void, String>{
             i=0;
 
         }
-    fService(String link, int i, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
+    ServiceAsyncTask(String link, int i, RecyclerView.Adapter adapter, ArrayList<MyAds> albumList)
         {
             this.link=link;
             this.adapter=adapter;

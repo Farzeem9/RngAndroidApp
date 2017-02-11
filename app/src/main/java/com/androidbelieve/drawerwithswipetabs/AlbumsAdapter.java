@@ -70,7 +70,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             holder.count.setText("₹ " + album.getrentmonth()+"/month" );
         Log.v("link of album",album.getLink());
         Log.v("aid",album.getAid());
-        //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
         Picasso.with(mContext).load(album.getLink()).fit().into(holder.thumbnail);
         final String aid=album.getAid();
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -122,11 +121,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_share:
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Hi. Sending this from RnG");
-                    sendIntent.setType("text/plain");
-                    mContext.startActivity(Intent.createChooser(sendIntent, "Hello"));
+                    Intent intent= new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT,"http://www.rentandget.co.in/ads/"+a.getAid());
+                    mContext.startActivity(Intent.createChooser(intent,"Sharing Option"));
                     return true;
                 case R.id.action_play_next:
                     GenericAsyncTask g=new GenericAsyncTask(mContext, Config.link+"report.php?aid=" + a.getAid() + "&pid=" + AccessToken.getCurrentAccessToken().getUserId(), "", new AsyncResponse() {

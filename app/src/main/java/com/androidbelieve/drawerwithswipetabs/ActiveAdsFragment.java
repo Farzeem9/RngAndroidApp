@@ -25,7 +25,7 @@ public class ActiveAdsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         list_ad = new ArrayList<>();
         adsAdapter=new MyActiveAdsAdapter(getContext(),list_ad);
-        new FAd(Config.link+"activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=ACTIVE",adsAdapter,list_ad).execute();
+        new MyAdsAsyncTask(Config.link+"activeads.php?pid="+ AccessToken.getCurrentAccessToken().getUserId()+"&status=ACTIVE",adsAdapter,list_ad).execute();
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(adsAdapter);
