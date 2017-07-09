@@ -42,7 +42,7 @@ public class onListenerScroll extends RecyclerView.OnScrollListener {
             lastVisibleItem = linearLayoutManager
                     .findLastVisibleItemPosition();
             if (!loading&& (totalItemCount <= (lastVisibleItem + visibleThreshold))&&(totalItemCount!=lastlast)) {
-//                new FAd(Config.link+"viewads.php", lastVisibleItem+1, adapter, albumList).execute();
+//                new MyAdsAsyncTask(Config.link+"viewads.php", lastVisibleItem+1, adapter, albumList).execute();
   //              loadingpic = true;
  //               lastlast=totalItemCount;
 //                Log.d("Loading","Loading more values!");

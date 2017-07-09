@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.squareup.picasso.Picasso;
@@ -92,7 +91,6 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyView
         });
         // loadingpic album cover using Glide library
         Log.v("wihslist link",ads.getlink());
-        //new DisplayImage(ads.getlink(),holder.ads).execute();
         Picasso.with(mContext).load(ads.getlink()).fit().into(holder.ads);
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -78,7 +78,6 @@ public class ServiceCategoryAdapter extends RecyclerView.Adapter<ServiceCategory
         holder.city.setTextSize(15.0f);
         holder.date.setTextSize(15.0f);
         Drawable errord=mContext.getResources().getDrawable(R.drawable.folder_placeholder);
-        //new DisplayImage(album.getLink(),holder.thumbnail).execute();         //if adding again, remember to change Album class->link
         Picasso.with(mContext).load(album.getLink()).placeholder(R.drawable.image_placeholder).fit().error(errord).into(holder.thumbnail);
         final String aid=album.getSid();
         holder.v.setOnClickListener(new View.OnClickListener() {
